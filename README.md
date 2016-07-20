@@ -2,7 +2,7 @@
 
 ## Tìm hiểu Github
 
-> Tài liệu: Cài đặt Ubuntu lên máy ảo VMware Workstation
+> Tài liệu: Github
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
