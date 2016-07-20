@@ -6,7 +6,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **15/07/2016**
+> Cập nhật : **20/07/2016**
 
 ### Mục lục
 
@@ -67,6 +67,8 @@
 <li>[2.1.8 Remote](#remote)</li>
 
 <li>[2.1.9 Fetch](#fetch)</li>
+
+<li>[2.1.10 Setting up](#settingup)</li>
 
 </ul>
 
@@ -682,6 +684,39 @@ origin    git@github.com:mojombo/grit.git
 $ git fetch [remote-name]
 ```
 Lệnh này sẽ truy cập vào dự án từ xa đó và kéo xuống toàn bộ dữ liệu mà bạn chưa có trong đó cho bạn. Sau khi thực hiện xong bước này, bạn đã có các tham chiếu đến toàn bộ các nhánh của dự án từ xa đó, nơi mà bạn có thể tích hợp hoặc kiểm tra bất kỳ thời điểm nào
+
+<a name="settingupgit"></a>
+
+#####2.1.10Setting up git
+
+Trên máy tính của bạn mở  __Terminal__ Nói cho Git tên của bạn để bạn cam kết sẽ được dán nhãn đúng cách bằng cách nhập lệnh
+
+```
+$ git config --global user.name "YOUR NAME"
+
+```
+
+Nói cho Git địa chỉ email đó sẽ được liên kết với các cam kết Git của bạn. Các email bạn chỉ định sẽ là người cùng được tìm thấy trong cài đặt email của bạn
+
+```
+
+$ git config --global user.email "YOUR EMAIL ADDRESS"
+
+```
+
+Bước tiếp theo Authenticating với Github từ Git
+
+Khi bạn kết nối với một repo GitHub từ Git, bạn sẽ cần phải xác thực với GitHub bằng cách sử dụng HTTPS hoặc SSH 
+
+Kết nối qua HTTP
+
+Nếu bạn sao chép với [HTTPS](https://help.github.com/articles/which-remote-url-should-i-use/#cloning-with-https-urls-recommended), bạn có thể [cache](https://help.github.com/articles/caching-your-github-password-in-git/) mật khẩu GitHub của bạn trong Git sử dụng một helper
+
+Kết nối qua SSH
+
+Nếu bạn sao chép với [SSH](https://help.github.com/articles/which-remote-url-should-i-use/#cloning-with-ssh-urls), bạn phải tạo ra các [chìa khóa SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) trên mỗi máy tính bạn sử dụng để đẩy hoặc kéo từ GitHub
+
+
 
 
 <a name="22trenwindows"></a>
