@@ -68,7 +68,7 @@
 
 <li>[2.1.9 Fetch](#fetch)</li>
 
-<li>[2.1.10 Setting up](#settingup)</li>
+<li>[2.1.10 Setting up](#settingupgit)</li>
 
 </ul>
 
