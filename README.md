@@ -70,6 +70,8 @@
 
 <li>[2.1.10 Setting up](#settingupgit)</li>
 
+<li>[2.1.11 Caching your Github password in Git](#cache)</li>
+
 </ul>
 
 [2.2 Trên Windows](#22trenwindows):
@@ -715,6 +717,34 @@ Nếu bạn sao chép với [HTTPS](https://help.github.com/articles/which-remot
 Kết nối qua SSH
 
 Nếu bạn sao chép với [SSH](https://help.github.com/articles/which-remote-url-should-i-use/#cloning-with-ssh-urls), bạn phải tạo ra các [chìa khóa SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) trên mỗi máy tính bạn sử dụng để đẩy hoặc kéo từ GitHub
+
+<a name="cache"></a>
+
+####2.1.11 Caching your Github password in Git
+
+Nếu bạn đang [clone repo GitHub sử dụng HTTPS](https://help.github.com/articles/which-remote-url-should-i-use/), bạn có thể sử dụng một helper  nói với Git để nhớ tên đăng nhập và mật khẩu GitHub của bạn mỗi khi nó nói đến GitHub
+
+Nếu như bạn clone repo GitHub sử dụng SSH, sau đó bạn xác thực bằng các chìa khóa SSH thay vì một tên người dùng và mật khẩu. Để giúp thiết lập một kết nối SSH, xem [Tạo một Key SSH](https://help.github.com/articles/generating-an-ssh-key/).
+
+Bật helper ủy nhiệm để Nó sẽ lưu mật khẩu của bạn trong bộ nhớ cho một số thời gian. Theo mặc định, Git sẽ cache mật khẩu của bạn trong 15 phút
+
+Mở __Terminal__ và nhập
+
+```
+$ git config --global credential.helper cache
+
+# Đặt Git để sử dụng cache ủy nhiệm
+
+```
+
+Để thay đổi thời gian chờ bộ nhớ cache mật khẩu mặc định nhập
+
+```
+$ git config --global credential.helper 'cache --timeout=3600'
+
+#Thiết lập bộ nhớ cache để thời gian chờ sau 1 giờ (thiết lập là trong vài giây)
+
+```
 
 
 
