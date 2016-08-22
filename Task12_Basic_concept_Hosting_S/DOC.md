@@ -1,3 +1,91 @@
+## Tìm hiểu Hosting, Server và Domain
+
+> 
+> 
+> Thực hiện: **Nguyễn Thanh Nhựt**
+> 
+> Cập nhật lần cuối: **22/8/2016**
+
+### Mục lục
+
+[I. Hosting](#I)
+
+- [1.1 Các loại hosting](#11)
+
+ - [1.1.1 Free web hosting](#111)
+
+ - [1.1.2 Reseller hosting](#112)
+
+ - [1.1.3 Email hosting](#113)
+
+ - [1.1.4 File hosting](#114)
+
+ - [1.1.5 Windows hosting](#115)
+
+ - [1.1.6 Linux hosting](#116)
+
+ - [1.1.7 VPS hosting](#117)
+
+ - [1.1.8 Adult hosting](#118)
+
+- [1.2 Host Việt Nam và Host nước ngoài](#12)
+
+ - [1.2.1 Host Việt Nam](#121)
+
+ - [1.2.2 Host nước ngoài](#122)
+
+- [1.3 Một số hosting thông dụng](#13)
+
+ - [1.3.1 Shared Hosting - Host sử dụng chung tài nguyên](#131)
+
+ - [1.3.2 SEO-Hosting](#132)
+
+ - [1.3.3 Cloud Hosting](#133)
+
+
+[II. Server](#II)
+
+- [2.1 Các loại Server](#21)
+
+ - [2.1.1 Máy chủ Web - Web Server](#211)
+
+ - [2.1.2 Máy chủ cơ sở dữ liệu - Database Server](#212)
+
+ - [2.1.3 Máy chủ FTP - FTP Server](#213)
+
+ - [2.1.4 Máy chủ thư điện tử - STMP Server](#214)
+
+ - [2.1.5 Máy chủ DNS - DNS Server](#215)
+
+ - [2.1.6 Máy chủ DHCP - DHCP Server](#216)
+
+ - [2.1.7 Máy chủ ứng dụng - Applications Server](#217)
+
+ - [2.1.8 Máy chủ in - Print Server](#218)
+
+ - [2.1.9 Máy chủ proxy](#219)
+
+- [2.2 Một số Server thông dụng](#22)
+
+ - [2.2.1 Dedicated Server - Máy chủ riêng](#221)
+
+ - [2.2.2 Virtual Private Server (VPS) - Máy chủ ảo riêng](#222)
+
+ - [2.2.3 Cloud VPS](#223)
+
+[III.Domain](#III)
+
+- [3.1 Sub-Domains](#31)
+
+- [3.2 Addon-Domain](#32)
+
+- [3.3 Park-Domain](#33)
+
+[Danh sách các nhà cung cấp các dịch vụ hosting, server, domain ở TP Hồ Chí Minh](#a)
+
+ 
+
+
 
 
 <a name="I"></a>
@@ -466,7 +554,7 @@ Cloud VPS là một hệ thống được xây dựng trên nền tảng điên 
 
 - Còn đối với các VPS cloud thì tài nguyên dự trữ là rât nhiều và lúc nào cũng sẵn sàng để nâng cấp VPS, việc cấp phát cũng rất nhanh chóng.
 
-
+<a name="domain"></a>
 ##III. Domain
 
 Tên miền là một chuỗi các ký tự trong bảng chữ cái Alphabet được sắp xếp giống như tên riêng và có hoặc không có ý nghĩa. Tên miền được sử dụng để định danh địa chỉ Internet(IP) của một máy chủ gồm các dãy ký tự cách nhau bằng dấu chấm "."
