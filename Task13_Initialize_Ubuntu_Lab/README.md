@@ -38,13 +38,10 @@
 
 ![3](a3.png)
 
-- Chọn đến thư mục chứa file IOS mà ở trên  đã tải về
+- Chọn I will install operating system later
 
 ![4](a4.png)
 
-- Trong khung hiện lên điền  __Full Name, Last Name và password__
-
-![5](a5.png)
 
 - Đặt tên và thiết lập vị trí cho máy ảo Ubuntu
 
