@@ -89,7 +89,7 @@
 
 - Chọn *Use ISO image file* để tìm file ISO ubuntu để cài đặt sau đó bấm ok
 
-![17](a17)
+![17](a17.png)
 
 - Khi thiết lập xong thì hãy nhấn vào biểu tượng hình tam giác để khởi động máy ảo Ubuntu.
 
@@ -97,11 +97,11 @@
 
 - khởi động xong cửa sổ này sẽ hiện lên chọn *Install Ubuntu*
 
-![19](a19)
+![19](a19.png)
 
 Nếu mạng nhanh thì chọn cả 2 tùy chọn này, nếu không thì chọn cái bên dưới sau khi cài xong có thể Update System sau
 
-![20](a20)
+![20](a20.png)
 
 - Chọn *Installnow*
 
@@ -113,7 +113,7 @@ Nếu mạng nhanh thì chọn cả 2 tùy chọn này, nếu không thì chọn
 
 - Tiếp theo chọn kiểu bàn phím, dù lúc đầu bạn chọn ngôn ngữ tiếng Việt hay tiếng Anh thì vẫn chọn kiểu bàn phím là English(US) nhé, sau đó lại click Continue
 
-![23](a23)
+![23](a23.png)
 
 - Điền thông tin đăng nhập sau đó click continue
 
