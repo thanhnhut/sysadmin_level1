@@ -73,7 +73,7 @@
 
 - Chỉ định bao nhiêu không gian đĩa  muốn sử dụng cho  __Ubuntu__  rồi chọn  __store virtual disk as a single file__  tùy chọn này cho phép thực hiện nhiều hơn
 
-![13](13.png)
+![13](a13.png)
 
 - Click Next ở cửa sổ tiếp theo
 
