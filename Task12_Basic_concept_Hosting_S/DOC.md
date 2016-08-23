@@ -554,12 +554,16 @@ Cloud VPS là một hệ thống được xây dựng trên nền tảng điên 
 
 - Còn đối với các VPS cloud thì tài nguyên dự trữ là rât nhiều và lúc nào cũng sẵn sàng để nâng cấp VPS, việc cấp phát cũng rất nhanh chóng.
 
+<<<<<<< HEAD:Task12_Basic_concept_Hosting_S/DOC.md
 <a name="domain"></a>
+=======
+<a name="III"></a>
+>>>>>>> c83e5a5441d7d91695a5bdf28b975fbf19ab0275:Task12_Basic_concept_Hosting_S/DOC.md
 ##III. Domain
 
 Tên miền là một chuỗi các ký tự trong bảng chữ cái Alphabet được sắp xếp giống như tên riêng và có hoặc không có ý nghĩa. Tên miền được sử dụng để định danh địa chỉ Internet(IP) của một máy chủ gồm các dãy ký tự cách nhau bằng dấu chấm "."
 
-![8](domain.jpg)
+![8](.jpg)
 
 ###Tính chất cơ bản của một tên miền:
 
