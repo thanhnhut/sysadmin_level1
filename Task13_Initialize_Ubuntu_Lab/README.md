@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **25/08/2016**
+> Cập nhật lần cuối: **23/08/2016**
 
 ### Mục lục
 [1.Phần cài mới Ubuntu 16.04](#1)
