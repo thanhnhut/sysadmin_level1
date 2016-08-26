@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **25/08/2016**
+> Cập nhật lần cuối: **23/08/2016**
 
 ### Mục lục
 [1.Phần cài mới Ubuntu 16.04](#1)
@@ -38,13 +38,10 @@
 
 ![3](a3.png)
 
-- Chọn đến thư mục chứa file IOS mà ở trên  đã tải về
+- Chọn I will install operating system later
 
 ![4](a4.png)
 
-- Trong khung hiện lên điền  __Full Name, Last Name và password__
-
-![5](a5.png)
 
 - Đặt tên và thiết lập vị trí cho máy ảo Ubuntu
 
@@ -76,7 +73,7 @@
 
 - Chỉ định bao nhiêu không gian đĩa  muốn sử dụng cho  __Ubuntu__  rồi chọn  __store virtual disk as a single file__  tùy chọn này cho phép thực hiện nhiều hơn
 
-![13](13.png)
+![13](a13.png)
 
 - Click Next ở cửa sổ tiếp theo
 
@@ -92,7 +89,7 @@
 
 - Chọn *Use ISO image file* để tìm file ISO ubuntu để cài đặt sau đó bấm ok
 
-![17](a17)
+![17](a17.png)
 
 - Khi thiết lập xong thì hãy nhấn vào biểu tượng hình tam giác để khởi động máy ảo Ubuntu.
 
@@ -100,11 +97,11 @@
 
 - khởi động xong cửa sổ này sẽ hiện lên chọn *Install Ubuntu*
 
-![19](a19)
+![19](a19.png)
 
 Nếu mạng nhanh thì chọn cả 2 tùy chọn này, nếu không thì chọn cái bên dưới sau khi cài xong có thể Update System sau
 
-![20](a20)
+![20](a20.png)
 
 - Chọn *Installnow*
 
@@ -116,7 +113,7 @@ Nếu mạng nhanh thì chọn cả 2 tùy chọn này, nếu không thì chọn
 
 - Tiếp theo chọn kiểu bàn phím, dù lúc đầu bạn chọn ngôn ngữ tiếng Việt hay tiếng Anh thì vẫn chọn kiểu bàn phím là English(US) nhé, sau đó lại click Continue
 
-![23](a23)
+![23](a23.png)
 
 - Điền thông tin đăng nhập sau đó click continue
 
