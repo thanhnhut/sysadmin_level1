@@ -1,1 +1,0 @@
-alert('Xin chào Nhựt!!');
