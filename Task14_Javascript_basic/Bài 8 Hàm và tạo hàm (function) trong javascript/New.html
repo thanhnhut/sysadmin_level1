@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Funtion</title>
+</head>
+<body>
+<script type="text/javascript">
+	/*function check_number(number)
+	{
+		if (number%2 == 0){
+			alert(number+'la so chan');
+		}
+		else{
+			alert(number +'la so le');
+		}
+	}
+
+check_number(1);
+check_number(2);
+check_number(3);
+check_number(4);
+check_number(5);*/
+
+		/*function tinh_tong(a,b)
+		{
+			//tra ve ket qua la a+b
+			return a+b;
+		}
+		//su dung
+		var so1=1;
+		var so2=2;
+		//truyen so1 va so2 vao ham
+		var ketqua=tinh_tong(so1,so2);
+		alert(ketqua);*/
+
+		//khai bao ham
+		/*function kiem_tra_nam_nhuan(nam)
+		{
+			//neu nam chia het cho 100
+			//thi kiem tra no co chia het cho 400 hay k
+			if(nam%100 ==0){
+				//neu chia het cho 400 thi laf nam nhuan
+				if(nam%400==0){
+					alert(nam+'la nam nhuan');
+				}
+				else{
+					//nguoc lai khong phai nam nhuan
+					alert(nam+'k phai nam nhuan');
+				}
+			}
+			else if(nam%4==0){
+				// truong hop chia het cho 4 thi la nam nhuan
+				alert(nam + 'la nam nhuan');
+			}
+			else{
+				//cuoi cung k phai nam nhuan
+				alert(nam + 'k phai la nam nhuan');
+			}
+		}
+		//su dung
+		kiem_tra_nam_nhuan(2016);*/
+
+		//cung vd tren nhung dung return de tra ve neu la nam nhuan true nguoc laij false
+
+		function kiem_tra_nam_nhuan(nam)
+		{
+			if(nam % 100 == 0)
+			{
+				if(nam % 400 ==0){return true;}
+				else{return false;}
+
+			}
+			else if(nam % 4 ==0){return true;}
+				else{return false;}
+		}
+		//su dung
+		var flag = kiem_tra_nam_nhuan(2014);
+		if (flag){alert('la nam nhuan');}
+		else{alert('k phai nam nhuan');}
+
+
+
+
+
+</script>
+</body>
+</html>
