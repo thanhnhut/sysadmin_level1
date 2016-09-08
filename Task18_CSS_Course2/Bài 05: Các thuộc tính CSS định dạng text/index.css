@@ -1,0 +1,26 @@
+.upper{
+	text-transform: uppercase;/* chuyển  in hoa*/
+}
+
+.lower{
+	text-transform: lowercase;/*chuyển in thường*/
+}
+.a{
+	text-align: center; /* hien thi dong text ngay giua*/
+}
+.b{
+	text-align: left; /* hien thi dong text ben trai*/
+}
+.c{
+	text-align: right;/*hien thi dong text ben phai*/
+}
+.d{
+	text-align: justify; /*can deu 2 ben*/
+}
+.gachchan{
+	text-decoration: underline;/*gach chan chu*/
+	text-decoration-color: #28a4c9;/* mau gach chan*/
+}
+.hidetext{
+	text-indent: -20px;/*vi tri hien thi chu*/
+}

@@ -1,0 +1,12 @@
+body {
+	background: url('http://pre06.deviantart.net/c5fc/th/pre/f/2014/053/e/2/free_space_galaxy_texture_by_lyshastra-d77gh54.jpg');
+	background-repeat: no-repeat; 
+	/*background-repeat: repeat; k lặp hình
+	background-repeat: repeat-x; lặp theo chiều ngang
+	background-repeat: repeat-y;	lặp theo chiều dọc*/
+	height: 300px;
+	background-position: center; hình ở giữa
+	/*background-position: left bottom; hình góc trái dưới*/
+	/*background-attachment: fixed; hình dứng im khi lăn chuột*/
+	background-attachment: scroll; hình di chuyển khi lăn chuột
+}
