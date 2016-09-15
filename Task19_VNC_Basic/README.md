@@ -325,3 +325,5 @@ Nếu bạn VNC Server luôn được khởi động cùng server thì dùng l�
 ```
 chkconfig vncserver on
 ```
+
+![1](vnc-x.gif)
