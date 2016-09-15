@@ -3,7 +3,7 @@
 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **13/9/2016**
+> Cập nhật lần cuối: **15/9/2016**
 
 ### Mục lục
 
@@ -16,6 +16,14 @@
  - [3.1 Trên Ubuntu](#31)
  
  - [3.2 Trên CentOS 6](#32)  
+
+[4. Một số VNC Client](#4)
+
+ - [4.1 RealVNC](#41)
+
+ - [4.2 TightVNC](#42)
+
+ - [4.3 TigerVNC](#43)
 
 
 ---
@@ -76,9 +84,25 @@ VNC theo mặc định sử dụng cổng TCP 5900+ N, [6] [7] trong đó N là 
 
 Sử dụng VNC qua Internet hoạt động tốt nếu người dùng có một băng thông rộng kết nối ở cả hai đầu. Tuy nhiên, nó có thể yêu cầu tiên tiến NAT , tường lửa và bộ định tuyến cấu hình như cổng chuyển tiếp để các kết nối để đi qua. Một số người dùng có thể chọn để sử dụng ngay lập tức Mạng riêng ảo (VPN) các ứng dụng như Hamachi để làm cho việc sử dụng trên Internet dễ dàng hơn nhiều. Ngoài ra, một kết nối VNC có thể được thành lập như là một kết nối mạng LAN nếu VPN được sử dụng như là một proxy.
 
-Xvnc là server Unix VNC, mà là dựa trên một tiêu chuẩn X server . Để ứng dụng Xvnc là một X "server" (tức là cửa sổ hiển thị client), và cho người sử dụng VNC từ xa nó là một VNC server. Ứng dụng có thể hiển thị bản thân trên Xvnc như thể nó là một màn hình X bình thường, nhưng họ sẽ xuất hiện trên bất kỳ người xem VNC kết nối hơn là trên một màn hình vật lý. Ngoài ra một máy (có thể là một máy trạm hoặc một máy chủ mạng) với màn hình , bàn phím và chuột có thể được thiết lập để khởi động và chạy các máy chủ VNC như một dịch vụ hoặc daemon, sau đó màn hình, bàn phím và chuột có thể được loại bỏ và máy lưu trữ trong một vị trí ngoài đường.
+###Các kiến trúc VNC và X server
 
-Ngoài ra, màn hình hiển thị được phục vụ bởi VNC không nhất thiết phải là màn hình hiển thị cùng nhìn thấy bởi một người dùng trên máy chủ. Trên các máy tính Unix / Linux có hỗ trợ nhiều phiên X11 đồng thời, VNC có thể được thiết lập để phục vụ cho một phiên X11 hiện cụ thể, hoặc để bắt đầu một trong những của riêng mình. Nó cũng có thể chạy nhiều phiên VNC từ cùng một máy tính. Trên Microsoft Windows phiên VNC phục vụ luôn luôn là phiên người dùng hiện tại.
+Linux sử dụng Hệ thống Window X (gọi tắt là X ) là giao diện người dùng đồ họa (GUI). Một X server (X server) theo nghĩa đen là một chương trình máy chủ mạng. Các chương trình máy chủ mạng cung cấp cho các trình máy khách (client) truy cập vào các tài nguyên cục bộ trong trường hợp của một X server là màn hình hiển thị, bàn phím và chuột, mà người dùng sử dụng.
+
+Tuy nhiên, khi X được sử dụng trên một mạng thì người dùng ngồi tại máy tính chạy X server và các X client chính là các chương trình mà người dùng muốn chạy trên một máy tính khác. Cấu hình này đòi hỏi một giao thức mạng thứ hai để khởi đầu kết nối. Giao thức thứ hai này có thể là telnet, Secure Shell (SSH) hoặc XDMCP. Trình máy chủ cho giao thức đăng nhập này chạy trên máy tính của X client và trình máy khách đăng nhập từ xa chạy trên máy tính của X server. Trình máy chủ đăng nhập từ xa khởi chạy các X client, mà các trình X client này lần lượt liên hệ với X server.Hình dưới đây mô tả các quan hệ này.
+
+![1](x.gif)
+
+Kiểu thiết lập này hoạt động tốt trên nhiều mạng cục bộ, nhưng nó có nhược điểm là yêu cầu phải khởi đầu giao thức mạng hai chiều, mà có lẽ giao thức này không thể thực hiện được xuyên qua một số tường lửa hoặc các bộ định tuyến dịch địa chỉ mạng (NAT).
+
+Trên Linux, VNC server hoặc phản chiếu các nội dung của màn hình của X server cục bộ đến máy tính từ xa hoặc bao gồm X server riêng của mình, có thể chạy một cách độc lập với trình máy chủ quản lý màn hình cục bộ. Cấu hình này giúp loại bỏ yêu cầu kết nối mạng đảo ngược và vì các trình máy khách và các VNC server đều có mặt trên nhiều hệ điều hành, nên những người dùng có thể sử dụng một chương trình máy khách duy nhất để truy cập bất kỳ trình máy chủ nào. Kết qủa như hình dưới.
+
+![2](vnc-x.gif)
+
+Nhược điểm của VNC là ở chỗ việc xác thực RFB dựa trên các mật khẩu mà không cần các tên người dùng. Để giải quyết vấn đề này, bạn có thể kết hợp hai giải pháp. Bạn có thể cấu hình lại XDMCP server cục bộ của mình để giúp X server đã tích hợp vào VNC cung cấp việc xác thực nhiều người dùng còn thiếu. Bây giờ, khi những người dùng VNC từ xa liên hệ với máy tính của VNC server, họ sẽ có thể nhập vào các tên người dùng và mật khẩu của mình để truy cập các phiên làm việc VNC duy nhất riêng của họ, vì thế máy tính có thể xử lý bao nhiêu người dùng tùy ý bạn.
+
+![3](vnc-xdmcp.gif)
+
+
 
 <a name="3"></a>
 #3.Cấu hình VNC server trên Ubuntu và CentOS6
@@ -325,5 +349,141 @@ Nếu bạn VNC Server luôn được khởi động cùng server thì dùng l�
 ```
 chkconfig vncserver on
 ```
+<a name="4"></a>
+#4. Một số VNC Client
 
-![1](vnc-x.gif)
+<a name="41"></a>
+###4.1 RealVNC
+
+RealVNC làm việc trền Windows, Mac OS X, Linux, Solaris, HP-UX và AIX. Đối với Windows, phần mềm hỗ trợ nhiều phiền bản: Windows XP, Windows Vista, Windows 7 và cả Windows 8.
+
+####Sử dụng vài chức năng VNC
+
+**1.Chuyển các tập tin giữa các máy tính**
+
+Bạn có thể chuyển các tập tin đến và đi từ VNC Viewer chạy trên một máy tính để bàn và VNC Server với một doanh nghiệp hoặc một giấy phép cá nhân.
+
+**Gửi tập tin vào VNC Server**
+
+- Nhấp vào File Transfer VNC Viewer ![3](3.png) nút thanh công cụ. Hộp thoại File Transfer mở:
+
+![4](4.png)
+
+- Nhấp vào nút Gửi file. Hộp thoại tập tin Gửi mở ra.
+
+- Chọn một tập tin hoặc thư mục. Để chọn nhiều tập tin và / hoặc thư mục, giữ phím SHIFT.
+
+- Nhấn Open (OK dưới UNIX). Hộp thoại File Transfer mở trên máy tính VNC Server:
+
+![5](5.png)
+
+Các hoạt động chuyển tập tin gần đây nhất được tô sáng. Bạn có thể kiểm tra tình trạng của nó, hoặc tạm dừng hoặc dừng việc chuyển giao nếu phải mất nhiều hơn một vài giây.
+
+Theo mặc định, các tập tin được tải về máy tính để bàn ( Downloads thư mục trên Mac OS X). Để thay đổi điều này cho các hoạt động chuyển tập tin trong tương lai, chọn một tùy chọn từ các tập tin Fetch để thả xuống ở dưới cùng của hộp thoại File Transfer. Lưu ý bạn phải có quyền ghi cho thư mục bạn chọn. Ngoài ra, bạn có thể yêu cầu được nhắc mỗi lần.
+
+**Lấy tập tin từ máy chủ VNC**
+
+Lưu ý rằng nếu bạn lấy tập tin, họ cũng sẽ được công bố cho tất cả người dùng máy tính để bàn VNC Viewer khác kết nối tại cùng một thời gian như bạn
+
+- Trong cửa sổ VNC Viewer, nhấp chuột phải vào biểu tượng ![6](6.png) (thường là bóng mờ màu đen), và từ menu chuột phải, chọn File Transfer. Hộp thoại File Transfer mở:
+
+![7](7.png)
+
+- Nhấp vào nút Gửi file. Hộp thoại tập tin Gửi mở ra.
+
+- Chọn một tập tin hoặc thư mục. Để chọn nhiều tập tin và / hoặc thư mục, giữ phím SHIFT.
+
+- Nhấn Open (OK dưới UNIX). Hộp thoại File Transfer mở trên máy tính của bạn:
+
+![8](8.png)
+
+
+**2.Sao chép và dán văn bản**
+
+Bạn có thể sao chép và dán văn bản giữa các máy tính và các thiết bị.
+
+Bạn không thể sao chép và dán các hình ảnh hay hiện vật mà không phải là văn bản.
+
+Các thiết bị bạn đang dán vào phải hỗ trợ các ngôn ngữ của văn bản sao chép để cho nó được dán đầy ý nghĩa. Ngoài ra, bất kỳ định dạng áp dụng cho các văn bản sao chép, như in nghiêng, sẽ bị mất.
+
+**Sao chép và dán văn bản với VNC Server**
+
+- Sao chép văn bản trong cách tiêu chuẩn trên thiết bị của bạn, ví dụ bằng cách chọn nó và nhấn Ctrl + C trên Windows hoặc Cmd + C trên Mac. Các văn bản được sao chép vào Clipboard.
+
+- Trong cửa sổ VNC Viewer, đưa con trỏ một cách thích hợp và dán văn bản trong cách dự kiến ​​cho các nền tảng mục tiêu, ví dụ bằng cách nhấn Ctrl + V cho Windows và Cmd + V cho Mac. Nếu bạn đang kết nối với một máy Mac từ một phi-Mac, nhấn Alt + V để thi đua Cmd + V.
+
+**Sao chép và dán từ VNC Server**
+
+- Các văn bản bạn chọn và sao chép vào máy tính của VNC Server sẽ có sẵn cho tất cả người dùng VNC Viewer khác kết nối tại cùng một thời gian như bạn.
+
+- Trong cửa sổ VNC Viewer, sao chép văn bản trong cách dự kiến ​​cho các nền tảng mục tiêu, ví dụ bằng cách chọn nó và nhấn Ctrl + C cho Windows và Cmd + C cho Mac. Nếu bạn đang kết nối với một máy Mac từ một phi-Mac, nhấn Alt + C để thi đua Cmd + C. Các văn bản được sao chép vào Clipboard.
+
+- Dán văn bản trong cách tiêu chuẩn cho thiết bị của bạn, ví dụ bằng cách nhấn Ctrl + V trên Windows hoặc Cmd + V trên Mac.
+
+**3.Giao tiếp an toàn**
+
+Để tham gia vào một cuộc trò chuyện, hoặc bắt đầu một cái mới, nhấp vào VNC Viewer trò chuyện bắt đầu phiên ![9](9.png) nút thanh công cụ. Một hộp thông báo sẽ xuất hiện ở dưới cùng của cửa sổ VNC Viewer:
+
+![10](10.png)
+
+Nhập tin nhắn và nhấp vào nút Send. Thông điệp này được phát sóng với một hộp thoại trò chuyện hiển thị cho bạn và cho tất cả các người dùng khác:
+
+![11](11.png)
+
+**Trò chuyện như một người sử dụng VNC Server**
+
+Để bắt đầu một cuộc trò chuyện với người sử dụng VNC Viewer kết nối:
+
+- Mở VNC Server shortcut menu.
+
+- Chọn Chat. Hộp thoại trò chuyện sẽ mở ra. Gõ văn bản trong các lĩnh vực ở phía dưới:
+
+![12](12.png)
+
+Bấm phím ENTER để gửi tin nhắn:
+
+![13](13.png)
+
+<a name="42"></a>
+###4.2 TightVNC
+
+TightVNC là một phần mềm điều khiển từ xa, TightVNC có thể kiểm soát một máy tính khác từ máy tính của bạn với chuột và bàn phím giống như bạn đang ngồi trực tiếp trên máy tính đó.
+
+- TightVNC là phần mềm mã nguồn mở.
+
+- TightVNC có chứa sằn 2 phần TightVNC server(chạy trên máy chủ) và TightVNC client(máy khách). TightVNC server khi chạy sẽ biến máy bạn trở thành máy chủ cho phép các máy khách truy cập từ xa để điền khiển máy này. TightVNC client phía bên máy khách thì sẽ cung cấp cho bạn cách để truy cập vào máy chủ.
+
+**Sử dụng TightVNC**
+
+Khởi chạy TightVnc viewer từ máy client Start → All Programs → thư mục TightVNC → TightVNC Viewer
+
+![14](14.png)
+
+Nhập password đã thiết lập trước đó → OK
+
+![15](15.png)
+
+Kết nối thành công đến máy TightVnc server
+
+![16](16.png)
+
+<a name="43"></a>
+###4.3 TigerVNC
+
+TigerVNC là một nguồn và đa nền tảng dự án mở cung cấp cho người dùng với một khách hàng và máy chủ thực hiện của VNC (Virtual Network Computing) giao thức kết nối máy tính từ xa. Nó hỗ trợ Linux, Microsoft Windows và các hệ điều hành Mac OS X.
+
+**Sử dụng TigerVNC**
+
+Chạy TigerVNC Viewer nhập địa chỉ server vnc và id của user muốn truy cập
+
+![17](17.png)
+
+Nhập mật khẩu
+
+![18](18.png)
+
+Kết qủa 
+
+![19](19.png)
+
+
