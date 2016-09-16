@@ -357,7 +357,27 @@ chkconfig vncserver on
 
 RealVNC làm việc trền Windows, Mac OS X, Linux, Solaris, HP-UX và AIX. Đối với Windows, phần mềm hỗ trợ nhiều phiền bản: Windows XP, Windows Vista, Windows 7 và cả Windows 8.
 
-####Sử dụng vài chức năng VNC
+####Sử dụng cở bản VNC
+
+để cài đặt RealVNC vào trang https://www.realvnc.com/download/vnc/ và chọn hệ điều hành tương ứng ở đây, mình chọn DEBx64
+
+![a](a.png)
+
+Sau khi tải về mở gói vừa tải chọn VNC-Viewer-5.3.2-Linux-x64.deb cửa sổ dưới sẽ hiện lên
+
+![c](c.png)
+
+Click vào Install package sẽ tự động cài đặt
+
+![b](b.png)
+
+Sau khi cài đặt hoàn tất mở VNC-Viewer xuất hiện cửa sổ chọn ngôn ngữ English và chọn *I read and accept these terms and conditions*
+
+![d](d.png)
+
+Giờ thì kết nối tới VNC Server thôi
+
+![e](e.png)
 
 **1.Chuyển các tập tin giữa các máy tính**
 
@@ -455,6 +475,27 @@ TightVNC là một phần mềm điều khiển từ xa, TightVNC có thể ki�
 
 **Sử dụng TightVNC**
 
+Cài đặt TIghtVNC viewer
+
+- Link download phiên bản cài đặt 64 bit cho windows:
+
+http://www.tightvnc.com/download/2.7.10/tightvnc-2.7.10-setup-64bit.msi
+
+- Link download phiên bản cài đặt 32 bit cho windows:
+
+http://www.tightvnc.com/download/2.7.10/tightvnc-2.7.10-setup-32bit.msi
+
+Sau khi tải về -> double click vào file *tightvnc-2.7.10-setup-32bit.msi* hoặc *tightvnc-2.7.10-setup-64bit.msi* để cài đặt chương trình. Chon Custom
+
+![f](f.png)
+
+Chọn TightVNC Viewer → Entire feature will be unavailable → Next
+
+![g](g.png)
+
+Next → Install → Finish
+
+
 Khởi chạy TightVnc viewer từ máy client Start → All Programs → thư mục TightVNC → TightVNC Viewer
 
 ![14](14.png)
@@ -474,16 +515,19 @@ TigerVNC là một nguồn và đa nền tảng dự án mở cung cấp cho ng�
 
 **Sử dụng TigerVNC**
 
-Chạy TigerVNC Viewer nhập địa chỉ server vnc và id của user muốn truy cập
+khi tigervnc-server đã được cấu hình, bạn có thể kết nối bất kì VNC Server, để thiết lập vncviewer nhập lệnh sau
 
-![17](17.png)
+```
+#apt-get -y install tigervnc
+```
 
-Nhập mật khẩu
 
-![18](18.png)
+Kết nối với một máy chủ VNC sử dụng lệnh sau đây. vd:
 
-Kết qủa 
+```
+# vncviewer machine-name:port
 
-![19](19.png)
-
+# vncviewer maggie.localdomain:3
+# vncviewer 192.168.0.4:3 
+```
 
