@@ -1,0 +1,21 @@
+Có rất nhiều sự kiện và mỗi đối tượng HTML thì lại có những sự kiện khác nhau nên mình chỉ liệt kê được những sự kiện thông dụng hay sử dụng khi các bạn làm việc với javascript để lập trình phía client.
+
+Bảng các sự kiện thông dụng trong javascript.
+STT	Event Name		Description
+1	onclick			Xảy ra khi click vào thẻ HTML
+2	ondbclick		Xảy ra khi double click vào thẻ HTML
+3	onchange		Xảy ra khi giá trị (value) của thẻ HTML đổi. Thường dùng trong các đối thẻ form input
+4	onmouseover		Xảy ra khi con trỏ chuột bắt đầu đi vào thẻ HTML
+5	onmouseout		Xảy ra khi con trỏ chuột bắt đầu rời khỏi thẻ HTML
+6	onmouseenter	Tương tự như onmouseover
+7	onmouseleave	Tương tự như onmouseout
+8	onmousemove		Xảy ra khi con chuột di chuyển bên trong thẻ HTML
+9	onkeydown		Xảy ra khi gõ một phím bất kì vào ô input
+10	onload			Sảy ra khi thẻ HTML bắt đầu chạy, nó giống như hàm khởi tạo trong lập trình hướng đối tượng vậy đó.
+11	onkeyup			Xảy ra khi bạn gõ phím nhưng lúc bạn nhã phím ra sẽ được kích hoạt
+12	onkeypress		Xảy ra khi bạn nhấn môt phím vào ô input
+14	onblur			Xảy ra khi con trỏ chuột rời khỏi ô input
+15	oncopy			Xảy ra khi bạn copy nội dung của thẻ
+16	oncut			Xảy ra khi bạn cắt nội dung của thẻ
+17	onpaste			Xảy ra khi bạn dán nội dung vào thẻ
+

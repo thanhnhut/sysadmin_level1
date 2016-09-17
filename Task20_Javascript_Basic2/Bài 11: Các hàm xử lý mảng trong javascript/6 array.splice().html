@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			//Hàm splice() có ba tham số truyền vào như sau: splice(position_add, num_element_remove, value1, value2, ...).
+			/*Trong đó:
+
+			position_add là vị trí sẽ thêm (vị trí đầu tiên là 0)
+			num_element_remove là số phần tử sẽ xóa (bắt đầu từ position_add)
+			value1, value2, .. là danh sách các phần tử sẽ được thêm vào sau khi tại vị trí position_add và sau khi remove num_element_remove phần tử.*/
+			var mang = ["Hard", "work", "big", "dream"];
+			mang.splice(0, 0, 'Lets', 'go');
+			document.write(mang.valueOf());
+
+		</script>
+</body>
+</html>

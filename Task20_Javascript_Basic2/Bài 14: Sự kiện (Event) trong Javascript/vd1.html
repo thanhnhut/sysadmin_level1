@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">	
+	//Viết chương trình gồm một ô input và một thẻ div dùng để hiển thị nội dung (giá trị của ô input) khi người dùng gõ vào ô input
+	
+	//ham show ket qua
+	function show_result()
+	{
+		//lay 2 the html
+		var input = document.getElementById("a");
+		var div = document.getElementById("b");
+		//gan noi dung o input vao the div
+		div.innerHTML = input.value;
+	}
+
+	</script>
+	<input type="text" id="a" value="" onkeyup="show_result()"/>
+	<div id="b"></div>
+</body>
+</html>
