@@ -1,0 +1,18 @@
+Để thêm sự kiện cho đối tượng HTML thì chúng ta có cú pháp như sau (xem lại bài thêm sự kiện bằng javascript):
+
+
+elementObject.eventName  = function(){
+    // do something
+};
+
+Nhưng nếu bạn sử dụng hàm addEventListener() thì cú pháp như sau:
+
+
+elementObject.addEventListener('eventName', function(e){
+    // do something
+});
+
+Trong đó:
+
+eventName là tên của sự kiện bỏ đi chữ on, ví dụ click, change, ...
+function ở tham số thứ hai chính là hàm sẽ được chạy khi sự kiện eventName được kích hoạt 

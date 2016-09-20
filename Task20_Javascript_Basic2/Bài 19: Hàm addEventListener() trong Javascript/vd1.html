@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<input type="text" value="" id="txt-val"/>
+		<div id="result"></div>
+		<script type="text/javascript">
+			//Lay doi tuong
+			var input = document.getElementById("txt-val");
+			//them su kien cho doi tuong
+			input.addEventListener ('keyup', function(){
+				//gan gia tri vao div
+				document.getElementById('result').innerHTML = input.value;
+			});
+		</script>
+</body>
+</html>

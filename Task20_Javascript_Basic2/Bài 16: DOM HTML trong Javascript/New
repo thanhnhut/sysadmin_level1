@@ -1,0 +1,13 @@
+Như vậy là bạn đã biết hai cách xử lý thuộc tính và nội dung của thẻ HTML bằng javascript rất thông dụng rồi đấy, thực tế bạn có thể sử dụng những mánh khóe để xử lý bài toán một cách tốt hơn. Ví dụ bạn cần bổ sung một đoạn text vào trong một thẻ HTML thì sẽ không có hàm nào bổ trợ, tuy nhiên bạn có thể sử dụng một mẹo nhỏ thế này:
+
+var content_append = 'nội dung cần thêm vào';
+ 
+// Lấy đối tượng
+var object = document.getElementById("object");
+ 
+// Lấy nội dung hiện tại
+var content_current = object.innerHTML;
+ 
+// Bổ sung nội dung vào đối tượng
+object.innerHTML = content_current + content_current;
+

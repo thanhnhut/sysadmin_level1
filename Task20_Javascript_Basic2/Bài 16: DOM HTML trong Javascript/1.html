@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			//Trong ví dụ này ta sẽ viết chương trình thay đổi nội dung HTML của một thẻ DIV và lấy nội dung bên trong của một thẻ DIV
+			//hàm thiết lập nội dung cho thẻ div#content
+			function set_content()
+			{
+				document.getElementById("content").innerHTML = "<h1>Noi dung da dc thay doi</h1>"
+			}
+			//Hàm lấy nội dung cho thẻ div#content
+			function get_content()
+			{
+				var html = document.getElementById("content").innerHTML;
+				alert("Nội dung cần lấy là: " + html);
+			}
+		</script>
+		<div id="content">Nội dung của thẻ div</div>
+		<input type="button" value="Lấy nội dung" id="get_content" onclick="get_content()"/>
+		<input type="button" value="Thay đổi nội dung" id="set_content" onclick="set_content()"/>
+</body>
+</html>
