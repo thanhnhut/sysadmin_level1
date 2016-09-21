@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			//dụng một hàm mà phía trên nó không tồn tại hàm đó thì sẽ bị bái lỗi undefined ngay. Và để giải quyết vấn đề này thì ta sẽ dùng sự kiện onload trong javascript.
+			//Sự kiện onload có ý nghĩa rằng khi trình duyệt đã load xong mọi thứ (image, js, css) thì những đoạn code nằm bên trong đó mới được chạy. Có một lưu ý rằng nếu bạn sử dụng onload cho một thẻ HTML nào đó thì nó sẽ có tác dụng với thẻ HTML đó thôi nhưng nếu bạn dùng cho window thì nó sẽ có tác dụng cho toàn trang.
+
+			//Hay nói cách khác những đoạn code nằm bên trong sự kiện onload sẽ được chạy sau cùng khi mà trình JS đã được biên dịch 1 lần. Chính vì vậy nếu trong sự kiện onload bạn gọi tới một hàm nào đó thì dù bạn đặt hàm đó phía trên hay phía dưới thì đều đúng, lý do là trình biên dịch đã thực hiện dịch 1 lần rồi nên hàm đó đã tồn tại.
+
+			//Trong đoạn code này mình gọi hàm do_validate() bên trong  sự kiện window.onload nên mặc dù hàm validate được đặt phía dưới nhưng vẫn đúng.
+
+			window.onload = function()
+			{
+				do_validate();
+			};
+			function do_validate(){
+				alert('Hardwork')
+			}
+
+			/*alert(1);
+			window.onload = function()
+			{
+			alert(3);
+			}
+			alert(2);*/
+			//mac du alert(3) nam o vi tri 2 nhung no lai xuat hien o vi tri cuoi cung
+		</script>
+</body>
+</html>
