@@ -176,6 +176,108 @@ Xác nhận lại mật khẩu lần nữa.
 <a name="3"></a.>
 #3. Cài đặt Wordpress trên Ubuntu 16.04
 
+###Tạo database và user cho wordpress
+
+1.Command:
+
+```
+mysql -u root -p
+```
+2.Tạo database và user nhập các lệnh dưới
+
+```
+CREATE DATABASE wordpress character set utf8 collate utf8_bin; 
+GRANT ALL PRIVILEGES on wordpress.* to 'wpuser'@'localhost' identified by 'nhut96'; 
+FLUSH PRIVILEGES; exit
+```
+
+![12](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/12.png)
+
+###Cài đặt extention cho PHP
+
+Nhập lệnh sau
+
+```
+sudo apt-get install php7.0-mysql php7.0-curl php7.0-json php7.0-cgi php7.0 libapache2-mod-php7.0 php7.0-mcrypt php7.0-xmlrpc php7.0-gd -y
+```
+
+###Download wordpress
+
+1.Download source code
+
+Ở đây tôi tải về thư mục tmp, còn tải vào đâu thì tùy 
+
+```
+cd /tmp
+curl -O https://wordpress.org/latest.tar.gz
+```
+
+2.Giải nén
+
+```
+tar xzvf latest.tar.gz
+```
+
+đổi tên mặc định file config và xoá file config mặc định
+
+
+```
+cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php && rm wp-config-sample.php
+```
+
+
+ copy vào thư mực /var/www/html/wordpress
+
+
+```
+sudo cp -a /tmp/wordpress/. /var/www/html/wordpress/
+
+```
+
+###Cấu hình thư mục chứa source wordpress 
+
+Để hạn chế sự dòm ngó của hacker cũng như tăng sự bảo mật cho website chúng ta cần cấu hình báo mật thự mục chứa source code wordpress
+
+Cấu hình bảo mật thư mục /var/www/html/wordpress/
+
+```
+sudo chown -R www-data:www-data /var/www/html/wordpress/ sudo chmod -R 755 /var/www/html/wordpress/
+```
+
+###Cấu hình file config wp-config.php trong /html/wordpress/
+
+Nhập lệnh
+
+```
+sudo vi wp-config.php
+```
+
+Chỉnh sữa các phần **DB_NAME, DB_USER, DB_PASSWORD**
+
+![13](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/13.png)
+
+lưu lại và restart lại các dịch vụ
+
+```
+sudo systemctl restart mysql && systemctl restart apache2
+```
+
+###Hoàn thành việc cài đặt wordpress
+
+1.cấu hình các thông số cần thiết cho website
+
+Đăng nhập vào trình duyệt với ```http://localhost/wordpress```
+
+![15](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/14.png)
+
+Điền đầy đủ các thông tin
+
+![16](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/16.png)
+
+![17](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/17.png)
+
+![18](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/18.png)
+
 
 
 
