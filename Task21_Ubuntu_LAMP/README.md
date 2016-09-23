@@ -31,6 +31,8 @@
 
 LAMP là chữ viết tắt thường được dùng để chỉ sự sử dụng các phần mềm Linux, Apache, MySQL và ngôn ngữ văn lệnh PHP hay Perl hay Python để tạo nên một môi trường máy chủ Web có khả năng chứa và phân phối các trang Web động.
 
+![11](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/11.png)
+
 Linux: Linux là một hệ điều hành. Về mặt nguyên tắc hệ điều hành cũng là một software; nhưng đây là một software đặc biệt được dùng để quản lý, điều phối các tài nguyên (resource) của hệ thống (bao gồm cả hardware và các software khác). Linux còn được gọi là Open Source Unix (OSU)
 
 Apache: Đây là phần mềm webserver phổ biến hiện nay. Apache được cài đặt trên server để giúp xử lý các request với giao thức HTTP gửi tới máy chủ. Do đó, Apache còn được gọi là HTTP webserver. Lưu ý: HTTPS cũng là một giao thức mà Apache có thể sử lý.
@@ -90,11 +92,11 @@ sudo systemctl start apache2
 
 Kiểm tra apache chạy hay chưa, mở trình duyệt Chrome nhập vào url http://your_domain/ hoặc http://server-ip/ thông tin như hình bên dưới là OK 
 
-![1](1.png)
+![1](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/1.png)
 
 hoặc chạy lệnh ```sudo service apache2 status```
 
-![2](2.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/2.png)
 
 <a name="22"></a>
 ###2.2 Cài đặt MYSQL 
@@ -106,7 +108,7 @@ sudo apt-get install mysql-server
 ```
 Khi cài MYSQL sẽ hiện lên giao diện để thiết lập mật khẩu root cho MYSQL
 
-![3](3.png)
+![3](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/3.png)
 
 Cài xong, hãy kích hoạt nó bằng lệnh sau:
 
@@ -125,7 +127,7 @@ kiểm tra MYSQL chạy hay chưa
 sudo service mysql-server status
 ```
 
-![4](4.png)
+![4](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/4.png)
 
 <a name="23"></a>
 ###2.3 Cài đặt PHP 7.0
@@ -146,7 +148,7 @@ Cài đặt hoàn tất, bạn hãy kiểm tra bằng cách tạo một file inf
 
 Mở trình duyệt nhập vào url http://your_domain/info.php hoặc http://server-ip/info.php. Như hình là OK
 
-![5](5.png)
+![5](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/5.png)
 
 <a name="24"></a>
 ###2.4 Cài đặt PHPMYADMIN
@@ -157,19 +159,19 @@ sudo apt-get install phpadmin
 ```
 Cửa sổ cấu hinhf phpadmin hiện ra chọn *apache* và Enter
 
-![6](6.png)
+![6](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/6.png)
 
 Và hãy chọn Yes để thiết lập các cấu hình ban đầu cho phpMyAdmin.
 
-![7](7.png)
+![7](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/7.png)
 
 Tạo mật khẩu cho tài khoản phpmyadmin.
 
-![8](8.png)
+![8](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/8.png)
 
 Xác nhận lại mật khẩu lần nữa.
 
-![9](9.png)
+![9](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/9.png)
 
 <a name="3"></a.>
 #3. Cài đặt Wordpress trên Ubuntu 16.04
