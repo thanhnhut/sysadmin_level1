@@ -40,7 +40,7 @@
 
 Clam AntiVirus (ClamAV) là miễn phí và mã nguồn mở , nền tảng phần mềm chống virus công cụ có thể phát hiện nhiều loại phần mềm độc hại, bao gồm cả virus . Một trong những mục đích chính của nó là trên các máy chủ mail như một server-side quets email-virus . Các ứng dụng được phát triển cho Unix và có các phiên bản của bên thứ ba có sẵn cho AIX , BSD , HP-UX , Linux , OS X , OpenVMS , OSF (Tru64) và Solaris . Với phiên bản 0.97.5, ClamAV xây dựng và chạy trên Microsoft Windows .  Cả hai ClamAV và cập nhật của nó được cấp miễn phí.
 
-![1](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task22_Ubuntu_Antivirus/images/1.png)
+![1](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task22_Ubuntu_Anivirus/Images/1.png1.png)
 
 ClamAV bao gồm một số tiện ích: một máy quét dòng lệnh, cập nhật cơ sở dữ liệu tự động và đa luồng khả năng mở rộng daemon ., Chạy trên một công cụ chống virus từ một thư viện chia sẻ 
 
@@ -251,8 +251,8 @@ maldet --report 14715-1421.3219
 
 **Quét virus bằng giao diện**
 
-![3](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task22_Ubuntu_Antivirus/images/3.png)
+![3](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task22_Ubuntu_Anivirus/Images/3.png)
 
 **Quét virus bằng terminal**
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task22_Ubuntu_Antivirus/images/2.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task22_Ubuntu_Anivirus/Images/2.png)
