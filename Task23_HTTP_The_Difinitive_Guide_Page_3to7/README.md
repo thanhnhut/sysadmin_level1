@@ -135,12 +135,11 @@ Các bộ định vị tài nguyên thống nhất (URL) là hình thức phổ 
 *Bảng 1.1 ví dụ URLs*
 
 |URL														|Mô tả																			|
-|-----------------------------------------------------------|------------------------------------------------------------------------------:|
+|-----------------------------------------------------------|------------------------------------------------------------------------------|
 |http://www.oreilly.com/index.html							| The home URL for O'Reilly & Associates, Inc 									|
 |http://www.yahoo.com/images/logo.gif						| URL cho biểu tượng trang web của Yahoo!										|	
-|http://www.joes-hardware.com/inventorycheck.cgi?item=12731 | URL cho một chương trình kiểm tra nếu hàng tồn kho
-mục # 12.731 là trong kho																													|
-|ftp://joe:tools4u@ftp.joes-hardware.com/lockingpliers.gif 	| URL của tập tin hình ảnh khóa-pliers.gif, sử dụng mật khẩu bảo vệ FTP như truy cập giao thức																																 |																								|																									
+|http://www.joes-hardware.com/inventorycheck.cgi?item=12731 | URL cho một chương trình kiểm tra nếu hàng tồn kho mục # 12.731 là trong kho																													|
+|ftp://joe:tools4u@ftp.joes-hardware.com/lockingpliers.gif 	| URL của tập tin hình ảnh khóa-pliers.gif, sử dụng mật khẩu bảo vệ FTP như truy cập giao thức																																 |																					|																									
 
 Hầu hết các URL theo một định dạng chuẩn của ba phần chính:
 
