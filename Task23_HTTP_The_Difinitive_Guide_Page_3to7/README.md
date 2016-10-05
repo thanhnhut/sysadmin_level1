@@ -65,7 +65,9 @@ Hãy xem xét kỹ hơn cách thức HTTP chuyển tải lưu lượng của Web
 
 Nội dung web trên các máy chủ web. Máy chủ Web nói giao thức HTTP, do đó chúng thường được gọi các máy chủ HTTP. Các máy chủ lưu trữ dữ liệu HTTP của Internet và cung cấp các dữ liệu khi nó được yêu cầu bởi khách hàng của HTTP. Các khách hàng gửi yêu cầu HTTP tới máy chủ, và máy chủ trả lại dữ liệu yêu cầu trong phản ứng HTTP, như phác họa trong Hình 1-1. Cùng nhau, HTTP client và HTTP server, tạo nên thành phần cơ bản của World Wide Web.
 
-<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/1.jpg" ></center> <center>*Hình 1-1 Web clients and servers*</center>
+<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/1.jpg" ></center> 
+
+<center>*Hình 1-1 Web clients and servers*</center>
 
 Bạn có thể sử dụng HTTP clients mỗi ngày. Các client phổ biến nhất là một trình duyệt web, chẳng hạn như Microsoft Internet Explorer hoặc Netscape Navigator. Trình duyệt Web yêu cầu đối tượng HTTP từ máy chủ
 và hiển thị các đối tượng trên màn hình của bạn. 
@@ -77,7 +79,9 @@ Các web server lưu trữ tài nguyên web. Một nguồn tài nguyên web là 
 
 Tuy nhiên, các nguồn tài nguyên không phải là tập tin tĩnh. Tài nguyên cũng có thể là các chương trình phần mềm mà tạo ra nội dung theo yêu cầu.  Các nguồn tài nguyên nội dung động có thể tạo ra nội dung dựa trên danh tính của bạn, trên những thông tin mà bạn yêu cầu, hoặc vào thời gian trong ngày. Họ có thể cho bạn một hình ảnh trực tiếp từ máy ảnh, hoặc cho phép bạn giao dịch cổ phiếu, tìm kiếm cơ sở dữ liệu bất động sản, hay mua quà tặng từ các cửa hàng trực tuyến (xem Hình 1-2).
 
-<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/2.png" ></center> <center>*Hình 1-2 Một nguồn tài nguyên web là bất cứ điều gì mà cung cấp nội dung web*</center>
+<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/2.png" ></center> 
+
+<center>*Hình 1-2 Một nguồn tài nguyên web là bất cứ điều gì mà cung cấp nội dung web*</center>
 
 Tóm lại, một nguồn tài nguyên là bất kỳ loại nguồn nội dung. Một tập tin có chứa dự báo bán hàng bảng tính của công ty bạn là một nguồn tài nguyên. Một cổng web để quét kệ thư viện công cộng tại địa phương của bạn là một tài nguyên. Một công cụ tìm kiếm Internet là một nguồn tài nguyên.
 
@@ -88,7 +92,9 @@ Bởi vì có nhiều Internet host với hàng ngàn các loại dữ liệu kh
 
 Web server đính kèm một loại MIME cho tất cả các đối tượng dữ liệu HTTP (xem hình 1-3). Khi một trình duyệt web trở thành một đối tượng trở về từ một máy chủ, nó giống như một kiểu MIME liên quan để xem nếu nó biết làm thế nào để xử lý các đối tượng. Hầu hết các trình duyệt có thể xử lý hàng trăm loại đối tượng phổ biến: hiển thị các tập tin hình ảnh, phân tích và định dạng tập tin HTML, chơi các tập tin âm thanh thông qua loa của máy tính, hoặc tung ra bên ngoài plug-in phần mềm để xử lý các định dạng đặc biệt. 
 
-<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/3.png" ></center> <center>*Hình 1-3. loại MIME được gửi trở lại với nội dung dữ liệu*</center>
+<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/3.png" ></center> 
+
+<center>*Hình 1-3. loại MIME được gửi trở lại với nội dung dữ liệu*</center>
 
 Một loại MIME là một nhãn văn bản, biểu diễn như là một loại đối tượng chính và một subtype cụ thể, cách nhau bằng một dấu gạch chéo. Ví dụ:
 
@@ -117,7 +123,9 @@ http://www.joes-hardware.com/specials/saw-blade.gif
 
 Hình 1-4 cho thấy cách các URI chỉ định các giao thức HTTP để truy cập tài nguyên lưỡi cưa GIF trên máy chủ lưu trữ của Joe. Với URI, HTTP có thể lấy các đối tượng. URIs đến trong hai vị, được gọi là URL và URNs. Chúng ta hãy nhìn qua mỗi một trong các loại định danh tài nguyên bây giờ.
 
-<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/4.png" ></center> <center>*Hình 1-4. URLs chỉ định giao thức, máy chủ, và tài nguyên địa phương*</center>
+<center><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/4.png" ></center> 
+
+<center>*Hình 1-4. URLs chỉ định giao thức, máy chủ, và tài nguyên địa phương*</center>
 
 <a name="133"></a>
 ###1.3.3 URLs 
