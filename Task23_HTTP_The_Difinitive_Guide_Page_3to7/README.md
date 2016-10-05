@@ -70,7 +70,7 @@ Nội dung web trên các máy chủ web. Máy chủ Web nói giao thức HTTP, 
 
 
 
-<center>*Hình 1-1 Web clients and servers*</center>
+<p align="center">*Hình 1-1 Web clients and servers*</p>
 
 
 Bạn có thể sử dụng HTTP clients mỗi ngày. Các client phổ biến nhất là một trình duyệt web, chẳng hạn như Microsoft Internet Explorer hoặc Netscape Navigator. Trình duyệt Web yêu cầu đối tượng HTTP từ máy chủ
@@ -87,7 +87,7 @@ Tuy nhiên, các nguồn tài nguyên không phải là tập tin tĩnh. Tài ng
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/2.png" ></p>
 
 
-<center>*Hình 1-2 Một nguồn tài nguyên web là bất cứ điều gì mà cung cấp nội dung web*</center>
+<p align="center">*Hình 1-2 Một nguồn tài nguyên web là bất cứ điều gì mà cung cấp nội dung web*</p>
 
 
 Tóm lại, một nguồn tài nguyên là bất kỳ loại nguồn nội dung. Một tập tin có chứa dự báo bán hàng bảng tính của công ty bạn là một nguồn tài nguyên. Một cổng web để quét kệ thư viện công cộng tại địa phương của bạn là một tài nguyên. Một công cụ tìm kiếm Internet là một nguồn tài nguyên.
@@ -103,7 +103,7 @@ Web server đính kèm một loại MIME cho tất cả các đối tượng d�
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/3.png" ></p>
 
 
-<center>*Hình 1-3. loại MIME được gửi trở lại với nội dung dữ liệu*</center>
+<p align ="center">*Hình 1-3. loại MIME được gửi trở lại với nội dung dữ liệu*</p>
 
 
 Một loại MIME là một nhãn văn bản, biểu diễn như là một loại đối tượng chính và một subtype cụ thể, cách nhau bằng một dấu gạch chéo. Ví dụ:
@@ -137,7 +137,7 @@ Hình 1-4 cho thấy cách các URI chỉ định các giao thức HTTP để tr
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/4.png" ></p>
 
 
-<center>*Hình 1-4. URLs chỉ định giao thức, máy chủ, và tài nguyên địa phương*</center>
+<p align="center">*Hình 1-4. URLs chỉ định giao thức, máy chủ, và tài nguyên địa phương*</p>
 
 
 <a name="133"></a>
