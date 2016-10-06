@@ -65,7 +65,7 @@ Hãy xem xét kỹ hơn cách thức HTTP chuyển tải lưu lượng của Web
 Nội dung web được lưu trữ trên các máy chủ web, máy chủ Web sử dụng giao thức HTTP, do đó chúng thường được gọi các máy chủ HTTP. Các máy chủ lưu trữ dữ liệu HTTP của Internet và cung cấp các dữ liệu khi nó được yêu cầu bởi khách hàng của HTTP. Các khách hàng gửi yêu cầu HTTP tới máy chủ, và máy chủ trả lại dữ liệu yêu cầu trong phản ứng HTTP, như phác họa trong Hình 1-1. Cùng nhau, HTTP client và HTTP server, tạo nên thành phần cơ bản của World Wide Web.
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/1.jpg" ></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task23_HTTP_The_Difinitive_Guide_Page_3to7/Images/1.png" ></p>
 
 
 
