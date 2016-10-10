@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>w0Rk HarD</title>
+	<style type="text/css">
+		/*
+	Thuộc tính background-origin trong CSS3 dùng để xác đinh nơi mà background hình ảnh sẽ hiển thị. Nó có ba giá trị sau đây:
+
+	- border-box: biên của background tính luôn border ngoài cùng
+	- padding-box: biên của background tính từ vị trí padding (sát lề border)
+	- content-box: biên của backgroudn tính từ vị trí có thể sử dụng
+		
+		*/
+		div{
+			width:250px;
+			height:100px;
+			margin: 20px auto;
+			border: solid 20px;
+			padding: 50px;
+			background:url(http://static3.comicvine.com/uploads/square_small/11112/111122896/5402107-super_saiyan_blue_goku__5_by_rayzorblade189-dacu6j6.png); 
+		}
+		#div1{background-origin: border-box;}
+		#div2{background-origin: padding-box;}
+		#div3{background-origin: content-box;}
+	</style>
+</head>
+<body>
+
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+.Stretch{
+	width:108px;
+	height: 108px;
+	border-style: solid;
+	border-width:27px;
+	border-image: url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 stretch;
+	-webkit-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 stretch;
+	-moz-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 stretch;
+	-o-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 stretch;
+
+}
+
+.Repeat{
+	border-image: url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 repeat;
+	-webkit-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 repeat;
+	-moz-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 repeat;
+	-o-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 repeat;
+	width:108px;
+	height:108px;
+	border-style:solid;
+	border-width: 30px;
+
+}
+
+.Round{
+	border-image: url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 round;
+	-webkit-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 round;
+	-moz-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 round;
+	-o-border-image:url(http://www.thetankertonarms.co.uk/images/twitter-bird-blue-on-white_small_2.png) 27 round;
+	width:70px;
+	height: 108px;
+	border-style: solid;
+	border-width: 27px;
+}

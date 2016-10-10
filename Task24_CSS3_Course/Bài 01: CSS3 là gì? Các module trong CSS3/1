@@ -1,0 +1,23 @@
+1. CSS3 là gì?
+
+Nếu bạn đang xây một ngôi nhà thì gạch, đá, cát, xi măng chính là HTML, còn CSS chính là công thức, cách xây dựng và bố trí tạo nên ngôi nhà. Với thời xưa thì người ta dùng đất sét để thay thế cho xi măng và cát thì ta gọi là CSS thời cổ xưa, còn thời này chúng ta sử dụng xi măng và cát thì nó chính là CSS3.
+
+Vậy CSS3 là một chuẩn mới nhất của CSS, hay nói cách khác nó là một Version mới của CSS. Nó được chia ra làm nhiều module và mỗi module sẽ có những nhiệm vụ khác nhau, khi kết hợp chúng với nhau sẽ tạo nên những hiệu ứng tuyệt vời.
+
+Với CSS3 nếu bạn kết hợp với jQuery nữa thì website của bạn sẽ trở nên sinh động, điển hình là các hiệu ứng Paralax, Landing Page, ...
+
+2. Các module trong CSS3
+
+CSS3 được tách nhỏ thành nhiều module và nó có luôn các module của CSS cũ. Sau đây là các modules:
+
+Selectors
+Box Model
+Backgrounds and Borders
+Image Values and Replaced Content
+#Text Effects
+#2D/3D Transformations
+#Animations
+#Multiple Column Layout
+#User Interface
+
+Trong danh sách các module trên thì phần mình bôi đen chính là các module quan trọng trong CSS3, đương nhiên dù CSS3 hay CSS đều có chung cú pháp về selector, Box Model, ... Và một chú ý quan trọng nữa với CSS3 thì không phải trình duyệt nào cũng hỗ trợ 100% nên bạn phải sử dụng cú pháp Hack CSS hoặc là sử dụng Javascript để can thiệp vào.
