@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard Work</title>
+	<style type="text/css">
+		/*Bạn có thêm sự lựa chọn đó là sử dụng góc thay vì xác định hướng (to left, to right ...) bằng cách sử dụng cú pháp sau:
+
+		background: linear-gradient(angle, color-stop1, color-stop2);
+
+		Trong đó Angle là góc xá định giữa đường ngang và đường Gradient đi ngược chiều của kim đồng hồ. Hay nói cách khác 0deg sẽ tạo bottom to top Gradient, 90deg sẽ tạo left to right Gradient
+
+		*/
+		div{
+			float:left;
+			width:200px;
+			height:100px;
+			margin:10px;
+			
+		}
+		#div1{
+			background:linear-gradient(0deg,red,yellow);
+			background:-moz-linear-gradient(0deg,red,yellow);
+			background:-webkit-linear-gradient(0deg,red,yellow);
+			background:-o-linear-gradient(0deg,red,yellow);
+		}
+		#div2{
+			background:linear-gradient(90deg,red,yellow);
+			background:-moz-linear-gradient(90deg,red,yellow);
+			background:-webkit-linear-gradient(90deg,red,yellow);
+			background:-o-linear-gradient(90deg,red,yellow);
+
+		}
+		#div3{
+			background:linear-gradient(180deg,red,yellow);
+			background:-moz-linear-gradient(180deg,red,yellow);
+			background:-webkit-linear-gradient(180deg,red,yellow);
+			background:-o-linear-gradient(180deg,red,yellow);
+
+		}
+		#div4{
+			background:linear-gradient(360deg,red,yellow);
+			background:-moz-linear-gradient(360deg,red,yellow);
+			background:-webkit-linear-gradient(360deg,red,yellow);
+			background:-o-linear-gradient(360deg,red,yellow);
+
+		}
+	</style>
+</head>
+<body>
+<div></div>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+<div id="div4"></div>
+</body>
+</html>

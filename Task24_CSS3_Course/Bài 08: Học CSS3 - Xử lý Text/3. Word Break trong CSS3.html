@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>hard work</title>
+	<style type="text/css">
+		/*Thuộc tính word-break trong CSS3 có tác dụng xử lý xuống hàng, tức là bạn có thể cho một chuỗi hiển thị và xuống hàng tại bất kì vị trí nào miễn là nó đã hiển thị full width.
+
+Cú pháp: word-break: normal|break-all|keep-all|initial|inherit;
+
+Trong đó:
+
+- normal: trạng thái mặc định, tức là sẽ dừng xuống hàng theo mặc định
+- break-all : có thể xuống hàng bất kì lúc nào khi nó đã hiển thị full width
+- keep-all : xuống hàng nếu chữ hiển thị sẽ bị tràn (overflow)
+- initial : trở về trang thái mặc định
+- inherit : kế thừa giá trị từ thẻ HTML cha
+*/
+.break-all{word-break: break-all;}
+.keep-all{word-break: keep-all;}
+div{border:solid 1px; width: 120px;}
+
+
+
+
+	</style>
+</head>
+<body>
+<div class="break-all">Welcome to the world of HardWork </div>
+<div class="keep-all">Welcome to the world of HardWork </div>
+</body>
+</html>

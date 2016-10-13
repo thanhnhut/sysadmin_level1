@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard work</title>
+	<style type="text/css">
+		/*CS3 hỗ trợ một số thuộc tính giúp việc xử lý text hiệu quả hơn.
+
+Nếu trước đây chúng ta gặp khó khăn trong việc xử lý một từ quá dài và bị tràn ra ngoài thẻ HTML thì bây giờ sử dụng CSS3 sẽ giải quyết được.
+
+Chúng ta sẽ học ba thuộc tính sau:
+
+- text-overflow
+- word-wrap
+- word-break
+
+Thuộc tính text-overflow dùng để xử lý một đoạn text khi bị tràn ra ngoài thẻ HTML.
+
+Cú pháp: text-overflow: clip|ellipsis|string|initial|inherit;
+
+Trong đó:
+
+- clip: là giá trị mặc định, nó sẽ kẹp các văn bản.
+- ellipsis : thêm ba dấu chấm (...) nếu text bị tràn ra ngoài
+- string : tự định nghĩa đoạn text nào đó thêm vào khi bị tràn ra ngoài.
+- initial : thiết lập giá trị mặc định
+- inherit : kế thừa giá trị từ thẻ HTML cha.
+
+Có một số giá trị sẽ không chạy trên trình duyệt Chrome, Opera, ... nên bạn phải cân nhắc khi sử dụng. Tuy nhiên thuộc tính ellipsis thì hoạt động hầu hết các trình duyệt mới hiện nay.
+Có một lưu ý nữa là  bạn phải bổ sung thêm thuộc tính overflow:hidden thì nó mới có tác dụng nhé.
+
+*/
+p{
+	white-space: nowrap;
+	border:solid 1px;
+	width:100px;
+	height:18px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+	</style>
+</head>
+<body>
+<p>Welcome</p>
+</body>
+</html>

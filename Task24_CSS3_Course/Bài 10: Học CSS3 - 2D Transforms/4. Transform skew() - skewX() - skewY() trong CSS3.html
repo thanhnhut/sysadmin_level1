@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard Work</title>
+	<style type="text/css">
+		/**Skew() dùng để bẻ góc độ của chiều rộng và chiều cao của đối tượng HTML.
+		
+		Cú pháp:
+
+-ms-transform: skew(xdeg, ydeg);  IE 9
+-webkit-transform: skew(xdeg, ydeg);  Safari 
+transform: skew(xdeg, ydeg);
+Trong đó:
+
+xdeg là góc độ của hai cạnh hai bên.
+ydeg là góc độ của hai cạnh trên dưới.
+
+Nếu bạn chỉ muốn bẻ gãy hai cạnh hai bên thì dùng cú pháp sau:
+
+-ms-transform: skewX(xdeg); IE 9
+-webkit-transform: skewX(xdeg);  Safari
+transform: skewX(xdeg);
+
+Nếu ban chỉ muốn bẻ gãy hai cạnh trên dưới thì dùng cú pháp sau:
+
+-ms-transform: skewY(xdeg); IE 9 
+-webkit-transform: skewY(xdeg);  Safari 
+transform: skewY(xdeg);
+
+
+		*/
+h2{height: 100px;width: 100px;background-color: purple;}
+h2:hover{
+	-ms-transform: skew(20deg, 10deg);
+	-webkit-transform: skew(20deg, 10deg);
+	transform: skew(20deg, 10deg);
+}
+
+
+	</style>
+</head>
+<body>
+<h2></h2>
+</body>
+</html>

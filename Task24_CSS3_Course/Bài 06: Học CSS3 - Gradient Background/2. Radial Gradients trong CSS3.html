@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard Work</title>
+	<style type="text/css">
+		/*Radial Gradient dùng để tạo hiệu ứng tại vị trí nào đó (do lập trình viên chọn)  và lan tỏa ra tứ phía, và để có được hiệu ứng thì chắc chắn ban phải sử dụng ít nhất hai màu sắc khác nhau.
+
+Cú pháp: 
+
+background: radial-gradient(shape size at position, start-color, ..., last-color);
+Trong đó Shape mặc định là hình Ellipse, size là farthest-corner và position là center.
+
+Code Hack CSS:
+
+background: -moz-radial-gradient(shape, position, size, start-color, ..., last-color);
+background: -webkit-radial-gradient(shape, position, size, start-color, ..., last-color);
+background: -o-radial-gradient(shape, position, size, start-color, ..., last-color);*/
+
+/*Phân chia khoảng màu đồng đều*/
+div{
+	float:left;
+	width:300px;
+	height:200px;
+	margin:10px;
+	background:radial-gradient(red,blue,pink);
+	background:-o-radial-gradient(red,blue,pink);
+	background:-webkit-radial-gradient(red,blue,pink);
+	background:-moz-radial-gradient(red,blue,pink);
+
+}
+
+/*Tùy chọn khoảng màu*/
+/*Nếu bạn muốn thiết lập mỗi màu sắc chiếm một khoảng bao nhiêu đó thì thêm số phần trăm (%) đằng sau màu đó (khoảng cách tính từ vị trí trung tâm, nghĩa là màu sau phải lớn hơn màu trước).*/
+#div1{
+	float: left;
+	width:300px;
+	height:200px;
+	margin:10px;
+	background: radial-gradient(red 10%,blue 60%, pink 90%);
+	background: -o-radial-gradient(red 10%,blue 60%, pink 90%);
+	background: -webkit-radial-gradient(red 10%,blue 60%, pink 90%);
+	background: -moz-radial-gradient(red 10%,blue 60%, pink 90%);
+}
+/*Tùy chọn Shape*/
+/*Mặc định là ellipse nhưng bạn có thể thay thế bằng circle*/
+#div2{
+	float:left;
+	width:300px;
+	height:200px;
+	margin:10px;
+	background:radial-gradient(circle,red 10%, blue 90%);
+	background:-o-radial-gradient(circle,red 10%, blue 90%);
+	background:-moz-radial-gradient(circle,red 10%, blue 90%);
+	background:-webkit-radial-gradient(circle,red 10%, blue 90%);
+}
+/*Tùy chọn Position*/
+/*Nếu bạn muốn vị trí trung tâm không nằm ở giữa nữa thì có thể chọn một vị trí bất kì bằng cách nhập khoảng cách so với lề trái và lề trên, đơn vị của nó có thể là % hoặc px.*/
+#div3{
+	float:left;
+	width:300px;
+	height:200px;
+	margin:10px;
+	background:radial-gradient(circle farthest-side at 100px,red 10%, blue 90%);
+	background:-o-radial-gradient(circle, 100px 200px, farthest-side, red 10%, blue 90%);
+	background:-moz-radial-gradient(circle, 100px 200px, farthest-side, red 10%, blue 90%);
+	background:-webkit-radial-gradient(circle, 100px 200px, farthest-side, red 10%, blue 90%);
+}
+/*lặp -repeating-radial-gradient*/
+#div4{
+	float:left;
+	width:200px;
+	height:200px;
+	margin:10px;
+	color:#fff;
+	background:repeating-radial-gradient(circle closest-side,red 20%,blue 10%);
+	background : -moz-repeating-radial-gradient(circle closest-side, red 10%, blue 20%);
+    background : -webkit-repeating-radial-gradient(circle closest-side, red 10%, blue 20%);
+    background : -o-repeating-radial-gradient(circle closest-side, red 10%, blue 20%);
+}
+
+
+	</style>
+
+</head>
+<body>
+<div style="text-align:center;">phân chia khoảng màu đồng đều</div>
+<div id="div1" style="text-align:center;">Tùy chọn khoảng màu</div>
+<div id="div2" style="text-align:center;">Tùy chọn Shape</div>
+<div id="div3" style="text-align:center">Tùy chọn Position</div>
+<div id="div4" style="text-align:center">lặp -repeating-radial-gradient</div>
+</body>
+</html>
