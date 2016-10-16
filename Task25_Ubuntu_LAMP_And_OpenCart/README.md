@@ -10,7 +10,11 @@
 
 [1. Cài đặt Ubuntu Server 16.04](#1)
 
-[2. Cài đặt Opencart](#2)
+[2. Set IP tĩnh](#2)
+
+[3. SSH bằng puclic-key](#3)
+
+[4. Cài đặt Opencart](#4)
 
 ---
 
@@ -179,7 +183,59 @@
 
 
 <a name="2"></a>
-#2. Cài đặt Opencart
+#2. Set IP tĩnh
+
+Vào terminal gõ ```sudo /etc/network/interfaces``` rồi nhập các lệnh giống ví dụ bên dưới
+
+```
+auto eth0
+iface eth0 inet static
+   address 10.253.0.50
+   netmask 255.255.255.0
+   network 10.253.0.0
+   gateway 10.253.0.1
+   dns-nameservers 8.8.8.8
+```
+
+<a name="3"></a>
+#3. SSH bằng public-key
+
+####Vào *terminal* nhập lệnh sau để cài SSH
+
+```
+$ sudo apt-get install openssh-server
+```
+
+Đầu tiên mình cần tạo thư mục chứa Public Key trên Server từ Client, ví dụ:
+```
+ssh nhut@192.168.15.183 mkdir -p .ssh
+```
+
+Bước tiếp theo sẽ tạo authorized_keys cho server bằng chuỗi lệnh:
+
+```
+cat .ssh/id_rsa.pub | ssh nhut@192.168.15.183 'cat >> .ssh/authorized_keys'
+```
+
+Tiếp sau sẽ dùng chmod phân quyền 700 cho folder .ssh & 640 cho file authorized_keys
+
+```
+chmod 700 .ssh
+chmod 640 .ssh/authorized_keys
+```
+
+Đến đây kể như hoàn tất Client đã có Private Key, trên Server đã có Public Key nhưng kết nối vẫn xác  thực theo Password Authentication.  Tìm đến file /etc/ssh/sshd_config hiệu chỉnh thông số như sau.
+
+```
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no 
+```
+
+
+
+<a name="4"></a>
+#4. Cài đặt Opencart
 
 Để cài đặt Opencart trước tiên hãy chắc chắn rằng tất cả các gói hệ thống của bạn là up-to-date bằng cách chạy các apt-get lệnh sau trong terminal và đã cài đặt **LAMP**.
 
