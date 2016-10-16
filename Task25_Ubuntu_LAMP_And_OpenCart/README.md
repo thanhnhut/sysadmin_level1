@@ -95,7 +95,7 @@
 
 - Tiếp theo, chọn tùy chọn đầu tiên, cài đặt Ubuntu Server và nhấn phím Enter để tiếp tục.
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/b.png/></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/b.png"/></p>
 
 - Chọn ngôn ngữ bạn có cài đặt hệ thống và nhấn Enter lần nữa để tiếp tục thêm
 
@@ -141,7 +141,7 @@
 
 - Tiếp theo, chọn ổ đĩa mà sẽ được sử dụng bởi trình cài đặt để tạo ra các phân vùng và nhấn phím Enter.
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/a4.png/></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/a4.png"/></p>
 
 - Trả lời với Yes tại màn hình tiếp theo để cam kết thay đổi vào đĩa với chương trình LVM và nhấn vào Continue để sử dụng toàn bộ không gian đĩa cho các phân vùng đã hướng dẫn
 
