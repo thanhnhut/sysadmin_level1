@@ -53,7 +53,7 @@ Mọi thông điệp HTTP phản ứng trở lại với một mã trạng thái
 <p align="center"><em>Bảng 1-3. Một số mã trạng thái HTTP thông thường</em></p>
 
 |HTTP status code|Mô tả|
-|-|-|
+|----------------|-----|
 |300|OK. Document returned correctly. (ĐƯỢC. Tài liệu quay trở lại một cách chính xác.)|
 |302|Redirect. Go someplace else to get the resource. (Chuyển. Tới nơi nào khác để có được những tài nguyên.)|
 |404|Not Found. Can't find this resource(Không tìm thấy. Không thể tìm thấy tài nguyên này)|
