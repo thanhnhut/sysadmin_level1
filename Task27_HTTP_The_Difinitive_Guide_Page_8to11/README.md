@@ -48,7 +48,7 @@ HTTP hỗ trợ các lệnh yêu cầu khác nhau, được gọi là phương t
 <a name="142"></a>
 ###1.4.2 Status Codes (mã trạng thái)
 
-Mọi thông điệp HTTP phản ứng trở lại với một mã trạng thái. Các mã trạng thái là một mã số có ba chữ số cho khách hàng nếu yêu cầu thành công, hoặc nếu các hành động khác được yêu cầu. Một vài mã trạng thái thông thường được thể hiện trong Bảng 1-3.
+Mọi thông điệp HTTP phản ứng trở lại với một mã trạng thái. Các mã trạng thái là một mã số có ba chữ số cho cl nếu yêu cầu thành công, hoặc nếu các hành động khác được yêu cầu. Một vài mã trạng thái thông thường được thể hiện trong Bảng 1-3.
 
 <p align="center"><em>Bảng 1-3. Một số mã trạng thái HTTP thông thường</em></p>
 
@@ -58,16 +58,16 @@ Mọi thông điệp HTTP phản ứng trở lại với một mã trạng thái
 |302|Redirect. Go someplace else to get the resource. (Chuyển. Tới nơi nào khác để có được những tài nguyên.)|
 |404|Not Found. Can't find this resource(Không tìm thấy. Không thể tìm thấy tài nguyên này)|
 
-HTTP cũng sẽ gửi một văn bản "cụm từ lý do" giải thích với từng mã trạng thái số (xem các tin nhắn phản ứng trong Hình 1-5). Các cụm từ văn bản được bao gồm chỉ cho mục đích mô tả; mã số được sử dụng cho tất cả các tiến trình xử lý.
+HTTP cũng sẽ gửi một văn bản "cụm lý do" giải thích với từng mã trạng thái (xem các tin nhắn phản ứng trong Hình 1-5). Các cụm văn bản được bao gồm chỉ cho mục đích mô tả; mã số được sử dụng cho tất cả các tiến trình xử lý.
 
-Các mã trạng thái sau và cụm từ được điều cho là giống nhau của phần mềm HTTP:
+Các mã trạng thái sau và cụm từ được cho là giống phần mềm HTTP:
 
 ![3](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task27_HTTP_The_Difinitive_Guide_Page_8to11/Images/3.png)
 
 <a name="143"></a>
 ###1.4.3 Web Pages Can Consist of Multiple Objects (Các trang web có thể bao gồm nhiều đối tượng)
 
-Một ứng dụng thường chia thành nhiều giao dịch HTTP để hoàn thành một nhiệm vụ. Ví dụ, một trình duyệt web đưa ra một chuỗi các giao dịch HTTP để lấy và hiển thị một trang web đồ họa. Các trình duyệt để thực hiện một giao dịch để lấy "khung" HTML mô tả cách bố trí trang, sau đó ban hành các giao dịch HTTP bổ sung cho mỗi hình ảnh nhúng, bảng điều khiển đồ họa, Java applet, vv. Những nguồn lực nhúng thậm chí có thể cư trú trên các server khác nhau, như trong hình 1-6. Do đó, một "trang web" thường là một tập hợp các nguồn lực, không phải là một nguồn duy nhất.
+Một ứng dụng thường chia thành nhiều giao dịch HTTP để hoàn thành một nhiệm vụ. Ví dụ, một trình duyệt web đưa ra một chuỗi các giao dịch HTTP để lấy và hiển thị một trang web đồ họa. Các trình duyệt thực hiện một giao dịch để lấy "khung" HTML mô tả cách bố trí trang, sau đó ban hành các giao dịch HTTP bổ sung cho mỗi hình ảnh nhúng, bảng điều khiển đồ họa, Java applet, vv. Những nguồn lực nhúng thậm chí có thể cư trú trên các server khác nhau, như trong hình 1-6. Do đó, một "trang web" thường là một tập hợp các nguồn lực, không phải là một nguồn duy nhất.
 
 <p align="center"><em>Hình 1-6. các trang web tổng hợp yêu cầu giao dịch HTTP riêng biệt cho mỗi
 nguồn tài nguyên nhúng</em></p>
@@ -77,9 +77,9 @@ nguồn tài nguyên nhúng</em></p>
 <a name="15"></a>
 #1.5 Messages (tin nhắn)
 
-Bây giờ chúng ta hãy có một cái nhìn nhanh cấu trúc của yêu cầu HTTP và thông điệp trả lời. Chúng ta sẽ nghiên cứu các thông điệp HTTP chi tiết tinh tế trong Chương 3.
+Bây giờ chúng ta hãy có một cái nhìn nhanh cấu trúc của yêu cầu HTTP và thông điệp trả lời. Chúng ta sẽ nghiên cứu các thông điệp HTTP chi tiết trong Chương 3.
 
-tThông điệp HTTP đơn giản, trình tự dòng theo định hướng của người dùng. Bởi vì chúng là văn bản đơn giản, không nhị phân, chúng dễ dàng cho người đọc và viết. Hình 1-7 cho thấy các thông điệp HTTP cho một giao dịch đơn giản.
+Thông điệp HTTP đơn giản, trình tự dòng theo định hướng của người dùng. Bởi vì chúng là văn bản đơn giản, không nhị phân, chúng dễ dàng cho người đọc và viết. Hình 1-7 cho thấy các thông điệp HTTP cho một giao dịch đơn giản.
 
 *Một số lập trình viên phàn nàn về những khó khăn của HTTP như phân tích cú pháp, có thể gặp nhiều được khó khăn và dễ bị lỗi, đặc biệt là khi thiết kế phần mềm tốc độ cao. Một định dạng nhị phân hoặc một định dạng văn bản hạn chế hơn có thể được đơn giản để xử lý, nhưng hầu hết các lập trình viên HTTP đánh giá cao HTTPs mở rộng và debuggability.*
 
@@ -99,7 +99,7 @@ Zero hoặc nhiều trường tiêu đề theo dòng bắt đầu. Mỗi trườ
 
 ![8](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task27_HTTP_The_Difinitive_Guide_Page_8to11/Images/8.png)
 
-Sau dòng trống là một thân thư tùy chọn có chứa bất kỳ loại dữ liệu. Thân yêu cầu mang dữ liệu đến web server; thân phản ứng mang dữ liệu lại cho client. Không giống như các dòng bắt đầu và tiêu đề, đó là văn bản và cấu trúc, thân có thể chứa dữ liệu nhị phân tùy ý (ví dụ, hình ảnh, video, âm thanh, phần mềm ứng dụng). Tất nhiên, thân cũng có thể chứa văn bản.
+Sau dòng trống là một phần thân tùy chọn có chứa bất kỳ loại dữ liệu. Phần thân yêu cầu mang dữ liệu đến web server; phần thân phản ứng mang dữ liệu lại cho client. Không giống như các dòng bắt đầu và tiêu đề, đó là văn bản và cấu trúc, phần thân có thể chứa dữ liệu nhị phân tùy ý (ví dụ, hình ảnh, video, âm thanh, phần mềm ứng dụng). Tất nhiên, phần thân cũng có thể chứa văn bản.
 
 <a name="151"></a>
 ###1.5.1 Simple Message Example (ví dụ thông điệp đơn giản)
@@ -111,4 +111,5 @@ Hình 1-8 cho thấy các thông điệp HTTP có thể được gửi như là 
 
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task27_HTTP_The_Difinitive_Guide_Page_8to11/Images/9.png" /></p>
 
-Trong hình 1-8, trình duyệt sẽ gửi một thông điệp yêu cầu HTTP. Các yêu cầu có một phương thức GET trong dòng bắt đầu, và các nguồn lực địa phương là /tools.html. Các yêu cầu cho biết nó đang nói Phiên bản 1.0 của giao thức HTTP. Thông điệp yêu cầu không có thân, bởi vì không có dữ liệu yêu cầu là cần thiết để GET một tài liệu đơn giản từ một server.Các server sẽ gửi lại một tin nhắn phản ứng HTTP. Các phản ứng có chứa các số phiên bản HTTP (HTTP / 1.0), một mã trạng thái thành công (200), một cụm từ lý do mô tả (OK), và một khối của các trường đáp ứng tiêu đề, tất cả tiếp theo phản ứng thân có chứa các tài liệu yêu cầu.Chiều dài thân phản ứng được ghi rõ trong tiêu đề Content-Length, và kiểu MIME của tài liệu được ghi rõ trong tiêu đề Content-Type
+Trong hình 1-8, trình duyệt sẽ gửi một thông điệp yêu cầu HTTP. Các yêu cầu có một phương thức GET trong dòng bắt đầu, và các nguồn lực tại địa phương là /tools.html. Các yêu cầu cho biết nó đang nói Phiên bản 1.0 của giao thức HTTP. Thông điệp yêu cầu không có phần thân, bởi vì không có dữ liệu yêu cầu là cần thiết để GET một tài liệu đơn giản từ một server. Các server sẽ gửi lại một tin nhắn phản ứng HTTP. Các phản ứng có chứa phiên bản HTTP (HTTP / 1.0), một mã trạng thái thành công (200), một cụm từ lý do mô tả (OK), và một khối của các trường đáp ứng tiêu đề, tất cả tiếp theo phản ứng phần thân có chứa các tài liệu yêu cầu. Chiều dài phần thân phản ứng được ghi rõ trong tiêu đề Content-Length, và kiểu MIME của tài liệu được ghi rõ trong tiêu đề Content-Type
+
