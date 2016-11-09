@@ -323,33 +323,47 @@ sudo chmod 770 store/ cache/ files/```
 
 Trong bước này, chúng ta sẽ hoàn tất cài đặt bằng cách thêm vào cơ sở dữ liệu, quản trị, và các thông tin chi tiết thông qua các trang web cài đặt phpBB.
 
-Tử trình duyệt truy cập vào địa chỉ web server
+Từ trình duyệt truy cập vào địa chỉ web server
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/1.png)
 
+
 Click vào tab INSTALL
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/2.png)
 
+
 Bạn nên có tất cả các gói cần thiết đã được cài đặt. Nhấp vào **Proceed to next step**, sau đó bắt đầu cài đặt.
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/3.png)
 
+
 Sau đó nhấp vào **Proceed to next step**. Đối với hầu hết các bước sau thời điểm này, bạn sẽ phải bấm vào nút **Proceed to next step** để di chuyển
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/4.png)
 
+
 Bây giờ bạn sẽ thấy một kết nối cơ sở dữ liệu thành công.
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/5.png)
 
+
 Ở bước tiếp theo này, bạn thiết lập username administrator và mật khẩu của bạn.
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/6.png)
 
+
 Thiết lập cài đặt email nếu bạn có một máy chủ SMTP tùy chỉnh, nếu không, gắn nó với các giá trị mặc định.
 
+
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/9.png)
+
 
 ###Bước 5: Dọn dẹp
 
@@ -364,6 +378,7 @@ Bây giờ cài đặt xong, bạn nên xóa các thư mục / var / www / insta
 ```sudo rm -rf /var/www/html/install```
 
 Bây giờ bạn sẽ có thể truy cập vào diễn đàn phpBB của bạn tại địa chỉ IP  của bạn!
+
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP__And_phpBB/Images/11.png)
 
