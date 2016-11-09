@@ -190,7 +190,7 @@ HTTP / 1.1 tập trung vào việc sửa chữa sai sót về kiến trúc trong
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/16.png)
 
 
-HTTP-NG là một đề nghị nguyên mẫu cho người kế nhiệm một archit ectural HTTP / 1.1 tập trung vào tối ưu hóa hiệu suất đáng kể và một khuôn khổ mạnh mẽ hơn cho thực hiện từ xa của logic server. Các nỗ lực nghiên cứu HTTP-NG kết luận vào năm 1998, và tại thời điểm viết bài này, không có kế hoạch để thúc đẩy đề xuất này như một sự thay thế cho HTTP / 1.1. Xem Chương 10 để biết thêm thông tin.
+HTTP-NG là một đề nghị nguyên mẫu cho người kế nhiệm một archit ectural HTTP / 1.1 tập trung vào tối ưu hóa hiệu suất đáng kể và một khuôn khổ mạnh mẽ hơn cho thực hiện từ xa của logic server. Các nỗ lực nghiên cứu HTTP-NG kết luận vào năm 1998, và tại thời điểm viết bài này, không có kế hoạch để thúc đẩy đề xuất này như một sự thay thế cho HTTP / 1.1. <span style="color:red; font-family:Georgia; font-size:2em;">Xem Chương 10 để biết thêm thông tin.</span>
 
 
 <a name="18"></a>
