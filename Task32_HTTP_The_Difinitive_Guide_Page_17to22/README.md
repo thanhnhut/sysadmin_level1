@@ -41,7 +41,7 @@ Như thể hiện trong hình 1-11, một proxy nằm giữa một client và m�
 <p align="center"><em>Hình 1-11. Proxy chuyển tiếp giao thông giữa server và client thay mặt của người dùng.</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to20/Images/1.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to22/Images/1.png" /></p>
 
 
 Proxy thường được sử dụng cho an ninh, làm trung gian đáng tin cậy thông qua các luồng lưu lượng web. Proxy cũng có thể lọc các yêu cầu và trả lời; Ví dụ, để phát hiện virus ứng dụng trong download của công ty hoặc để lọc nội dung người lớn đi từ học sinh tiểu học. Chúng ta sẽ nói về proxy chi tiết trong Chương 6
@@ -56,7 +56,7 @@ Một bộ nhớ web cache hoặc bộ nhớ đệm proxy là một loại đặ
 <p align="center"><em>Hình 1-12. proxy caching giữ bản sao địa phương của các tài liệu phổ biến để cải thiện hiệu suất.</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to20/Images/2.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to22/Images/2.png" /></p>
 
 
 Một khách hàng có thể tải tài liệu nhanh hơn từ một bộ nhớ cache lân cận hơn là từ một web server từ xa. HTTP định nghĩa nhiều phương tiện để làm cho bộ nhớ đệm hiệu quả hơn và để điều chỉnh sự tươi mát và sự riêng tư của nội dung được lưu trữ. Chúng ta sẽ cover công nghệ bộ nhớ đệm trong Chương 7.
@@ -73,7 +73,7 @@ Ví dụ, một gateway HTTP / FTP nhận các yêu cầu cho FTP URIs người 
 <p align="center"><em>Hình 1-13. HTTP / FTP gateway.</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to20/Images/3.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to22/Images/3.png" /></p>
 
 
 <a name="184"></a>
@@ -88,7 +88,7 @@ Như đã phác thảo trong hình 1-14, một HTTP / SSL tunnels nhận đượ
 <p align="center"><em>Hình 1-14. Tunnels chuyển dữ liệu qua mạng non-HTTP (HTTP / SSL tunnels show.</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to20/Images/4.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to22/Images/4.png" /></p>
 
 
 <a name="185"></a>
@@ -103,7 +103,7 @@ Ví dụ, ta có các người dùng agent tự động đi lang thang trên web
 vòng quanh thế giới</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to20/Images/5.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task32_HTTP_The_Difinitive_Guide_Page_17to22/Images/5.png" /></p>
 
 
 
