@@ -1,4 +1,7 @@
- ##<p style="color:#0000ff">HTTP The Definitive Guide Page 11 to 17</p>
+
+<link type="text/css" rel="styesheet" href="nhut.css" /> 
+
+##HTTP The Definitive Guide Page 11 to 17
 
 
 > 
