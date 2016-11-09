@@ -1,4 +1,4 @@
- <font color="#0000FF" size="70px">HTTP The Definitive Guide Page 11 to 17</font>
+ ##<p style="color:#0000ff">HTTP The Definitive Guide Page 11 to 17</p>
 
 
 > 
@@ -93,7 +93,7 @@ Với địa chỉ IP và số cổng, một client có thể dễ dàng giao ti
 <p align="center">Trình duyệt sẽ lấy ra từ các số cổng (nếu có) từ URL.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/bl/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/5.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/5.png)
 
 
 <p align="center">Các trình duyệt thiết lập một kết nối TCP với web server.</p>
