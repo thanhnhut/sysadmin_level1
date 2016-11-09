@@ -48,7 +48,7 @@ Trong một giới hạn mạng, các giao thức HTTP được xếp trên lớ
 <p align="center"><em>Hình 1-9. HTTP giao thức mạng stack</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/1.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/1.png" /></p>
 
 
 <a name=162"></a>
@@ -75,19 +75,19 @@ Với địa chỉ IP và số cổng, một client có thể dễ dàng giao ti
 Đây là các bước:
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/2.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/2.png)
 
 
 <p align="center">Trình duyệt lấy ra tên máy của server từ URL.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/3.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/3.png)
 
 
 <p align="center">Trình duyệt chuyển đổi tên máy của server vào địa chỉ IP của server.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/4.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/4.png)
 
 
 <p align="center">Trình duyệt sẽ lấy ra từ các số cổng (nếu có) từ URL.</p>
@@ -99,19 +99,19 @@ Với địa chỉ IP và số cổng, một client có thể dễ dàng giao ti
 <p align="center">Các trình duyệt thiết lập một kết nối TCP với web server.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/6.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/6.png)
 
 
 <p align="center">Trình duyệt sẽ gửi một thông điệp HTTP request  đến server.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/7.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/7.png)
 
 
 <p align="center">Các server sẽ gửi một HTTP response lại cho trình duyệt.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/8.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/8.png)
 
 
 <p align="center">Các kết nối được đóng lại, và trình duyệt sẽ hiển thị các tài liệu</p>
@@ -120,7 +120,7 @@ Với địa chỉ IP và số cổng, một client có thể dễ dàng giao ti
 <p align="center"><em>Hình 1-10. Quá trình kết nối trình duyệt cơ bản</em></p>
 
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/9.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/9.png" /></p>
 
 <a name="163"></a>
 ###<font color="#0000FF">1.6.3 A Real Example Using Telnet</font>
@@ -146,10 +146,10 @@ Ví dụ của chúng ta HTTP request cho http://www.joes-hardware.com:80/tools.
 ####Ví dụ 1-1. Một giao dịch HTTP sử dụng telnet
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/10.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/10.png)
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/11.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/11.png)
 
 
 Telnet nhìn lên tên máy và mở một kết nối đến máy chủ www.joes-hardware.com web, được lắng nghe trên cổng 80. ba dòng sau khi lệnh được xuất ra từ Telnet, nói với chúng ta nó đã thiết lập một kết nối. Sau đó chúng ta gõ vào lệnh yêu cầu cơ bản , "GET /tools.html HTTP / 1.1", và gửi một tiêu đề chủ cung cấp tên máy ban đầu, theo sau là một dòng trống, yêu cầu server để GET những tài nguyên "/tools.html" từ máy chủ www.joes-hardware.com. Sau đó, server đáp ứng với một dòng phản ứng, một số tiêu đề phản ứng, một dòng trống, và cuối cùng là phần thân của tài liệu HTML. 
@@ -162,29 +162,29 @@ Hãy coi chừng Telnet bắt chước HTTP client tốt nhưng không làm vi�
 Có một số phiên bản của giao thức HTTP chúng ta sử dụng ngày nay. ứng dụng HTTP cần phải làm việc chăm chỉ để xử lý mạnh mẽ biến thể khác nhau của giao thức HTTP. Các phiên bản được sử dụng là:
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/12.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/12.png)
 
 
 Phiên bản 1991 nguyên mẫu của HTTP được gọi là HTTP / 0.9. Giao thức này có chứa nhiều lỗ hổng thiết kế nghiêm trọng và cần được sử dụng chỉ để tương thích với các khách hàng di sản. HTTP / 0.9 chỉ hỗ trợ các phương thức GET, và nó không hỗ trợ MIME gõ nội dung đa phương tiện, tiêu đề HTTP, hoặc số phiên bản. HTTP / 0.9 ban đầu được xác định để lấy đối tượng HTML đơn giản. Nó nhanh chóng được thay thế bằng HTTP / 1.0.
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/13.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/13.png)
 
 1.0 là phiên bản đầu tiên của HTTP đã được triển khai rộng rãi. HTTP / 1.0 thêm số phiên bản, tiêu đề HTTP, phương pháp bổ sung, đa phương tiện và đối tượng xử lý. HTTP / 1.0 đã làm cho nó thực tế để hỗ trợ các trang web đồ họa hấp dẫn và các hình thức tương tác, giúp thúc đẩy việc áp dụng rộng quy mô của World Wide Web. đặc điểm kỹ thuật này chưa bao giờ xác định tốt. Nó đại diện cho một tập hợp các thực hành tốt nhất trong một thời gian tiến hóa thương mại và học thuật nhanh chóng của các giao thức.
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/14.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/14.png)
 
 
 Nhiều khách hàng web phổ biến và máy chủ nhanh chóng bổ sung các tính năng HTTP vào giữa năm 1990 để đáp ứng nhu cầu của một mở rộng nhanh chóng, thương mại thành công World Wide Web. Nhiều người trong số các tính năng này, bao gồm cả các kết nối lâu dài "keep-alive", hỗ trợ lưu trữ ảo, và hỗ trợ kết nối proxy, đã được thêm vào HTTP và trở thành chính thức, trên thực tế tiêu chuẩn. Điều này không chính thức, phiên bản mở rộng của HTTP thường được gọi là HTTP / 1.0 +.
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/15.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/15.png)
 
 
 HTTP / 1.1 tập trung vào việc sửa chữa sai sót về kiến trúc trong thiết kế của HTTP, xác định ngữ nghĩa, giới thiệu tối ưu hóa hiệu suất đáng kể, và loại bỏ tính năng sai. HTTP / 1.1 cũng bao gồm hỗ trợ cho các ứng dụng web phức tạp hơn và triển khai ở dưới đường vào cuối năm 1990. HTTP / 1.1 là phiên bản hiện tại của HTTP.
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/16.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/16.png)
 
 
 HTTP-NG là một đề nghị nguyên mẫu cho người kế nhiệm một archit ectural HTTP / 1.1 tập trung vào tối ưu hóa hiệu suất đáng kể và một khuôn khổ mạnh mẽ hơn cho thực hiện từ xa của logic server. Các nỗ lực nghiên cứu HTTP-NG kết luận vào năm 1998, và tại thời điểm viết bài này, không có kế hoạch để thúc đẩy đề xuất này như một sự thay thế cho HTTP / 1.1. Xem Chương 10 để biết thêm thông tin.
@@ -196,31 +196,31 @@ HTTP-NG là một đề nghị nguyên mẫu cho người kế nhiệm một arc
 Trong chương tổng quan này, chúng tôi đã tập trung vào việc làm thế nào hai ứng dụng web (trình duyệt web và web server) gửi tin nhắn qua lại để thực hiện các giao dịch cơ bản. Có rất nhiều các ứng dụng web khác mà bạn tương tác với trên Internet. Trong phần này, chúng tôi sẽ nêu một số ứng dụng quan trọng khác, bao gồm:
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/17.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/17.png)
 
 
 <p align="center">HTTP trung gian mà ngồi giữa client và server.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/18.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/18.png)
 
 
 <p align="center">kho HTTP giữ bản sao của các trang web phổ biến gần client.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/19.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/19.png)
 
 
 <p align="center">Các web server đặc biệt để kết nối với các ứng dụng khác.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/20.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/20.png)
 
 
 <p align="center">Proxy đặc biệt không nhìn thấy HTTP giao tiếp phía trước.</p>
 
 
-![2](https://github.com/thanhnhut/sysadmin_level1/tree/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/21.png)
+![2](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task30_HTTP_The_Difintive_Guide_Page_11to17/Images/21.png)
 
 
 <p align="center">Web client thông minh làm HTTP request tự động.</p>
