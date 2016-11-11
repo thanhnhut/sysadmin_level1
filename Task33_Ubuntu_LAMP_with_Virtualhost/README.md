@@ -132,6 +132,7 @@ Xác nhận lại mật khẩu lần nữa.
 ![9](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/9.png)
 
 
+<a name="2"></a>
 #2.Tạo Virtual Host trên Apache
 
 ###Bước 1: Tạo thư mục cho trang web
