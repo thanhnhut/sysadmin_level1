@@ -269,7 +269,7 @@ Sau khi vào mysql nhập các lệnh dưới để tạo DATABASE
 ```
 CREATE DATABASE phpBB;
 CREATE USER 'nhut'@'localhost' identified by 'badpassword';
-GRANT ALL PEIVILEGES ON phpBB.* TO 'nhut'@'localhost';
+GRANT ALL PRIVILEGES ON phpBB.* TO 'nhut'@'localhost';
 FLUSH PRIVILEGES;
 exit
 ```

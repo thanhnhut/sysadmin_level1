@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **11/11/2016**
+> Cập nhật lần cuối: **12/11/2016**
 
 ### Mục lục
 
@@ -19,6 +19,12 @@
  - [1.4 Cài đặt phpmyAmin](#14)
 
 [2. Tạo Virtualhost](#2)
+
+[3. Cài đặt Opencart trên Virtualhost](#3)
+
+[4. Cài đặt Wordpress trên Virtualhos](#4)
+
+[5. Cài đặt phpBB trên Virtualhos](#5)
 
 ---
 
@@ -234,7 +240,311 @@ Cuối cùng test thử xem các Virtual Host có hoạt động hay không bằ
 
 Bạn sẽ thấy một trang đó trông như thế này:
 
-##Welcome To website
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/1.png)
 
+
+
+
+<a name="3"></a>
+#3. Caì đặt Opencart
+
+
+Tải về giải nén như các dòng lệnh sau hoặc có thể tải tử source [ OpenCart’s download page](https://github.com/opencart/opencart)
+
+```
+wget https://github.com/opencart/opencart/archive/2.3.0.2.zip
+unzip 2.3.0.2.zip
+mv opencart-2.3.0.2/upload/* /var/www/oc/public_html
+
+```
+
+Đổi tên file ‘config-dist.php’ thành ‘config.php’
+
+```mv config-dist.php config.php```
+
+Cần phải thay đổi một số thư mục cho phép
+
+```
+
+
+chown -R www-data.www-data /var/www/html
+chmod -R 755 /var/www/html
+```
+
+###Cấu hình MariaDB hoặc MySQL cho Opencart
+
+Đầu tiên cần đi vào cơ sở dữ liệu
+
+```sudo mysql -u root -p```
+
+Điều này sẽ nhắc bạn nhập mật khẩu, hãy nhập vào mật khẩu root MariaDB của bạn và nhấn Enter. Một khi bạn đã đăng nhập vào máy chủ cơ sở dữ liệu của bạn, bạn cần phải tạo ra một cơ sở dữ liệu để cài đặt OpenCart
+
+```
+
+
+MariaDB [(none)]> CREATE DATABASE opencart;
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON opencart.* TO 'opencartuser'@'localhost' IDENTIFIED BY 'opencartuser_passwd';
+MariaDB [(none)]> FLUSH PRIVILEGES;
+MariaDB [(none)]> exit
+```
+
+Cuối cùng sau khi tất cả mọi thứ được thiết lập cần trỏ đến trình duyệt web của bạn đến máy chủ  tên miền ```thanhnhut-oc.local```
+
+Bắt đầu quá trình cài đặt như hình dưới đây.
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/2.png"/></p>
+
+Click vào Continue điều này sẽ tải một trang cài đặt nơi mỗi cấu hình cài đặt sẵn được kiểm tra. 
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/3.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/a16.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task25_Ubuntu_LAMP_And_OpenCart/Images/a17.png"/></p>
+
+Tiếp theo click vào Continue để di chuyển đến trang Configuration. Ở đây, ta sẽ cần phải nhập thông tin đăng nhập cơ sở dữ liệu chúng ta đã thiết lập ở trên trong khi tạo ra cơ sở dữ liệu của chúng ta khi cài đặt OpenCart. Sau đó sẽ thiết lập tên người dùng, mật khẩu và email.
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/6.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/7.png"/></p>
+
+Cài đặt hoàn tất 
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/8.png"/></p>
+
+Để đăng nhập vào trang quản trị làm như ví dụ sau 
+
+```
+https://thanhnhut-oc.local/admin
+```
+
+Màn hình đăng nhập sẽ xuất hiện sau khi đăng nhập thành công sẽ thấy trang quản trị
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/19.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/11.png"/></p>
+
+
+<a name="4"></a>
+#4. Cài đặt Worpress trên Virtualhost
+
+###Tạo database và user cho wordpress
+
+1.Command:
+
+```
+mysql -u root -p
+```
+2.Tạo database và user nhập các lệnh dưới
+
+```
+CREATE DATABASE wordpress character set utf8 collate utf8_bin; 
+GRANT ALL PRIVILEGES on wordpress.* to 'wpuser'@'localhost' identified by 'nhut96'; 
+FLUSH PRIVILEGES; exit
+```
+
+![12](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/12.png)
+
+
+
+
+
+3.Download source code
+
+Ở đây tôi tải về thư mục tmp, còn tải vào đâu thì tùy 
+
+```
+curl -O https://wordpress.org/latest.tar.gz
+```
+
+4.Giải nén
+
+```
+tar xzvf latest.tar.gz
+```
+
+đổi tên mặc định file config và xoá file config mặc định
+
+
+```
+mv wp-config-sample.php wp=config.php
+```
+
+
+ copy vào thư mực /var/www/wp/public_html
+
+
+```
+sudo cp -a wordpress/*. /var/www/wp/public_html/
+
+```
+
+###Cấu hình thư mục chứa source wordpress 
+
+Để hạn chế sự dòm ngó của hacker cũng như tăng sự bảo mật cho website chúng ta cần cấu hình báo mật thự mục chứa source code wordpress
+
+Cấu hình bảo mật thư mục /var/www/wp/public_html/
+
+```
+sudo chown -R www-data:www-data /var/www/wp/public_html/ sudo chmod -R 755 /var/www/wp/public_html/
+```
+
+###Cấu hình file config wp-config.php trong /html/wordpress/
+
+Nhập lệnh
+
+```
+sudo vi wp-config.php
+```
+
+Chỉnh sữa các phần **DB_NAME, DB_USER, DB_PASSWORD**
+
+![13](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task21_Ubuntu_LAMP/images/13.png)
+
+lưu lại và restart lại các dịch vụ
+
+```
+sudo systemctl restart mysql && systemctl restart apache2
+```
+
+###Hoàn thành việc cài đặt wordpress
+
+1.cấu hình các thông số cần thiết cho website
+
+Đăng nhập vào trình duyệt với ```http://thanhnhut-wp.local```
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/12.png"/></p>
+
+Điền đầy đủ các thông tin
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/13.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/14.png"/></p>
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/15.png"/></p>
+
+
+#5. Cài đặt phpBB trên Virtualhost 
+
+###Bước 1: Tạo DATABASE
+
+Gõ lệnh sau vào terminal để tạo database 
+
+```
+sudo mysql -u root -p
+```
+
+Sau khi vào mysql nhập các lệnh dưới để tạo DATABASE
+
+```
+CREATE DATABASE phpBB;
+CREATE USER 'nhut'@'localhost' identified by 'badpassword';
+GRANT ALL PRIVILEGES ON phpBB.* TO 'nhut'@'localhost';
+FLUSH PRIVILEGES;
+exit
+```
+
+###Bước 2: Cài đặt phpBB
+
+Đầu tiên, download phiên bản mới nhất của hệ thống phpBB
+
+```
+wget https://www.phpbb.com/files/release/phpBB-3.1.2.zip
+```
+
+Giải nén gói bạn đã tải về.
+
+```
+unzip phpBB-3.1.2.zip
+```
+
+
+
+
+
+Sao chép các tập tin hệ thống phpBB trên vào thư mục mặc định của Apache
+
+```sudo cp -R phpBB3/* /var/www/phpbb/public_html```
+
+Tiếp theo, chúng ta muốn cập nhật các điều khoản trên các tập tin hệ thống phpBB, thêm mình vào nhóm www-data 
+
+```sudo usermod -aG www-data nhut(hostname)```
+
+Tiếp theo, thay đổi chủ sở hữu và nhóm của các tập tin trong thư mục / var / www / html tới www-data
+
+```sudo chown -R www-data:www-data /var/www/phpbb/public_html```
+
+Di chuyển đến thư mục / var / www /phpbb/public_html/
+
+```cd /var/www/phpbb/public_html```
+
+Thêm quyền cho các nhóm tới các thư mục và các tập tin sau đây.
+
+```
+sudo chmod 660 images/avatars/upload/ config.php
+sudo chmod 770 store/ cache/ files/```
+
+###Bước 3: Hoàn thành cài đặt
+
+Trong bước này, chúng ta sẽ hoàn tất cài đặt bằng cách thêm vào cơ sở dữ liệu, quản trị, và các thông tin chi tiết thông qua các trang web cài đặt phpBB.
+
+Từ trình duyệt truy cập vào địa chỉ web server
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/1.png)
+
+
+Click vào tab INSTALL
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/2.png)
+
+
+Bạn nên có tất cả các gói cần thiết đã được cài đặt. Nhấp vào **Proceed to next step**, sau đó bắt đầu cài đặt.
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/3.png)
+
+
+Sau đó nhấp vào **Proceed to next step**. Đối với hầu hết các bước sau thời điểm này, bạn sẽ phải bấm vào nút **Proceed to next step** để di chuyển
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/4.png)
+
+
+Bây giờ bạn sẽ thấy một kết nối cơ sở dữ liệu thành công.
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/5.png)
+
+
+Ở bước tiếp theo này, bạn thiết lập username administrator và mật khẩu của bạn.
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/6.png)
+
+
+Thiết lập cài đặt email nếu bạn có một máy chủ SMTP tùy chỉnh, nếu không, gắn nó với các giá trị mặc định.
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/9.png)
+
+
+###Bước 4: Dọn dẹp
+
+Bước này, chúng ta sẽ làm sạch sau khi cài đặt của bạn bằng cách loại bỏ các tập tin không cần thiết và điều chỉnh một số điều khoản.
+
+Hủy bỏ một số quyền truy cập vào các tập tin config.php
+
+```sudo chmod 640 /var/www/phpbb/public_html/config.php```
+
+Bây giờ cài đặt xong, bạn nên xóa các thư mục / var / www / install . phpBB sẽ không hoạt động trừ khi thư mục này sẽ bị xóa, và một thông điệp cảnh báo sẽ được hiển thị.
+
+```sudo rm -rf /var/www/phpbb/public_html/install```
+
+Bây giờ bạn sẽ có thể truy cập vào diễn đàn phpBB của bạn tại địa chỉ IP  của bạn!
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task33_Ubuntu_LAMP_with_Virtualhost/Images/16.png)
 
 
