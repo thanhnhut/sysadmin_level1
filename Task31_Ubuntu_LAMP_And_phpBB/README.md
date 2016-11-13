@@ -344,7 +344,7 @@ Bạn nên có tất cả các gói cần thiết đã được cài đặt. Nh�
 Sau đó nhấp vào **Proceed to next step**. Đối với hầu hết các bước sau thời điểm này, bạn sẽ phải bấm vào nút **Proceed to next step** để di chuyển
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/4.png
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task31_Ubuntu_LAMP_And_phpBB/Images/4.png)
 
 
 Bây giờ bạn sẽ thấy một kết nối cơ sở dữ liệu thành công.
