@@ -482,7 +482,9 @@ Thêm quyền cho các nhóm tới các thư mục và các tập tin sau đây.
 
 ```
 sudo chmod 660 images/avatars/upload/ config.php
-sudo chmod 770 store/ cache/ files/```
+sudo chmod 770 store/ cache/ files/
+
+```
 
 ###Bước 3: Hoàn thành cài đặt
 
