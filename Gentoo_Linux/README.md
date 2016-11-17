@@ -25,6 +25,8 @@
 <a name="1"></a>
 #1. Introduce
 
+
+<a name="11"></a>
 ###1.1 Welcome
 
 Trước hết, chào mừng bạn đến Gentoo. Bạn đang bước vào thế giới của sự lựa chọn và hiệu suất. Gentoo là sự lựa chọn. Khi cài đặt Gentoo, điều này được thể hiện rõ nhiều lần - Người sử dụng có thể chọn bao nhiêu họ muốn biên dịch bản thân, làm thế nào để cài đặt Gentoo, những gì logger hệ thống để sử dụng, vv
