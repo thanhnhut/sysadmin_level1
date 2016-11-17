@@ -2,23 +2,23 @@
 
 [1 Introduction](#1)
 
- :  [1.1 Welcome](#11)
+ - [1.1 Welcome](#11)
     
- :  [1.2 How is the installation structured](#12)
+ - [1.2 How is the installation structured](#12)
     
- :  [1.3 What are the options](#13)
+ - [1.3 What are the options](#13)
     
- :  [1.4 Troubles](#14)
+ - [1.4 Troubles](#14)
 
 [2 Hardware requirements](#2)
 
 [3 Gentoo Linux installation CD](#3)
 
- :  [3.1 Minimal installation CD](#31)
+ - [3.1 Minimal installation CD](#31)
     
- :  [3.2 The occasional Gentoo LiveDVD](#32)
+ - [3.2 The occasional Gentoo LiveDVD](#32)
     
- :  [3.3 What are stages then?](#33)
+ - [3.3 What are stages then?](#33)
 
 ---
 
