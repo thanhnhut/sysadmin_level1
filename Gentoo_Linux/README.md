@@ -85,7 +85,7 @@ Lưu ý rằng, mặc dù tài liệu này là kiến trúc cụ thể, nó có 
 
 Trước khi chúng tôi bắt đầu, đầu tiên chúng tôi liệt kê những yêu cầu phần cứng cần thiết để cài đặt Gentoo vào một amd64.
 
-------|Minimal CD|LiveDVD
+||Minimal CD|LiveDVD
 ------------|----------|--------            
 CPU| 	Any AMD64 CPU or EM64T CPU (Core 2 Duo & Quad processors are EM64T)|
 Memory|256 MB|512 MB
