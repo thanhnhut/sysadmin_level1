@@ -140,7 +140,7 @@ Nhược điểm:
 - Hiệu quả thực thi giảm trong quá trình phục hồi
 
 
-<a name="26"></a>
+<a name="27"></a>
 ###2.7 RAID 6
 
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/6.png"/></p>
