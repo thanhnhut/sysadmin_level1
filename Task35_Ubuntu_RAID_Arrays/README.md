@@ -145,7 +145,7 @@ Nhược điểm:
 
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/6.png"/></p>
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/61.png"/></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/61.jpg"/></p>
 
 RAID 6 phần nào giống như RAID 5 nhưng lại được sử dụng lặp lại nhiều hơn số lần sự phân tách dữ liệu để ghi vào các đĩa cứng khác nhau. Trong RAID 6, ta thấy rằng khả năng chịu đựng rủi ro hư hỏng cứng được tăng lên rất nhiều. Nếu với 4 ổ cứng thì chúng cho phép hư hỏng đồng thời đến 2 ổ cứng mà hệ thống vẫn làm việc bình thường, điều này tạo ra một xác xuất an toàn rất lớn. Chính do đó mà RAID 6 thường chỉ được sử dụng trong các máy chủ chứa dữ liệu cực kỳ quan trọng. RAID 6 yêu cầu tối thiểu 4 ổ cứng. 
 
