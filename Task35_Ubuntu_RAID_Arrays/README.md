@@ -169,4 +169,15 @@ Nhược điểm:
 
 - Khả năng truy xuất dữ liệu giảm một nửa.
 
+Bảng so sánh cấp độ RAID
+
+|Cấp độ RAID|Dữ liệu dự phòng|Sử dụng ổ đĩa vật lý|Hiệu suất đọc|Hiệu suất ghi|ổ min|
+|-----------------|----------------------|--------------------|------------------|----------------|---------------|
+|0|Không|100%|nX (Tốt)|nX (Tốt)|2|
+|1|Có|50%|Lên đến nX nếu nhiều quá trình đọc, nếu không 1X||1X|2|
+|5|Có|67% - 94%|(N-1)X Cao cấp|(N-1)X Cao cấp|3|
+|6|CÓ|50% - 88%|(N-2)X|(N-2)X|4|
+|10, far2|Có|50%|nX Tốt nhất tương đương RAID0|(N-2)X|2|
+|10, near2|Có|50%|Lên đến nX nếu nhiều trình đang đọc, nếu không 1X|(N-2)X|2|
+
 
