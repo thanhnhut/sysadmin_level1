@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **24/11/2016**
+> Cập nhật lần cuối: **27/11/2016**
 
 ### Mục lục
 
@@ -28,6 +28,17 @@
 
 - [2.8 RAID 10](#28)
 
+[3. Tạo một cấp đọ RAID](#3)
+
+- [3.1 Tạo một mảng RAID 0](#31)
+
+- [3.2 Tạo một mảng RAID 1](#32)
+
+- [3.3 Tạo một mảng RAID 5](#33)
+
+- [3.4 Tạo một mảng RAID 6](34)
+
+- [3.5 Tạo một mảng RAID 10](#35)
 
 
 
@@ -179,5 +190,587 @@ Bảng so sánh cấp độ RAID
 |6|CÓ|50% - 88%|(N-2)X|(N-2)X|4|
 |10, far2|Có|50%|nX **Tốt** tương đương RAID0 nhưng thừa|(N-2)X|2|
 |10, near2|Có|50%|Lên đến nX nếu nhiều trình đang đọc, nếu không 1X|(N-2)X|2|
+
+
+
+<a nane="3"></a>
+#3. Tạo các cấp độ RAID
+
+
+<a name="31"></a>
+###3.1 Tạo một mảng RAID 0
+
+Yêu cầu tối thiểu là 2 thiết bị lưu trữ
+
+Những điều cần lưu ý: Hãy chắc chắn rằng bạn đã sao lưu chức năng. Một thiết bị duy nhất thất bại sẽ phá hủy tất cả dữ liệu trong mảng.
+
+**Xác định các thiết bị**
+
+Để bắt đầu, tìm ra định danh cho các ổ đĩa liệu mà bạn sẽ sử dụng:
+
+```
+    lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
+```
+```
+Output
+NAME     SIZE FSTYPE TYPE MOUNTPOINT
+sda      100G        disk
+sdb      100G        disk
+vda       20G        disk 
+├─vda1    20G ext4   part /
+└─vda15    1M        part
+```
+
+**Tạo mảng**
+
+```
+ $  sudo mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sda /dev/sdb
+```
+
+Bạn có thể đảm bảo rằng các RAID đã được tạo thành công bằng cách kiểm tra file /proc/mdstat:
+
+```
+ $   cat /proc/mdstat
+```
+
+```
+Output
+Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid0 sdb[1] sda[0]
+      209584128 blocks super 1.2 512k chunks
+
+            unused devices: <none>
+```
+
+
+**Tạo và Gắn kết hệ thống tập tin**
+
+Tiếp theo, tạo một tập tin hệ thống trên mảng:
+
+```
+ $  sudo mkfs.ext4 -F /dev/md0
+```
+
+Tạo một điểm gắn kết để gắn hệ thống tập tin mới:
+
+
+```
+ $   sudo mkdir -p /mnt/md0
+```
+
+
+Bạn có thể gắn kết tập tin hệ thống bằng cách gõ:
+
+```
+ $   sudo mount /dev/md0 /mnt/md0
+```
+
+Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
+
+```
+  $  df -h -x devtmpfs -x tmpfs
+```
+```
+Output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  1.1G   18G   6% /
+/dev/md0        197G   60M  187G   1% /mnt/md0
+```
+
+**Lưu Layout Mảng**
+
+
+
+Để đảm bảo rằng các mảng được tập hợp lại tự động lúc khởi động, chúng ta sẽ phải điều chỉnh file /etc/mdadm/mdadm.conf . Bạn có thể tự động quét các mảng hoạt động và gắn thêm các tập tin bằng cách gõ:
+
+```
+ $   sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+```
+
+
+Sau đó, bạn có thể cập nhật các initramfs, hoặc hệ thống tập tin RAM ban đầu, do đó, các mảng sẽ có sẵn trong quá trình khởi động sớm:
+
+```
+ $   sudo update-initramfs -u
+```
+
+
+Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc/fstab để tự động gắn vào khởi động:
+
+```
+ $   echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
+<a name="32"></a>
+###3.2 Tạo mảng RAID 1
+
+Yêu cầu: tối thiểu là 2 thiết bị lưu trữ
+
+Những điều cần lưu ý: Kể từ khi hai bản sao của dữ liệu được duy trì, chỉ có một nửa của không gian đĩa sẽ được sử dụng được
+
+**Xác định các thiết bị**
+
+
+Để bắt đầu, tìm ra định danh cho các ổ đĩa liệu mà bạn sẽ sử dụng:
+
+```
+$    lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
+```
+```
+Output
+NAME     SIZE FSTYPE TYPE MOUNTPOINT
+sda      100G        disk
+sdb      100G        disk
+vda       20G        disk 
+├─vda1    20G ext4   part /
+└─vda15    1M        part
+```
+
+**Tạo mảng**
+
+
+```
+$    sudo mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sda /dev/sdb
+```
+
+Nếu các thiết bị thành phần mà bạn đang sử dụng không phải là phân vùng với  cờ kích hoạt boot, bạn có thể sẽ được cung cấp các cảnh báo sau đây. Nó là an toàn để gõ y để tiếp tục:
+
+```
+Output
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: size set to 104792064K
+Continue creating array? y
+```
+
+Các mdadm công cụ sẽ bắt đầu để nhân bản ổ đĩa. Điều này có thể mất một thời gian để hoàn thành, nhưng các mảng có thể được sử dụng trong thời gian này. Bạn có thể theo dõi sự tiến độ của mirroring bằng cách kiểm tra file /proc/mdstat:
+
+```
+    cat /proc/mdstat
+```
+
+```
+Output
+Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 sdb[1] sda[0]
+      104792064 blocks super 1.2 [2/2] [UU]
+      [====>................]  resync = 20.2% (21233216/104792064) finish=6.9min speed=199507K/sec
+
+unused devices: <none>
+```
+**Tạo và Gắn kết hệ thống tập tin**
+
+Tiếp theo, tạo một tập tin hệ thống trên mảng:
+
+```
+ $  sudo mkfs.ext4 -F /dev/md0
+```
+
+Tạo một điểm gắn kết để gắn hệ thống tập tin mới:
+
+
+```
+ $   sudo mkdir -p /mnt/md0
+```
+
+
+Bạn có thể gắn kết tập tin hệ thống bằng cách gõ:
+
+```
+ $   sudo mount /dev/md0 /mnt/md0
+```
+
+Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
+
+```
+  $  df -h -x devtmpfs -x tmpfs
+```
+```
+Output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  1.1G   18G   6% /
+/dev/md0         99G   60M   94G   1% /mnt/md0
+```
+
+**Lưu Layout mảng**
+
+
+
+Để đảm bảo rằng các mảng được tập hợp lại tự động lúc khởi động, chúng ta sẽ phải điều chỉnh file /etc/mdadm/mdadm.conf . Bạn có thể tự động quét các mảng hoạt động và gắn thêm các tập tin bằng cách gõ:
+
+```
+ $   sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+```
+
+
+Sau đó, bạn có thể cập nhật các initramfs, hoặc hệ thống tập tin RAM ban đầu, do đó, các mảng sẽ có sẵn trong quá trình khởi động sớm:
+
+```
+ $   sudo update-initramfs -u
+```
+
+
+Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc/fstab để tự động gắn vào khởi động:
+
+
+```
+$    echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
+<a name="33"></a>
+###3.3 Tạo một mảng RAID 5
+
+Yêu cầu: tối thiểu 3 thiết bị lưu trữ
+
+Những điều cần lưu ý: Trong khi các thông tin parity  được phân bố, giá trị một đĩa sẽ được sử dụng cho parity
+
+**Xác định các thiết bị phần**
+
+Để bắt đầu, tìm ra định danh cho các ổ đĩa liệu mà bạn sẽ sử dụng:
+
+
+```
+ $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
+```
+```
+Output
+NAME     SIZE FSTYPE TYPE MOUNTPOINT
+sda      100G        disk
+sdb      100G        disk
+sdc      100G        disk
+vda       20G        disk 
+├─vda1    20G ext4   part /
+└─vda15    1M        part
+```
+**Tạo mảng **
+
+```
+$    sudo mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sda /dev/sdb /dev/sdc
+```
+
+Các công cụ mdadm sẽ bắt đầu cấu hình mảng (nó thực sự sử dụng quá trình phục hồi để xây dựng các mảng vì lý do hiệu suất). Điều này có thể mất một thời gian để hoàn thành, nhưng các mảng có thể được sử dụng trong thời gian này. Bạn có thể theo dõi sự tiến độ của mirroring bằng cách kiểm tra file /proc/mdstat:
+
+```
+ $   cat /proc/mdstat
+```
+```
+Output
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid5 sdc[3] sdb[1] sda[0]
+      209584128 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/2] [UU_]
+      [===>.................]  recovery = 15.6% (16362536/104792064) finish=7.3min speed=200808K/sec
+
+unused devices: <none>
+```
+
+**Tạo và Gắn kết hệ thống tập tin**
+
+Tiếp theo, tạo một tập tin hệ thống trên mảng:
+
+```
+ $  sudo mkfs.ext4 -F /dev/md0
+```
+
+Tạo một điểm gắn kết để gắn hệ thống tập tin mới:
+
+
+```
+ $   sudo mkdir -p /mnt/md0
+```
+
+
+Bạn có thể gắn kết tập tin hệ thống bằng cách gõ:
+
+```
+ $   sudo mount /dev/md0 /mnt/md0
+```
+
+Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
+
+```
+  $  df -h -x devtmpfs -x tmpfs
+```
+```
+Output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  1.1G   18G   6% /
+/dev/md0        197G   60M  187G   1% /mnt/md0
+```
+
+**Lưu layout mảng**
+
+
+Để đảm bảo rằng các mảng được tập hợp lại tự động lúc khởi động, chúng tôi sẽ phải điều chỉnh file /etc/mdadm/mdadm.conf.
+
+Trước khi bạn điều chỉnh cấu hình, kiểm tra một lần nữa để chắc chắn rằng các mảng đã hoàn thành lắp ráp
+
+```
+$    cat /proc/mdstat
+```
+```
+Output
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid5 sdc[3] sdb[1] sda[0]
+      209584128 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/3] [UUU]
+
+unused devices: <none>
+```
+
+Các đầu ra ở trên cho thấy việc xây dựng lại hoàn tất. Bây giờ, chúng ta có thể tự động quét các mảng hoạt động và gắn thêm các tập tin bằng cách gõ:
+
+```
+$    sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+```
+
+Sau đó, bạn có thể cập nhật các initramfs, hoặc hệ thống tập tin RAM ban đầu, do đó, các mảng sẽ có sẵn trong quá trình khởi động:
+
+```
+    sudo update-initramfs -u
+```
+
+Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc/fstab để tự động gắn vào khởi động:
+
+```
+    echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
+<a name="34"></a>
+###3.4 Tạo một mảng RAID 6
+
+
+Yêu cầu: tối thiểu là 4 thiết bị lưu trữ
+
+Những điều cần lưu ý: Trong khi các thông tin parity được phân bố, giá trị hai đĩa  sẽ được sử dụng cho parity. RAID 6 có thể bị hiệu suất rất kém khi ở trong tình trạng suy thoái.
+
+**Xác định các thiết bị phần**
+
+Để bắt đầu, tìm ra định danh cho các ổ đĩa liệu mà bạn sẽ sử dụng:
+
+
+```
+ $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
+```
+```
+
+Output
+NAME     SIZE FSTYPE TYPE MOUNTPOINT
+sda      100G        disk
+sdb      100G        disk
+sdc      100G        disk
+sdd      100G        disk
+vda       20G        disk 
+├─vda1    20G ext4   part /
+└─vda15    1M        part
+```
+
+**Tạo mảng**
+
+
+```
+$    sudo mdadm --create --verbose /dev/md0 --level=6 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+```
+
+Các công cụ mdadm sẽ bắt đầu cấu hình mảng (nó thực sự sử dụng quá trình phục hồi để xây dựng các mảng vì lý do hiệu suất). Điều này có thể mất một thời gian để hoàn thành, nhưng các mảng có thể được sử dụng trong thời gian này. Bạn có thể theo dõi sự tiến bộ của mirroring bằng cách kiểm tra /proc/mdstat file:
+
+```
+$    cat /proc/mdstat
+```
+```
+Output
+Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10] 
+md0 : active raid6 sdd[3] sdc[2] sdb[1] sda[0]
+      209584128 blocks super 1.2 level 6, 512k chunk, algorithm 2 [4/4] [UUUU]
+      [>....................]  resync =  0.6% (668572/104792064) finish=10.3min speed=167143K/sec
+
+unused devices: <none>
+```
+
+**Tạo và Gắn kết hệ thống tập tin**
+
+Tiếp theo, tạo một tập tin hệ thống trên mảng:
+
+```
+ $  sudo mkfs.ext4 -F /dev/md0
+```
+
+Tạo một điểm gắn kết để gắn hệ thống tập tin mới:
+
+
+```
+ $   sudo mkdir -p /mnt/md0
+```
+
+
+Bạn có thể gắn kết tập tin hệ thống bằng cách gõ:
+
+```
+ $   sudo mount /dev/md0 /mnt/md0
+```
+
+Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
+
+```
+  $  df -h -x devtmpfs -x tmpfs
+```
+```
+Output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  1.1G   18G   6% /
+/dev/md0        197G   60M  187G   1% /mnt/md0
+```
+
+**Lưu Layout mảng**
+
+
+*Lưu Layout Mảng**
+
+
+
+Để đảm bảo rằng các mảng được tập hợp lại tự động lúc khởi động, chúng ta sẽ phải điều chỉnh file /etc/mdadm/mdadm.conf . Bạn có thể tự động quét các mảng hoạt động và gắn thêm các tập tin bằng cách gõ:
+
+```
+ $   sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+```
+
+
+Sau đó, bạn có thể cập nhật các initramfs, hoặc hệ thống tập tin RAM ban đầu, do đó, các mảng sẽ có sẵn trong quá trình khởi động sớm:
+
+```
+ $   sudo update-initramfs -u
+```
+
+
+Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc/fstab để tự động gắn vào khởi động:
+
+```
+    echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
+<a name="35"></a>
+###3.5 Tạo một mảng RAID 10
+
+
+Yêu cầu: tối thiểu 3 thiết bị lưu trữ
+
+  Những điều cần lưu ý: số lượng công suất giảm cho các mảng được xác định bởi số lượng các bản sao dữ liệu bạn chọn để tiếp tục. Số lượng các bản sao được lưu trữ với  mdadm RAID 10 là cấu hình.
+
+Bạn có thể tìm hiểu thêm về các bố trí bằng cách xem  "RAID10" của này man trang:
+
+```
+ $   man 4 md
+```
+
+**Xác định các thiết bị phần**
+
+Để bắt đầu, tìm ra định danh cho các ổ đĩa liệu mà bạn sẽ sử dụng:
+
+
+```
+ $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
+```
+```
+
+Output
+NAME     SIZE FSTYPE TYPE MOUNTPOINT
+sda      100G        disk
+sdb      100G        disk
+sdc      100G        disk
+sdd      100G        disk
+vda       20G        disk 
+├─vda1    20G ext4   part /
+└─vda15    1M        part
+```
+
+**Tạo mảng**
+
+
+Bạn có thể thiết lập hai bản bằng cách sử dụng bố trí gần bằng không quy định cụ thể một cách bố trí và bản số:
+
+```
+$    sudo mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+```
+
+Nếu bạn muốn sử dụng một layout khác nhau, hoặc thay đổi số lượng các bản sao, bạn sẽ phải sử dụng bố trí các tùy chọn --layout= , mà phải mất một định danh layout và copy. Layout có n cho near, f cho far, o cho offset. Số lượng các bản sao để lưu trữ được gắn vào sau đó.
+
+Ví dụ, để tạo một mảng có 3 bản trong offset layout, các lệnh sẽ trông như thế này:
+
+```
+ $   sudo mdadm --create --verbose /dev/md0 --level=10 --layout=o3 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+```
+
+Các công cụ mdadmsẽ bắt đầu cấu hình mảng (nó thực sự sử dụng quá trình phục hồi để xây dựng các mảng vì lý do hiệu suất). Điều này có thể mất một thời gian để hoàn thành, nhưng các mảng có thể được sử dụng trong thời gian này. Bạn có thể theo dõi sự tiến bộ của mirroring bằng cách kiểm tra file /proc/mdstat 
+
+```
+$    cat /proc/mdstat
+```
+```
+Output
+Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10] 
+md0 : active raid10 sdd[3] sdc[2] sdb[1] sda[0]
+      209584128 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU]
+      [===>.................]  resync = 18.1% (37959424/209584128) finish=13.8min speed=206120K/sec
+
+unused devices: <none>
+```
+
+**Tạo và Gắn kết hệ thống tập tin**
+
+Tiếp theo, tạo một tập tin hệ thống trên mảng:
+
+```
+ $  sudo mkfs.ext4 -F /dev/md0
+```
+
+Tạo một điểm gắn kết để gắn hệ thống tập tin mới:
+
+
+```
+ $   sudo mkdir -p /mnt/md0
+```
+
+
+Bạn có thể gắn kết tập tin hệ thống bằng cách gõ:
+
+```
+ $   sudo mount /dev/md0 /mnt/md0
+```
+
+Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
+
+```
+  $  df -h -x devtmpfs -x tmpfs
+```
+```
+Output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  1.1G   18G   6% /
+/dev/md0        197G   60M  187G   1% /mnt/md0
+```
+
+**Lưu Layout mảng**
+
+Để đảm bảo rằng các mảng được tập hợp lại tự động lúc khởi động, chúng ta sẽ phải điều chỉnh file /etc/mdadm/mdadm.conf . Bạn có thể tự động quét các mảng hoạt động và gắn thêm các tập tin bằng cách gõ:
+
+```
+ $   sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+```
+
+
+Sau đó, bạn có thể cập nhật các initramfs, hoặc hệ thống tập tin RAM ban đầu, do đó, các mảng sẽ có sẵn trong quá trình khởi động sớm:
+
+```
+ $   sudo update-initramfs -u
+```
+
+
+Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc/fstab để tự động gắn vào khởi động:
+
+```
+    echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
 
 
