@@ -193,7 +193,7 @@ Bảng so sánh cấp độ RAID
 
 
 
-<a nane="3"></a>
+<a name="3"></a>
 #3. Tạo các cấp độ RAID
 
 
