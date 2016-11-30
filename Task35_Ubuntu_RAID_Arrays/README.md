@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **27/11/2016**
+> Cập nhật lần cuối: **30/11/2016**
 
 ### Mục lục
 
@@ -211,15 +211,7 @@ Những điều cần lưu ý: Hãy chắc chắn rằng bạn đã sao lưu ch�
 ```
     lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
 ```
-```
-Output
-NAME     SIZE FSTYPE TYPE MOUNTPOINT
-sda      100G        disk
-sdb      100G        disk
-vda       20G        disk 
-├─vda1    20G ext4   part /
-└─vda15    1M        part
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a1.png"/></p>
 
 **Tạo mảng**
 
@@ -233,14 +225,7 @@ Bạn có thể đảm bảo rằng các RAID đã được tạo thành công b
  $   cat /proc/mdstat
 ```
 
-```
-Output
-Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
-md0 : active raid0 sdb[1] sda[0]
-      209584128 blocks super 1.2 512k chunks
-
-            unused devices: <none>
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a2.png"/></p>
 
 
 **Tạo và Gắn kết hệ thống tập tin**
@@ -270,12 +255,7 @@ Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
 ```
   $  df -h -x devtmpfs -x tmpfs
 ```
-```
-Output
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        20G  1.1G   18G   6% /
-/dev/md0        197G   60M  187G   1% /mnt/md0
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a3.png"/></p>
 
 **Lưu Layout Mảng**
 
@@ -316,15 +296,7 @@ Những điều cần lưu ý: Kể từ khi hai bản sao của dữ liệu đ�
 ```
 $    lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
 ```
-```
-Output
-NAME     SIZE FSTYPE TYPE MOUNTPOINT
-sda      100G        disk
-sdb      100G        disk
-vda       20G        disk 
-├─vda1    20G ext4   part /
-└─vda15    1M        part
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a1.png"/></p>
 
 **Tạo mảng**
 
@@ -335,16 +307,7 @@ $    sudo mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sda 
 
 Nếu các thiết bị thành phần mà bạn đang sử dụng không phải là phân vùng với  cờ kích hoạt boot, bạn có thể sẽ được cung cấp các cảnh báo sau đây. Nó là an toàn để gõ y để tiếp tục:
 
-```
-Output
-mdadm: Note: this array has metadata at the start and
-    may not be suitable as a boot device.  If you plan to
-    store '/boot' on this device please ensure that
-    your boot-loader understands md/v1.x metadata, or use
-    --metadata=0.90
-mdadm: size set to 104792064K
-Continue creating array? y
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a4.png"/></p>
 
 Các mdadm công cụ sẽ bắt đầu để nhân bản ổ đĩa. Điều này có thể mất một thời gian để hoàn thành, nhưng các mảng có thể được sử dụng trong thời gian này. Bạn có thể theo dõi sự tiến độ của mirroring bằng cách kiểm tra file /proc/mdstat:
 
@@ -352,15 +315,8 @@ Các mdadm công cụ sẽ bắt đầu để nhân bản ổ đĩa. Điều nà
     cat /proc/mdstat
 ```
 
-```
-Output
-Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
-md0 : active raid1 sdb[1] sda[0]
-      104792064 blocks super 1.2 [2/2] [UU]
-      [====>................]  resync = 20.2% (21233216/104792064) finish=6.9min speed=199507K/sec
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a5.png"/></p>
 
-unused devices: <none>
-```
 **Tạo và Gắn kết hệ thống tập tin**
 
 Tiếp theo, tạo một tập tin hệ thống trên mảng:
@@ -388,12 +344,7 @@ Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
 ```
   $  df -h -x devtmpfs -x tmpfs
 ```
-```
-Output
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        20G  1.1G   18G   6% /
-/dev/md0         99G   60M   94G   1% /mnt/md0
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a6.png"/></p>
 
 **Lưu Layout mảng**
 
@@ -435,16 +386,9 @@ Những điều cần lưu ý: Trong khi các thông tin parity  được phân 
 ```
  $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
 ```
-```
-Output
-NAME     SIZE FSTYPE TYPE MOUNTPOINT
-sda      100G        disk
-sdb      100G        disk
-sdc      100G        disk
-vda       20G        disk 
-├─vda1    20G ext4   part /
-└─vda15    1M        part
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a1.png"/></p>
+
+
 **Tạo mảng **
 
 ```
@@ -456,15 +400,7 @@ Các công cụ mdadm sẽ bắt đầu cấu hình mảng (nó thực sự sử
 ```
  $   cat /proc/mdstat
 ```
-```
-Output
-Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
-md0 : active raid5 sdc[3] sdb[1] sda[0]
-      209584128 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/2] [UU_]
-      [===>.................]  recovery = 15.6% (16362536/104792064) finish=7.3min speed=200808K/sec
-
-unused devices: <none>
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a7.png"/></p>
 
 **Tạo và Gắn kết hệ thống tập tin**
 
@@ -493,12 +429,7 @@ Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
 ```
   $  df -h -x devtmpfs -x tmpfs
 ```
-```
-Output
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        20G  1.1G   18G   6% /
-/dev/md0        197G   60M  187G   1% /mnt/md0
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a8.png"/></p>
 
 **Lưu layout mảng**
 
@@ -553,22 +484,11 @@ Những điều cần lưu ý: Trong khi các thông tin parity được phân b
 ```
  $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
 ```
-```
 
-Output
-NAME     SIZE FSTYPE TYPE MOUNTPOINT
-sda      100G        disk
-sdb      100G        disk
-sdc      100G        disk
-sdd      100G        disk
-vda       20G        disk 
-├─vda1    20G ext4   part /
-└─vda15    1M        part
-```
 
 **Tạo mảng**
 
-
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a1.png"/></p>
 ```
 $    sudo mdadm --create --verbose /dev/md0 --level=6 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
 ```
@@ -578,15 +498,7 @@ Các công cụ mdadm sẽ bắt đầu cấu hình mảng (nó thực sự sử
 ```
 $    cat /proc/mdstat
 ```
-```
-Output
-Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10] 
-md0 : active raid6 sdd[3] sdc[2] sdb[1] sda[0]
-      209584128 blocks super 1.2 level 6, 512k chunk, algorithm 2 [4/4] [UUUU]
-      [>....................]  resync =  0.6% (668572/104792064) finish=10.3min speed=167143K/sec
-
-unused devices: <none>
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a9.png"/></p>
 
 **Tạo và Gắn kết hệ thống tập tin**
 
@@ -615,12 +527,7 @@ Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
 ```
   $  df -h -x devtmpfs -x tmpfs
 ```
-```
-Output
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        20G  1.1G   18G   6% /
-/dev/md0        197G   60M  187G   1% /mnt/md0
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a10.png"/></p>
 
 **Lưu Layout mảng**
 
@@ -671,18 +578,7 @@ Bạn có thể tìm hiểu thêm về các bố trí bằng cách xem  "RAID10"
 ```
  $   lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT
 ```
-```
-
-Output
-NAME     SIZE FSTYPE TYPE MOUNTPOINT
-sda      100G        disk
-sdb      100G        disk
-sdc      100G        disk
-sdd      100G        disk
-vda       20G        disk 
-├─vda1    20G ext4   part /
-└─vda15    1M        part
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a1.png"/></p>
 
 **Tạo mảng**
 
@@ -706,15 +602,7 @@ Các công cụ mdadmsẽ bắt đầu cấu hình mảng (nó thực sự sử 
 ```
 $    cat /proc/mdstat
 ```
-```
-Output
-Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10] 
-md0 : active raid10 sdd[3] sdc[2] sdb[1] sda[0]
-      209584128 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU]
-      [===>.................]  resync = 18.1% (37959424/209584128) finish=13.8min speed=206120K/sec
-
-unused devices: <none>
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a11.png"/></p>
 
 **Tạo và Gắn kết hệ thống tập tin**
 
@@ -743,12 +631,7 @@ Kiểm tra xem các không gian mới có sẵn bằng cách gõ:
 ```
   $  df -h -x devtmpfs -x tmpfs
 ```
-```
-Output
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        20G  1.1G   18G   6% /
-/dev/md0        197G   60M  187G   1% /mnt/md0
-```
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task35_Ubuntu_RAID_Arrays/Images/a12.png"/></p>
 
 **Lưu Layout mảng**
 
@@ -771,6 +654,7 @@ Thêm hệ thống tập tin mới tùy chọn gắn kết với tập tin  /etc
 ```
     echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
 ```
+
 
 
 
