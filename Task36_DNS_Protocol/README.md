@@ -170,13 +170,13 @@ www.example.com, vào trình duyệt. Việc trình duyệt của bạn làm là
 
 **Bước 3:** Nếu các máy phân giải đệ quy của ISP không có địa chỉ, chúng sẽ truy vấn các máy chủ tên gốc DNS để tìm địa chỉ  IP.
 
-**Bước 4:** Các máy chủ tên gốc chuyển hướng (hay “giới thiệu”) máy phân giải đệquy của ISP đến các máy chủ tên TLD thích hợp bằng cách kiểm tra tên miền cấp cao.
+**Bước 4:** Các máy chủ tên gốc chuyển hướng (hay “giới thiệu”) máy phân giải đệ quy của ISP đến các máy chủ tên TLD thích hợp bằng cách kiểm tra tên miền cấp cao.
 
 **Bước 5:** Mỗi TLD có tập hợp máy chủ tên của riêng mình, và sau khi máy phân giải hỏi chúng về địa chỉ IP, chúng giới thiệu nó tới một tập hợp các máy chủ DNS có thẩm quyền khác (thích hợp hơn) bằng cách xem xét tên miền cấp hai của truy vấn.
 
 **Bước 6:** Máy phân giải đệ quy của ISP sau đó truy vấn các máy chủ tên DNS có thẩm quyền mà nó được giới thiệu để tìm địa chỉ IP.   Mỗi miền có một tập hợp được gán gồm các máy chủ tên DNS có thẩm quyền chịu trách nhiệm biết tất cả mọi thứ về miền, bao gồm địa chỉ   IP.
 
-**Bước 7:** Máy phân giải đệ quy của ISP truy xuất bản ghi A (là bản ghi DNS để ánh xạ các địa chỉ IP) cho www.verisign.com từ các máy chủ tên có thẩm quyền và lưu trữ bản ghi trong bộ nhớ đệm cục bộ của nó phòng trường hợp người khác truy vấn địa chỉ đó.
+**Bước 7:** Máy phân giải đệ quy của ISP truy xuất bản ghi A (là bản ghi DNS để ánh xạ các địa chỉ IP) cho www.example.com từ các máy chủ tên có thẩm quyền và lưu trữ bản ghi trong bộ nhớ đệm cục bộ của nó phòng trường hợp người khác truy vấn địa chỉ đó.
 
 **Bước 8:** Cuối cùng, máy chủ đệ quy của ISP trả về bản ghi A đến máy tính của bạn, máy tính của bạn sẽ đọc và chuyển tiếp địa chỉ IP đến trình duyệt của bạn. Sau đó trình duyệt mở một kết nối đến www.example.com. Toàn bộ quá trình thường diễn ra trong mấy phần mười giây và minh bạch với người dùng cuối.
 
