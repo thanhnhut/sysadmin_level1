@@ -8,8 +8,23 @@
 
 ### Mục lục
 
+[1.Giới thiệu](#1)
+
+[2.DNS Namespace](#2)
+
+[3. Nameserver và Zone](#3)
+
+[4.DNS Resolvers](#4)
+
+[5.DNS Resource recore](#5)
+
+[6.Recursion Query và Iteration Query](#6)
+
+[7.DNS hoạt động như thế nào?](#7)
+
 ---
 
+<a name="1"></a>
 #1.Giới thiệu
 
 DNS (viết tắt trong tiếng Anh của Domain Name System - Hệ thống tên miền) là hệ thống xác định địa chỉ cho Internet. Hầu như bất kỳ thứ gì tương tác với Internet (ví dụ: máy tính, thiết bị di động, máy tính xách tay, máy ATM và thiết bị đầu cuối POS) đều dựa vào các dịch vụ DNS để trao đổi thông tin. DNS sử dụng các máy chủ chuyên biệt để dịch (hoặc phân giải) các tên như www.example.com thành địa chỉ dạng số cho phép dữ liệu và thông tin đến được đích của nó. Tất cả các ứng dụng Internet—từ trang web, email, mạng xã hội và ngân hàng trực tuyến đến Voice over Internet Protocol (VoIP), chia sẻ tập tin, và video theo yêu cầu—đều phụ thuộc vào tính chính xác và toàn vẹn của bản dịch này. Nếu không có DNS, Internet không thể hoạt động. DNS không thể thiếu trong cơ sở hạ tầng quan trọng của một quốc gia, các hoạt động kinh doanh trực tuyến và các giao dịch tài chính, và tất cả giao tiếp dựa trên Internet.
@@ -22,6 +37,8 @@ Ban đầu, khi DNS chưa ra đời, người ta sử dụng một file tên Hos
 
 Hệ thống tên miền này cũng sữ dụng một file tên host.txt, lưu thông tịn của tất cả các máy trong mạng, nhưng chỉ được đặt trên máy làm máy chủ tên miền (DNS). Khi đó, các Client trong mạng muốn truy xuất đến các Client khác, thì nó chỉ việc hỏi DNS.
 
+
+<a name="2"></a>
 #2.DNS Namespace
 
 Một domain namespace sẽ chứa một "cây" các domain names. Mỗi node trong cây sẽ giữ thông tin đại diện cho domain name. Mỗi một tổ chức có thể tạo riêng cho mình một domain namespace để tự quản lý các host trong mạng của họ. Trong một domain thì tên dành cho một host là duy nhất, ko thể trùng với nhau đc.
@@ -60,7 +77,9 @@ Phân loại tên miền:
 
 - Mã các nước trên thế giới tham gia vào mạng internet, các quốc gia này được qui định bằng hai chữ cái theo tiêu chuẩn ISO-3166 .Ví dụ : Việt Nam là .vn, Singapo là sg….
 
-#Nameserver và Zone 
+
+<a name="3"></a>
+#3.Nameserver và Zone 
 
 Các chương trình lưu trữu toàn bộ thông tin về domain namespace gọi là nameserver. Nameserver thông thường sẽ có thông tin hoàn chỉnh về một phần nào đó của domain namespace gọi là zone, zone này load từ file hoặc từ nameserver khác.
 
@@ -76,7 +95,10 @@ Có 2 kiểu nameserver: primary master và secondary master.
 
 Qúa trình Primary gửi bản sao của nó đến Secondary gọi là zone transfer.
 
-#DNS Resolvers
+
+
+<a name="4"></a>
+#4.DNS Resolvers
 
 Là các clients truy cập vào nameservers. Các chương trình chạy host nếu cần thông tin từ domain namespace sẽ sử dụng resolver.
 
@@ -88,8 +110,8 @@ Resolver quản lý:
 
 - Trả thông tin về cho chương trình yêu cầu
 
-
-# DNS Resource recore
+<a name="5"></a>
+#5.DNS Resource recore
 
 Dữ liệu ứng với domain names đc chứa trong các resource record- bản ghi. Các records đc chia thành các classes, mỗi class chứa các types(kiểu) chịu trách nhiệm phân giải cho từng dịch vụ trong namespace. Các class khác nhau có thể định nghĩa các kiểu record khác nhau. Một số RRs thông dụng:
 
@@ -121,7 +143,9 @@ Tất cả các DNS Resource Records dựa theo tiêu chuẩn RFC 1035 khi vận
 |RDLENGTH|Độ dài trường RDATA|2|
 |RDATA|RR bổ sung|Biến đổi, như RDLENGTH|
 
-# Recursion Query và Iteration Query 
+
+<a name="6"></a>
+#6.Recursion Query và Iteration Query 
 
 Khi DNS Server không phân giải được host name, nó sẽ chuyển đến một DNS Server khác (forwarded) trong mạng. Quá trình này được gọi là kiểu yêu cầu Recursive ( phân giải đệ quy).
 
@@ -132,11 +156,31 @@ Nói cách khác, Recursion chỉ query trong local, còn Iterative có thể qu
 <p align="center"><img src="https://www.safaribooksonline.com/library/view/windows-server-2012/9780133116007/graphics/10fig11.jpg" /></p>
 
 
-#DNS hoạt động như thế nào 
+<a name="7"></a>
+#7.DNS hoạt động như thế nào 
 
 <p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task36_DNS_Protocol/Images/3.png"/></p>
 
-Qui trình phân giải tên miền :
+
+
+**Bước 1:**  Bạn nhập một tên miền hay địa chỉ web, chẳng hạn như 
+www.example.com, vào trình duyệt. Việc trình duyệt của bạn làm là gửi một thông điệp tới mạng yêu cầu giúp đỡ (điều này được gọi là truy vấn).
+
+**Bước 2:** Máy tính của bạn truy vấn (liên hệ) một trong những máy mà ISP cung cấp cho máy tính của bạn, gọi là máy phân giải đệ quy, có địa chỉ IP được lưu trữ trên bộ nhớ đệm, hoặc có thể đi ra ngoài và tìm địa chỉ theo cách “đệ  quy ”.
+
+**Bước 3:** Nếu các máy phân giải đệ quy của ISP không có địa chỉ, chúng sẽ truy vấn các máy chủ tên gốc DNS để tìm địa chỉ  IP.
+
+**Bước 4:** Các máy chủ tên gốc chuyển hướng (hay “giới thiệu”) máy phân giải đệquy của ISP đến các máy chủ tên TLD thích hợp bằng cách kiểm tra tên miền cấp cao.
+
+**Bước 5:** Mỗi TLD có tập hợp máy chủ tên của riêng mình, và sau khi máy phân giải hỏi chúng về địa chỉ IP, chúng giới thiệu nó tới một tập hợp các máy chủ DNS có thẩm quyền khác (thích hợp hơn) bằng cách xem xét tên miền cấp hai của truy vấn.
+
+**Bước 6:** Máy phân giải đệ quy của ISP sau đó truy vấn các máy chủ tên DNS có thẩm quyền mà nó được giới thiệu để tìm địa chỉ IP.   Mỗi miền có một tập hợp được gán gồm các máy chủ tên DNS có thẩm quyền chịu trách nhiệm biết tất cả mọi thứ về miền, bao gồm địa chỉ   IP.
+
+**Bước 7:** Máy phân giải đệ quy của ISP truy xuất bản ghi A (là bản ghi DNS để ánh xạ các địa chỉ IP) cho www.verisign.com từ các máy chủ tên có thẩm quyền và lưu trữ bản ghi trong bộ nhớ đệm cục bộ của nó phòng trường hợp người khác truy vấn địa chỉ đó.
+
+**Bước 8:** Cuối cùng, máy chủ đệ quy của ISP trả về bản ghi A đến máy tính của bạn, máy tính của bạn sẽ đọc và chuyển tiếp địa chỉ IP đến trình duyệt của bạn. Sau đó trình duyệt mở một kết nối đến www.example.com. Toàn bộ quá trình thường diễn ra trong mấy phần mười giây và minh bạch với người dùng cuối.
+
+ Ví dụ trình phân giải tên miền :
 
 -    Giả sử người sử dụng muốn truy cập vào trang web có địa chỉ là http://www.google.com
 
