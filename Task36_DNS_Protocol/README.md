@@ -153,7 +153,7 @@ Nếu Recursion bị disable thì nó sẽ sử dụng Iterative (tương tác),
 
 Nói cách khác, Recursion chỉ query trong local, còn Iterative có thể query ra ngoài internet.
 
-<p align="center"><img src="https://www.safaribooksonline.com/library/view/windows-server-2012/9780133116007/graphics/10fig11.jpg" /></p>
+<p align="center"><img src="https://technet.microsoft.com/en-us/library/bb962069.tcpipm03_big(l=en-us).gif" /></p>
 
 
 <a name="7"></a>
