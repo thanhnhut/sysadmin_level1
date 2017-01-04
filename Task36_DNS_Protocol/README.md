@@ -4,198 +4,194 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật lần cuối: **20/12/2016**
+> Cập nhật: **4/1/2017**
 
 ### Mục lục
+[1.Kiến trúc DNS](#1)
 
-[1.Giới thiệu](#1)
+- [1.1 DNS Domain Names](#11)
 
-[2.DNS Namespace](#2)
+- [1.2 DNS and Internet Domains](#12)
 
-[3. Nameserver và Zone](#3)
+- [1.3 Resource Records](#13)
 
-[4.DNS Resolvers](#4)
+- [1.4 Phân phối các cơ sở dữ liệu DNS:  tập tin zone và ủy quyền](#14)
 
-[5.DNS Resource recore](#5)
+- [1.5 Truy vấn cơ sở dữ liệu](#15)
 
-[6.Recursion Query và Iteration Query](#6)
-
-[7.DNS hoạt động như thế nào?](#7)
+- [1.6 DNS Architecture Diagrams](#16)
 
 ---
 
+
 <a name="1"></a>
-#1.Giới thiệu
+#1.Kiến trúc DNS
 
-DNS (viết tắt trong tiếng Anh của Domain Name System - Hệ thống tên miền) là hệ thống xác định địa chỉ cho Internet. Hầu như bất kỳ thứ gì tương tác với Internet (ví dụ: máy tính, thiết bị di động, máy tính xách tay, máy ATM và thiết bị đầu cuối POS) đều dựa vào các dịch vụ DNS để trao đổi thông tin. DNS sử dụng các máy chủ chuyên biệt để dịch (hoặc phân giải) các tên như www.example.com thành địa chỉ dạng số cho phép dữ liệu và thông tin đến được đích của nó. Tất cả các ứng dụng Internet—từ trang web, email, mạng xã hội và ngân hàng trực tuyến đến Voice over Internet Protocol (VoIP), chia sẻ tập tin, và video theo yêu cầu—đều phụ thuộc vào tính chính xác và toàn vẹn của bản dịch này. Nếu không có DNS, Internet không thể hoạt động. DNS không thể thiếu trong cơ sở hạ tầng quan trọng của một quốc gia, các hoạt động kinh doanh trực tuyến và các giao dịch tài chính, và tất cả giao tiếp dựa trên Internet.
+Kiến trúc DNS là một cơ sở dữ liệu phân tán theo cấp bậc và thiết lập một liên kết của các giao thức xác định:
 
-<p align="center"><img src="http://bizweb.dktcdn.net/100/104/592/articles/2014824234257497.jpg?v=1468215019213" /></p>
+- Một cơ chế để truy vấn và cập nhật cơ sở dữ liệu.
 
-Mỗi máy tính, thiết bị mạng tham gia vào mạng Internet đều giao tiếp với nhau bằng địa chỉ IP (Internet Protocol) . Để thuận tiện cho việc sử dụng và dễ nhớ ta dùng tên (domain name) để xác định thiết bị đó. Hệ thống tên miền DNS (Domain Name System) được sử dụng để ánh xạ tên miền thành địa chỉ IP. Vì vậy, khi muốn liên hệ tới các máy, chúng chỉ cần sử dụng chuỗi ký tự dễ nhớ (domain name) như: http://www.microsoft.com, http://www.ibm.com…, thay vì sử dụng địa chỉ IP là một dãy số dài khó nhớ.
+- Một cơ chế sao chép các thông tin trong cơ sở dữ liệu giữa các máy chủ.
 
-Ban đầu, khi DNS chưa ra đời, người ta sử dụng một file tên Host.txt, file này sẽ lưu thông tin về tên host và địa chỉ của host của tất cả các máy trong mạng, file này được lưu ở tất cả các máy để chúng có thể truy xuất đến máy khác trong mạng. Khi đó, nếu có bất kỳ sự thay đổi về tên host, địa chỉ IP của host thì ta phải cập nhật lại toàn bộ các file Host.txt trên tất cả các máy. Do vậy đến năm 1984 Paul Mockpetris thuộc viện USC’s Information Sciences Institute phát triển một hệ thống quản lý tên miền mới lấy tên là Hệ thống tên miền – Domain Name .
+- Một lược đồ cơ sở dữ liệu
 
-Hệ thống tên miền này cũng sữ dụng một file tên host.txt, lưu thông tịn của tất cả các máy trong mạng, nhưng chỉ được đặt trên máy làm máy chủ tên miền (DNS). Khi đó, các Client trong mạng muốn truy xuất đến các Client khác, thì nó chỉ việc hỏi DNS.
+DNS có nguồn gốc từ những ngày đầu của Internet khi Internet là một mạng lưới nhỏ được thành lập bởi Bộ Quốc phòng Hoa Kỳ cho mục đích nghiên cứu. Tên máy chủ của các máy tính trong mạng này được quản lý thông qua việc sử dụng một tập tin HOSTS đơn nằm trên một máy chủ quản lý tập trung. Mỗi trang web cần để chuyển các tên máy chủ trên mạng tải về tập tin này. Khi số lượng máy trên mạng Internet lớn, lưu lượng được tạo ra bởi quá trình cập nhật tăng lên, cũng như kích thước của file HOSTS. Cần một hệ thống mới, thứ mà sẽ cung cấp các tính năng như khả năng mở rộng, phân cấp quản lý, hỗ trợ cho các kiểu dữ liệu khác nhau, ngày càng trở nên rõ ràng hơn mà.
 
+Hệ thống tên miền được giới thiệu vào năm 1984 đã trở thành hệ thống mới này. 
 
-<a name="2"></a>
-#2.DNS Namespace
-
-Một domain namespace sẽ chứa một "cây" các domain names. Mỗi node trong cây sẽ giữ thông tin đại diện cho domain name. Mỗi một tổ chức có thể tạo riêng cho mình một domain namespace để tự quản lý các host trong mạng của họ. Trong một domain thì tên dành cho một host là duy nhất, ko thể trùng với nhau đc.
-
-<p align="center"><img src="https://duongtuanan.files.wordpress.com/2012/10/103012_1354_domainnames2.png?w=604" /></p>
-
-Hệ thống tên miền được phân thành nhiêu cấp :
-
--    Gốc (Domain root): Nó là đỉnh của nhánh cây của tên miền. Nó có thể biểu diễn đơn giản chỉ là dấu chấm “.”
-
--    Tên miền cấp một (Top-level-domain) : gồm vài kí tự xác định một nước, khu vưc hoặc tổ chức. Nó đươc thể hiện là “.com” , “.edu” ….
-
--    Tên miền cấp hai (Second-level-domain): Nó rất đa dạng rất đa dạng có thể là tên một công ty, một tổ chức hay một cá nhân.
-
--    Tên miền cấp nhỏ hơn (Subdomain): Chia thêm ra của tên miền cấp hai trở xuống thường được sử dụng như chi nhánh, phòng ban của một cơ quan hay chủ đề nào đó.
-
-Phân loại tên miền:
-
-- Com     :    Tên miền này được dùng cho các tổ chức thương mại.
-
-- Edu     :    Tên miền này được dùng cho các cơ quan giáo dục, trường học.
-
-- Net     :    Tên miền này được dùng cho các tổ chức mạng lớn.
-
-- Gov     :    Tên miền này được dùng cho các tổ chức chính phủ.
-
-- Org     :    Tên miền này được dùng cho các tổ chức khác.
-
-- Int     :    Tên miền này dùng cho các tổ chức quốc tế.
-
-- Info    :    Tên miền này dùng cho việc phục vụ thông tin.
-
-- Arpa     :     Tên miền ngược.
-
-- Mil     :    Tên miền dành cho các tổ chức quân sự, quốc phòng.
-
-- Mã các nước trên thế giới tham gia vào mạng internet, các quốc gia này được qui định bằng hai chữ cái theo tiêu chuẩn ISO-3166 .Ví dụ : Việt Nam là .vn, Singapo là sg….
+Với DNS, tên máy chủ nằm trong một cơ sở dữ liệu có thể được phân phối giữa nhiều máy chủ, giảm tải trên bất cứ một máy chủ và cung cấp khả năng quản lý hệ thống đặt tên này trên một cơ sở cho mỗi phân vùng. DNS hỗ trợ tên thứ bậc và cho phép đăng ký các kiểu dữ liệu khác nhau ngoài ra lưu trữ tên để ánh xạ địa chỉ IP được sử dụng trong file HOSTS. Bởi vì cơ sở dữ liệu DNS được phân phối, quy mô tiềm năng của nó là không giới hạn và hiệu suất là không bị suy giảm khi nhiều máy chủ được thêm vào.
 
 
-<a name="3"></a>
-#3.Nameserver và Zone 
+<a name="11"></a>
+###1.1 DNS Domain Names
 
-Các chương trình lưu trữu toàn bộ thông tin về domain namespace gọi là nameserver. Nameserver thông thường sẽ có thông tin hoàn chỉnh về một phần nào đó của domain namespace gọi là zone, zone này load từ file hoặc từ nameserver khác.
+Các hệ thống tên miền được thực hiện như một cơ sở dữ liệu phân cấp và phân phối có chứa các loại dữ liệu khác nhau, bao gồm cả tên host và tên miền. Các tên trong một cơ sở dữ liệu DNS thành một cấu trúc cây phân cấp được gọi là không gian tên miền. Tên miền bao gồm nhãn cá nhân phân cách bằng dấu (.) , ví dụ: mydomain.microsoft.com.
 
-<p align="center"><img src="https://www.nap.edu/openbook/0309096405/xhtml/images/p2000d132g89001.jpg" /></p>
+Fully Qualified Domain Name (FQDN) xác định duy nhất các vị trí host trong cây phân cấp DNS bằng cách xác định một danh sách các tên cách nhau bởi dấu chấm trong các đường đi từ các máy chủ tham chiếu đến thư mục gốc. Các hình tiếp theo cho thấy một ví dụ về một cây DNS với một máy chủ được gọi là mydomain trong miền microsoft.com. FQDN cho máy chủ sẽ là mydomain.microsoft.com.
 
-Hình trên cho ta thấy một domain edu đc chia ra thành nhiều zone. Mỗi zone lại đc phân quyền quản lý riêng.
+ **DNS Domain Namespace**
 
-Có 2 kiểu nameserver: primary master và secondary master.
-   
--    Primary: chứa tất cả các thông tin cho domain
-   
--    Secondary: hoạt động dự phòng, đề phòng trường hợp  Primary fail.
+DNS Donain Namespace, như thể hiện trong hình sau đây, dựa trên khái niệm của một cây các tên miền. Mỗi cấp độ của cây có thể đại diện cho cả một nhánh hoặc một chiếc lá của cây. Một nhánh là một mức độ mà nhiều tên được sử dụng để xác định một tập hợp các nguồn tài nguyên được đặt tên. Một lá đại diện cho một cái tên duy nhất sử dụng một lần ở cấp đó để chỉ ra một tài nguyên cụ thể.
 
-Qúa trình Primary gửi bản sao của nó đến Secondary gọi là zone transfer.
+**Hệ thống Domain Name**
 
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195464.gif" /></p>
 
+Hình trên cho thấy cách Microsoft được gán quyền bởi các máy chủ gốc Internet cho phần riêng của mình của cây  DNS Domain Namespace  trên Internet. DNS client và DNS server sử dụng các truy vấn như các phương pháp cơ bản của phaab giải tên trong cây với các loại cụ thể của tài nguyên thông tin. Thông tin này được cung cấp bởi các DNS server trong câu trả lời truy vấn cho các DNS client, sau đó trích xuất các thông tin và vượt qua nó để một chương trình yêu cầu để giải quyết các truy vấn tên. 
+Trong quá trình phân giải một tên, hãy nhớ rằng DNS server thường hoạt động như DNS client, truy vấn các máy chủ khác để giải quyết đầy đủ tên truy vấn.
 
-<a name="4"></a>
-#4.DNS Resolvers
+**DNS Domain Namespace tổ chức như thế nào?**
 
-Là các clients truy cập vào nameservers. Các chương trình chạy host nếu cần thông tin từ domain namespace sẽ sử dụng resolver.
+Bất kỳ tên miền DNS được sử dụng trong cây là một kỹ thuật miền. Tuy nhiên, các tên được xác định  một trong năm cách khác nhau, dựa trên mức độ và cách một tên thường được sử dụng. Ví dụ, tên miền DNS đã đăng ký với Microsoft (microsoft.com.) Được biết đến như một tên miền cấp hai. Điều này là bởi vì tên này có hai phần (biết như nhãn) mà chỉ ra nó nằm ở hai cấp độ dưới gốc hoặc trên cùng của cây. Hầu hết các tên miền DNS có hai hoặc nhiều nhãn, mỗi trong số đó cho thấy một mức độ mới trong cây.
 
-Resolver quản lý:
+Năm loại dùng để mô tả tên miền DNS bằng chức năng của chúng trong không gian tên được mô tả trong bảng dưới đây, cùng với một ví dụ về mỗi loại tên.
 
-- Truy vấn nameserver
+**Các kiểu DNS Domain Names**
 
-- Quản lý các trả lời từ nameserver
-
-- Trả thông tin về cho chương trình yêu cầu
-
-<a name="5"></a>
-#5.DNS Resource recore
-
-Dữ liệu ứng với domain names đc chứa trong các resource record- bản ghi. Các records đc chia thành các classes, mỗi class chứa các types(kiểu) chịu trách nhiệm phân giải cho từng dịch vụ trong namespace. Các class khác nhau có thể định nghĩa các kiểu record khác nhau. Một số RRs thông dụng:
+|Tên|Mô tả|Ví dụ|
+|---|-----|-----|
+|Root domain (miền gốc)|Đây là phần trên cùng của cây, đại diện cho một mức độ vô danh; đôi khi nó được hiển thị như là hai dấu trống ngoặc kép (""), cho thấy một giá trị null. Khi được sử dụng trong một tên miền DNS, nó được quy định bởi một thời gian theo sau (.) Để chỉ rằng tên nằm ở gốc hoặc mức cao nhất của hệ thống phân cấp tên miền. Trong trường hợp này, các tên miền DNS được coi là đầy đủ và trỏ đến một vị trí chính xác trong cây tên. Tên ghi theo cách này được gọi là tên miền đầy đủ (FQDN).|Một khoảng thời gian duy nhất (.) hoặc một thời gian sử dụng ở phần cuối của một tên, chẳng hạn như "example.microsoft.com."|
+|Top level domain (miền cao nhất)|Một tên dùng để chỉ một quốc gia / khu vực hoặc các loại hình tổ chức sử dụng một cái tên.|"" .com ", chỉ ra một tên đăng ký kinh doanh để sử dụng thương mại trên Internet.|
+|Second level domain (miền cấp độ 2)|Tên có độ dài thay đổi đăng ký cho một cá nhân hoặc tổ chức để sử dụng trên Internet. Những tên này luôn luôn dựa trên một tên miền cấp cao thích hợp, tùy thuộc vào loại tổ chức, vị trí địa lý, nơi một tên được sử dụng.|"" Microsoft.com. ", Đó là tên miền cấp 2 đăng ký với Microsoft bằng tên miền đăng ký Internet DNS .|
+|Subdomain (miền phụ)|Tên phụ tên mà một tổ chức có thể tạo ra được hình thành từ tên miền đăng ký cấp 2. Chúng bao gồm các tên phụ để phát triển cây DNS của tên trong một tổ chức và phân chia nó thành các cơ quan hay vị trí địa lý.|"" Example.microsoft.com. ", là một tên miền phụ gỉa của Microsoft được giao sử dụng tên example.|
+|Host or resource name|Tên đại diện cho một lá trong cây DNS của tên và xác định một tài nguyên cụ thể. Thông thường, các nhãn tận cùng bên trái của một tên miền DNS xác định một máy tính cụ thể trên mạng. Ví dụ, nếu một tên ở cấp độ này được sử dụng trong một host (A) RR, nó được sử dụng để tìm địa chỉ IP của máy tính dựa trên tên máy chủ của nó.|"" Host-a.example.microsoft.com. ", Nơi mà các nhãn đầu tiên (" host-a ") là tên máy chủ DNS cho một máy tính cụ thể trên mạng.|
 
 
-- Start of Authority (SOA) resource record: định nghĩa các tham số toàn cục cho zone hoặc tên miền. Một tệp tin zone chỉ được phép chứa một mẩu tin SOA và phải nằm ở vị trí đầu tiên trước các mẩu tin khác.
+<a name="12"></a>
+###1.2 DNS and Internet Domains
 
-- Name server (NS) resource record: chỉ ra Máy chủ tên miền (Name server) của zone đó.
+Internet Domain Name System được quản lý bởi một Cơ quan đăng ký tên trên Internet, trách nhiệm duy trì tên miền cấp cao được phân công của tổ chức và của quốc gia / khu vực. Những tên miền theo các tiêu chuẩn quốc tế 3166. Một số trong rất nhiều chữ viết tắt hiện có, dành cho sử dụng bởi các tổ chức, cũng như hai chữ và ba chữ viết tắt được sử dụng cho các quốc gia / vùng lãnh thổ được thể hiện trong bảng sau:
 
-- A Resource Records (mẩu tin địa chỉ): mẩu tin cho biết địa chỉ IP tương ứng của một tên miền, có dạng như "example IN A 172.16.48.1"
+**Vài DNS Top-level Domain Names (TLDs)**
 
-- PTR Records (mẩu tin con trỏ): ngược lại với A record, PTR chỉ ra tên miền tương ứng của một địa chỉ IP, có dạng như "1.48.16.172.in-addr.arpa. IN PTR example.com."
-
-- CNAME Resource Records: một dạng record giúp tạo ra biệt hiệu cho một tên miền, ví dụ mẩu tin CNAME "ftp.example.com. IN CNAME ftp1.example.com." cho phép trỏ tên miền ftp.example.com sang ftp1.example.com
-
-- MX Resource Records (mẩu tin Mail exchange): chỉ ra máy chủ mail của tên miền.
-
-- TXT Resource Records (mẩu tin text): chứa thông tin dạng văn bản không định dạng, thường dùng để chứa các thông tin bổ sung.
-
-Tất cả các DNS Resource Records dựa theo tiêu chuẩn RFC 1035 khi vận chuyển trên Internet:
-
-<p align="center"><strong>Trường Resource recore (RR)</strong></p>
-
-|Trường|Mô tả|Độ dài (octets)|
-|----------|---------|--------------------|
-|NAME|Tên của nốt có record liên quan|Variable|
-|TYPE|Loại RR dạng số (ví dụ, 15 trong MX RRs)|2|
-|CLASS|Mã lớp|2|
-|TTL|Thời gian theo giây để RR còn hiệu lực (Tối đa 231−1, khoảng 68 năm)|4|
-|RDLENGTH|Độ dài trường RDATA|2|
-|RDATA|RR bổ sung|Biến đổi, như RDLENGTH|
+|DNS Domain Name|Kiểu cuả tổ chức|
+|-------------------------|----------------------|
+|com|Tổ chức thường mại|
+|edu|Cơ sở giáo dục|
+|org|Các tổ chức phi lợi nhuận|
+|net|Networks (trụ cột của Internet)|
+|gov|Các tổ chức chính phủ phi quân sự|
+|mil|Các tổ chức chính phủ quân sự|
+|arpa|DNS nghịch|
+|"xx"|Hai từ là mã một quốc gia(us,au,fr,ca,...)|
 
 
-<a name="6"></a>
-#6.Recursion Query và Iteration Query 
 
-Khi DNS Server không phân giải được host name, nó sẽ chuyển đến một DNS Server khác (forwarded) trong mạng. Quá trình này được gọi là kiểu yêu cầu Recursive ( phân giải đệ quy).
+<a name="13"></a>
+###1.3 Resource Records 
+
+Một cơ sở dữ liệu DNS bao gồm bản ghi tài nguyên (RR). Mỗi RR xác định tài nguyên cụ thể trong cơ sở dữ liệu. Có nhiều loại khác nhau của RR trong DNS. Phần này cung cấp thông tin về cấu trúc chung của bản ghi tài nguyên. 
+
+Bảng dưới đây cung cấp thông tin chi tiết về cấu trúc chung của RR.
+
+**Một số DNS Resource Record thông thường**
+
+|Mô tả|Lớp|Time To Live (TTL)|Kiểu|Dữ liệu|
+|--------|-----|-----------------------|-------|---------|
+|Start of Authority|Internet (IN)|Mặc định là 60 phút|SOA|Tên chủ sở hữu|
+|||||Primary Name Server DNS Name
+|||||Serial Number
+|||||Refresh Interval
+|||||Thử lại Interval
+|||||Thời gian hết hạn
+|||||TTL tối thiểu
+|Host|Internet (IN)|Ghi cụ thể TTL nếu có, hoặc khu vực khác (SOA) TTL|A|Tên chủ sở hữu (Máy chủ DNS Name)
+|||||Chủ Địa chỉ IP
+|Name Server|Internet (IN)|Ghi cụ thể TTL nếu có, hoặc khu vực khác (SOA) TTL|NS|Tên chủ sở hữu
+|||||Đặt tên Name Server DNS
+|Mail Exchanger|Internet (IN)|Ghi cụ thể TTL nếu có, hoặc khu vực khác (SOA) TTL|MX|Tên chủ sở hữu
+|||||Mail Exchange DNS Server Name, Số ưu tiên
+|Canonical Name (an alias) |Internet (IN)|Ghi cụ thể TTL nếu có, hoặc khu vực khác (SOA) TTL|CNAME|Tên chủ sở hữu (tên bí danh)
+|||||Tên Máy chủ DNS
+
+
+<a name="14"></a>
+###1.4 Phân phối các cơ sở dữ liệu DNS:  tập tin zone và ủy quyền
+
+Một cơ sở dữ liệu DNS có thể được phân chia thành nhiều zone. Một zone là một phần của cơ sở dữ liệu DNS có chứa các bản ghi tài nguyên với tên chủ sở hữu thuộc về những phần tiếp giáp của  DNS Domain Namespace. File Zone được duy trì trên các máy chủ DNS. Một DNS server duy nhất có thể được cấu hình để host không, một hoặc nhiều khu vực.
+
+Mỗi zone được đặt ở một tên miền cụ thể được gọi là tên miền gốc của zone. Một zone có chứa thông tin về tất cả các tên kết thúc bằng tên miền gốc của zone. Một DNS server được coi là độc quyền cho một tên nếu nó tải zone chứa tên đó. Các bản ghi đầu tiên trong bất kỳ tập tin zone là một khởi đầu của Authority (SOA) RR. SOA RR xác định DNS server chính cho zone như là nguồn thông tin tốt nhất cho dữ liệu trong zone đó và như một thực thể tạo các bản cập nhật cho zone.
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195465.gif" /></p>
+
+
+<a name="15"></a>
+###1.5 Truy vấn cơ sở dữ liệu
+
+Truy vấn DNS có thể được gửi từ một DNS client (resolver) đến DNS server, hoặc giữa hai DNS server.
+
+Một truy vấn DNS chỉ đơn thuần là một yêu cầu bản ghi tài nguyên DNS của một loại bản ghi tài nguyên xác định với một tên DNS xác định. Ví dụ, một truy vấn DNS có thể yêu cầu tất cả các bản ghi tài nguyên của loại A (host) với một tên DNS xác định.
+
+Có hai loại truy vấn DNS có thể được gửi đến một DNS server:
+
+- Recursive
+
+- Iterative
+
+Một truy vấn recursive buộc một DNS server để đáp ứng một yêu cầu với mỗi một thất bại hay một phản ứng thành công. DNS client resolve (phân giải) thường truy vấn đệ quy. Với một truy vấn recursive các DNS server phải liên hệ với bất kỳ DNS server khác nó cần phải giải quyết các yêu cầu. Khi nhận được một phản ứng thành công từ các  DNS server khác, sau đó nó sẽ gửi một phản hồi cho khách hàng DNS. 
 
 Nếu Recursion bị disable thì nó sẽ sử dụng Iterative (tương tác), tức là nó sẽ gởi yêu cầu phân giải lại tên của host name. Khi có một truy vấn từ Client, trước hết nó sẽ tìm trong cơ sở dữ liệu của chính nó, nếu không có, nó sẽ cho biết một máy chủ khác mà từ đó có thể tìm thấy kết quả truy vấn.
 
-Nói cách khác, Recursion chỉ query trong local, còn Iterative có thể query ra ngoài internet.
+**Hình dưới đây cho thấy một ví dụ về cả hai loại truy vấn.**
 
-<p align="center"><img src="https://technet.microsoft.com/en-us/library/bb962069.tcpipm03_big(l=en-us).gif" /></p>
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195466.gif" /></p>
+
+Như thể hiện trong hình trên, một số truy vấn được sử dụng để xác định địa chỉ IP cho www.whitehouse.gov. Các chuỗi truy vấn được mô tả dưới đây:
+
+1. Truy vấn Recursive cho www.whitehouse.gov (A resource record)
+
+2. Truy vấn Iterative cho www.whitehouse.gov (A resource record)
+
+3. Giới thiệu .gov đến các name server (NS resource records, for .gov); 
+
+4. Truy vấn Iterative cho www.whitehouse.gov (A resource record)
+
+5. Giới thiệu whitehouse.gov đến name server (NS resource record, for whitehouse.gov)
+
+6. Truy vấn Iterative cho www.whitehouse.gov (A resource record)
+
+7. Trả lời cho truy vấn interative từ máy chủ whitehouse.gov (địa chỉ IP của www.whitehouse.gov)
+
+8. Trả lời cho các truy vấn đệ quy gốc từ DNS server local để phân giải  (địa chỉ IP của www.whitehouse.gov)
+
+**Time to Live for Resource Records**
 
 
-<a name="7"></a>
-#7.DNS hoạt động như thế nào 
+<a name="16"></a>
+###1.6 DNS Architecture Diagrams
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task36_DNS_Protocol/Images/3.png"/></p>
+Các biểu đồ sau đây minh họa cách các dịch vụ DNS Client và Server làm việc và cung cấp thêm thông tin về độ phân giải tên, cập nhật và hoạt động quản lý.
 
+Sơ đồ đầu tiên minh họa kiến trúc dịch vụ DNS Client ở độ phân giải tên và cập nhật các hoạt động của nó. Trong sơ đồ này, kiến trúc phân giải tên được chứng minh sử dụng một trình duyệt Web và Microsoft Outlook và cập nhật được đại diện bởi các DHCP client.
 
+**DNS Client Service Architecture**
 
-**Bước 1:**  Bạn nhập một tên miền hay địa chỉ web, chẳng hạn như 
-www.example.com, vào trình duyệt. Việc trình duyệt của bạn làm là gửi một thông điệp tới mạng yêu cầu giúp đỡ (điều này được gọi là truy vấn).
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195467.gif" /></p>
 
-**Bước 2:** Máy tính của bạn truy vấn (liên hệ) một trong những máy mà ISP cung cấp cho máy tính của bạn, gọi là máy phân giải đệ quy, có địa chỉ IP được lưu trữ trên bộ nhớ đệm, hoặc có thể đi ra ngoài và tìm địa chỉ theo cách “đệ  quy ”.
+Sơ đồ dưới đây minh họa kiến trúc dịch vụ DNS Server với công cụ quản trị của nó và giao diện Windows Management Instrumentation (WMI).
 
-**Bước 3:** Nếu các máy phân giải đệ quy của ISP không có địa chỉ, chúng sẽ truy vấn các máy chủ tên gốc DNS để tìm địa chỉ  IP.
+**DNS Server Service Architecture**
 
-**Bước 4:** Các máy chủ tên gốc chuyển hướng (hay “giới thiệu”) máy phân giải đệ quy của ISP đến các máy chủ tên TLD thích hợp bằng cách kiểm tra tên miền cấp cao.
-
-**Bước 5:** Mỗi TLD có tập hợp máy chủ tên của riêng mình, và sau khi máy phân giải hỏi chúng về địa chỉ IP, chúng giới thiệu nó tới một tập hợp các máy chủ DNS có thẩm quyền khác (thích hợp hơn) bằng cách xem xét tên miền cấp hai của truy vấn.
-
-**Bước 6:** Máy phân giải đệ quy của ISP sau đó truy vấn các máy chủ tên DNS có thẩm quyền mà nó được giới thiệu để tìm địa chỉ IP.   Mỗi miền có một tập hợp được gán gồm các máy chủ tên DNS có thẩm quyền chịu trách nhiệm biết tất cả mọi thứ về miền, bao gồm địa chỉ   IP.
-
-**Bước 7:** Máy phân giải đệ quy của ISP truy xuất bản ghi A (là bản ghi DNS để ánh xạ các địa chỉ IP) cho www.example.com từ các máy chủ tên có thẩm quyền và lưu trữ bản ghi trong bộ nhớ đệm cục bộ của nó phòng trường hợp người khác truy vấn địa chỉ đó.
-
-**Bước 8:** Cuối cùng, máy chủ đệ quy của ISP trả về bản ghi A đến máy tính của bạn, máy tính của bạn sẽ đọc và chuyển tiếp địa chỉ IP đến trình duyệt của bạn. Sau đó trình duyệt mở một kết nối đến www.example.com. Toàn bộ quá trình thường diễn ra trong mấy phần mười giây và minh bạch với người dùng cuối.
-
- Ví dụ trình phân giải tên miền :
-
--    Giả sử người sử dụng muốn truy cập vào trang web có địa chỉ là http://www.google.com
-
--    Trước hết chương trình trên máy người sử dụng gửi yêu cầu tìm kiếm địa chỉ IP ứng với tên miền http://www.google.com tới máy chủ quản lý tên miền (name Server) cục bộ thuộc mạng của nó (ISP DNS Server).
-
--    Máy chủ tên miền cục bộ này kiểm tra trong cơ sở dữ liệu của nó có chứa cơ sở dữ liệu chuyển đổi từ tên miền sang địa chỉ IP của tên miền mà người sử dụng yêu cầu không. Trong trường hợp máy chủ tên miền cục bộ có cơ sở dữ liệu này, nó sẽ gửi trả lại địa chỉ IP của máy có tên miền nói trên (www.google.com)
-
--    Trong trường hợp máy chủ tên miền cục bộ không có cơ sở dữ liệu về tên miền này nó thường hỏi lên các máy chủ tên miền ở cấp cao nhất (máy chủ tên miền làm việc ở mức Root). Máy chủ tên miền ở mức Root này sẽ trả về cho máy chủ tên miền cục bộ địa chỉ của máy chủ tên miền quản lý các tên miền có đuôi .com.
-
--    Máy chủ tên miền cục bộ gửi yêu cầu đến máy chủ quản lý tên miền có đuôi (.com) tìm tên miền http://www.google.com. Máy chủ tên miền quản lý các tên miền .com sẽ gửi lại địa chỉ của máy chủ quản lý tên miền google.com.
-
--    Máy chủ tên miền cục bộ sẽ hỏi máy chủ quản lý tên miền google.com này địa chỉ IP của tên miền http://www.google.com. Do máy chủ quản lý tên miền google.com có cơ sở dữ liệu về tên miền http://www.google.com nên địa chỉ IP của tên miền này sẽ được gửi trả lại cho máy chủ tên miền cục bộ.
-
--    Máy chủ tên miền cục bộ chuyển thông tin tìm được đến máy của người sử dụng.
-
--    PC của người dùng sẽ sử dụng địa chỉ IP này để mở một phiên kết nối TCP/IP đến Server chứa trang web có địa chỉ http://www.google.com
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195468.gif" /></p>
 
 
