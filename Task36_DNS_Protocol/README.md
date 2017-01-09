@@ -1,10 +1,10 @@
-## DNS Protocol
+#DNS Protocol
 
 
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **4/1/2017**
+> Cập nhật: **9/1/2017**
 
 ### Mục lục
 [1.Kiến trúc DNS](#1)
@@ -20,6 +20,23 @@
 - [1.5 Truy vấn cơ sở dữ liệu](#15)
 
 - [1.6 DNS Architecture Diagrams](#16)
+
+[2.Giao thức DNS](#2)
+
+- [2.1 DNS Query Message Format(Định dạng thông điệp DNS Query)](#21)
+
+- [2.2 DNS Query Message Header (Tiêu đề thông điệp DNS Query)](#22)
+
+- [2.3 DNS Query Question Entries (Mục câu hỏi DNS Query)](#23)
+
+- [2.4 DNS Resource Records](#24)
+
+- [2.5 Name Query Message (Thông điệp tên truy vấn)](#25)
+
+- [2.6 Reverse Name Query Message (Thông điệp tên truy vấn đảo ngược)](#26)
+
+- [2.7 DNS Update Message Flags (Thông điệp các cờ DNS update)](#27)
+
 
 ---
 
@@ -193,5 +210,168 @@ Sơ đồ dưới đây minh họa kiến trúc dịch vụ DNS Server với cô
 **DNS Server Service Architecture**
 
 <p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195468.gif" /></p>
+
+
+<a name="2"></a>
+#2.Giao thức DNS
+
+Giao thức DNS bao gồm loại DNS khác nhau của thông điệp DNS được xử lý theo các thông tin trong các lĩnh vực thông báo.
+
+Các loại thông điệp:
+
+Có ba loại thông điệp DNS:
+
+- Queries
+
+- Responses
+
+- Updates
+
+Queries and responses được định nghĩa trong tiêu chuẩn DNS gốc, và updates được định nghĩa trong RFC 2136. Tất cả ba loại theo một định dạng thông điệp chung.
+
+
+<a name="21"></a>
+###2.1 DNS Query Message Format(Định dạng thông điệp DNS Query)
+
+Định dạng thông điệp DNS phổ biến có chiều dài cố định, header 12 byte và một vị trí biến dành riêng cho các câu hỏi, câu trả lời, quyền hạn, và thêm bản ghi tài nguyên DNS. Định dạng thông điệp thường có thể được minh họa như sau:
+
+Chuẩn định dạng thông điệp DNS Query
+
+|Định dạng thông điệp DNS|
+|------------------------------------|
+|DNS Header (chiều dai cố định)|
+|Question Entries (mục câu hỏi, độ dài thay đổi)|
+|Answer Resource records (đội dài thay đổi)|
+|Authority Resource records (Bản ghi tài nguyên có thẩm quyền, độ dài thay đổi)|
+|Additional Resource Records (Bản ghi tài nguyên bổ sung, độ dài thay đổi)|
+
+
+<a name="22"></a>
+###2.2 DNS Query Message Header (Tiêu đề thông điệp DNS Query)
+
+Các tiêu đề thông điệp DNS chứa các trường sau đây, theo thứ tự sau đây:
+
+**Trường tiêu đề thông điệp DNS Query**
+
+|Tên trường|Mô tả|
+|--------------|--------|
+|**Transaction ID(ID giao dịch)**|Một trường 16-bit, xác định một giao dịch DNS cụ thể. ID giao dịch được tạo ra bởi những người khởi đầu của thông điệp và được sao chép bởi người trả lời vào thông điệp phản ứng của nó. Sử dụng các ID giao dịch, DNS client có thể phù hợp với phản hồi yêu cầu của mình.|
+|**Flags**|Một trường 16-bit có chứa các cờ dịch vụ khác nhau được trao đổi giữa các máy DNS client và DNS server, bao gồm:|
+|Request/response(Yêu cầu/Phản ứng)|Trường 1-bit thiết lập là 0 để đại diện cho một yêu cầu tên dịch vụ hoặc thiết lập để 1 để đại diện cho một phản ứng tên dịch vụ.|
+|Operation code(mã hoạt động)|Trường 4-bit đại diện cho các tên dịch vụ hoạt động của gói: 0x0 là một truy vấn.|
+|Authoritative answer(thẩm quyền trả lời)|Trường 1-bit đại diện cho rằng người trả lời là có thẩm quyền đối với tên miền trong thông điệp truy vấn.|
+|Truncation(rút gọn)|Trường 1-bit được thiết lập 1, nếu tổng số câu trả lời vượt gói dữ liệu User Datagram Protocol (UDP). Trừ khi các gói dữ liệu UDP lớn hơn 512 byte hoặc EDNS0 được kích hoạt, chỉ có 512 byte đầu tiên của UDP phản hồi được trả về.
+|
+|Recursion desired(mong muốn)|Trường 1-bit thiết lập 1 để chỉ ra một truy vấn đệ quy(recursion) và 0 cho các truy vấn lặp đi lặp lại(Iterative). Nếu một DNS server nhận được một thông điệp truy vấn với trường thiết lập này để 0 nó trả về một danh sách các DNS server khác mà khách hàng có thể lựa chọn để liên lạc. Danh mục này được nhập từ dữ liệu bộ nhớ cache của địa phương.|
+|Recursion available(đệ quy có sẵn)|Trường 1 bit được thiết lập bởi một DNS serverthành 1 để đại diện cho các DNS server có thể xử lý truy vấn đệ quy(recursion). Nếu đệ quy vô hiệu, các máy chủ DNS thiết lập trường một cách thích hợp.|
+|Reserved(dự trữ)|Trường 3-bit được dự trữ và thiết lập là 0.|
+|Return code(trả mã)|Trường 4 bit giữ mã trả lại:
+||- 0 là một phản ứng thành công (trả lời truy vấn là trong truy vấn phản hồi).|
+||- 0x3 là một lỗi tên, chỉ ra rằng một DNS server có thẩm quyền trả lời rằng tên miền trong thông điệp truy vấn không tồn tại|
+|**Question Resource Record count**|Trường 16-bit đại diện cho số lượng các mục trong phần câu hỏi của thông điệp DNS.|
+|**Answer Resource Record count**|Trường 16-bit đại diện cho số lượng các mục trong phần câu hỏi của thông điệp DNS.|
+|**Authority Resource Record count**| Trường 16 bit đại diện cho số lượng thẩm quyền bản ghi tài nguyên(resource records) trong thông điệp DNS|
+|**Additional Resource Record count**|Trường 16 bit đại diện cho số lượng bản ghi tài nguyên(resource records) thêm vào trong thông điệp DNS|
+
+
+
+<a name="23"></a>
+###2.3 DNS Query Question Entries (Mục câu hỏi DNS Query)
+
+Thông điệp DNS Question Entries phần chứa các tên miền mà bị truy vấn và có ba lĩnh vực sau đây:
+
+**DNS Query Question Entry Fields**
+
+|Tên trường|Mô tả|
+|--------------|--------|
+|**Question Name**|Tên miền đang được truy vấn. tên miền DNS được thể hiện như một loạt các nhãn, như microsoft.com, nhưng trong trường Question Name tên miền được mã hóa như là một loạt các cặp chiều dài có giá trị bao gồm một tập tin 1-byte cho biết chiều dài của giá trị , tiếp theo là các giá trị (nhãn). Ví dụ, microsoft.com miền được thể hiện như 0x09microsoft0x03com0x00, nơi mà các chữ số thập lục phân đại diện cho chiều dài của mỗi nhãn, các ký tự ASCII cho các nhãn cá nhân, và cuối cùng 0 cho biết kết thúc của tên.|
+|**Question Type**|Sử dụng một số nguyên 16-bit để đại diện cho các loại bản ghi tài nguyên(resource record) cần được trả lại, như thể hiện dưới đây:|
+|Type value(kiểu gía trị)|Record(s) Returned|
+|0x01|Ghi Host (A)|
+|0x02|Ghi Name server (NS)(tên server)|
+|0x05|Ghi Alias (CNAME)(tên phụ)|
+|0x0C (12)|Ghi Reverse-lookup (PTR)(dịch ngược) |
+|0x0F (15)|Ghi Mail exchange (MX)(trao đổi mail)|
+|0x21 (33)|Ghi Service (SRV)(dịch vụ)|
+|0xFB (251)|Ghi Incremental zone transfer (IXFR)|
+|0xFC (252)|Ghi Standard zone transfer (AXFR)|
+|0xFF (255)|All records (ghi tất cả)|
+|**Question Class**|Đại diện cho IN (Internet) question class và thường được thiết lập để 0x0001.|
+
+
+<a name="24"></a>
+###2.4 DNS Resource Records
+
+Câu trả lời, quyền hạn, và bổ sung thông tin các phần của một thông điệp phản ứng DNS có thể chứa các bản ghi tài nguyên điều này trả lời các câu hỏi thông điệp truy vấn. Bản ghi tài nguyên(Resource records) được định dạng như sau:
+
+**DNS Resource Record Message Fields **
+
+|Tên trường|Mô tả|
+|--------------|--------|
+|**Resource record name**|Tên miền DNS ghi như một trường có độ dài thây đổi theo cùng định dạng như trường Question Name. |
+|**Resource record type**|Các kiểu gía trị bản ghi tài nguyên.|
+|**Resource record class**|Mã lớp bản ghi tài nguyên, Internet 0x0001|
+|**Time-to-live**|TTL bằng giây như một trường không dấu 32-bit.|
+|**Resource data length**|Trường 2-byte chỉ ra chiều dài của dữ liệu tài nguyên.|
+|**Resource data**|Dữ liệu có độ dài thay tương ứng với loại bản ghi tài nguyên.|
+
+Trường Resource Record Name được mã hóa trong cùng một cách như các trường Question Name trừ khi tên đã có mặt ở những nơi khác trong thông điệp DNS, trong đó có trường hợp một trường 2-byte được sử dụng ở vị trí của một  tên length-value mã hóa và đóng vai trò như một con trỏ đến tên mà đã hiện diện.
+
+
+<a name="25"></a>
+###2.5 Name Query Message (Thông điệp tên truy vấn)
+
+Name Query Message giống như các định dạng thông điệp DNS mô tả ở trên. Trong một thông điệp Tên truy vấn điển hình, các lĩnh vực tin DNS sẽ được thiết lập như sau:
+
+**DNS Name Query Message Fields **
+
+|Tên trường|Mô tả|
+|----------|-----|
+|**Query identifier (Transaction ID)**|Đặt một số duy nhất để cho phép các DNS client phù hợp với việc ứng phó với các truy vấn.|
+|**Flags**|Thiết lập để chỉ ra một truy vấn chuẩn cho phép đệ quy.|
+|**Question count**|Thiết lập 1|
+|**Question entry**|Đặt tên miền truy vấn và các loại bản ghi tài nguyên trở về.|
+
+
+<a name="26"></a>
+###2.6 Reverse Name Query Message (Thông điệp tên truy vấn đảo ngược)
+
+Thông điệp tên truy vấn đảo ngược sử dụng các định dạng thông điệp chung với những khác biệt sau:
+
+- Các DNS client xây dựng tên miền trong miền in-addr.arpa dựa trên địa chỉ IP mà được truy vấn.
+
+- Một bản ghi tài nguyên Pointer (PTR) được truy vấn hơn là một bản ghi tài nguyên máy chủ (A).
+
+
+
+<a name="27"></a>
+###2.7 DNS Update Message Flags (Thông điệp các cờ DNS update)
+
+Thông điệp các cờ DNS update sừ dụng các cờ sau:
+
+- **Request/response**: trường 1-bit thiết lập là 0 để đại diện cho một yêu cầu update và 1 đại diện cho một phản ứng update.
+
+- **Operation code**:  trường 4 bit thiết lập là 0 cho DNS update
+
+- **7-bit reserved field set to 0**: trường đảo 7 bit thiết lập là 0
+
+- **Return code**: trường 4-bit  có chứa mã đại diện cho các kết quả của các truy vấn update. Các mã như sau:
+
+**DNS Update Message Flag Field Return Code Values**
+
+|Result Code Value (gía trị mã kết qủa)|Mô tả|
+|--------------|--------|
+|0 (NOERROR)|Không có lỗi; cập nhật thành công.|
+|1 (FORMERR)|Lỗi định dạng; Máy chủ DNS không hiểu yêu cầu cập nhật.|
+|0x2 (SERVFAIL)|DNS server gặp phải lỗi nội bộ, chẳng hạn như một thời gian chờ chuyển tiếp|
+|0x3 (NXDOMAIN|Một tên mà nên tồn tại không tồn tại.|
+|0x4 (NOTIMP)|DNS server không hỗ trợ mã hoạt động quy định.|
+|0x5 (REFUSED)|DNS server từ chối thực hiện cập nhật vì|
+|0x6 (YXDOMAIN)|Một tên đó không nên tồn tại không tồn tại.|
+|0x7 (YXRRSET)|Một bản ghi tài nguyên mà không nên tồn tại không tồn tại.|
+|0x8 (NXRRSET)|Một bộ hồ bẻn ghi tài nguyên mà nên tồn tại không tồn tại.|
+|0x9 (NOTAUTH)|DNS server là không có thẩm quyền đối với zone named trong phần Zone.|
+|0xA (NOTZONE)|Một tên được sử dụng trong các phần Prerequisite hoặc Update không nằm trong zone quy định bởi phần Zone.|
+
 
 
