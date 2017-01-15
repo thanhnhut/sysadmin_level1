@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **11/1/2017**
+> Cập nhật: **15/1/2017**
 
 ### Mục lục
 [1.Kiến trúc DNS](#1)
@@ -43,6 +43,13 @@
 
 - [3.2 Dịch vụ DNS Server](#32)
 
+- [3.3 Bản ghi tài nguyên trong DNS](#33)
+
+- [3.4 Các file liên quan đến DNS](#34)
+
+- [3.5 Zones and Zone Transfer](#35)
+
+- [3.6 Tích hợp Active Directory](#36)
 
 ---
 
@@ -530,5 +537,405 @@ Theo mặc định, tất cả các loại RR được luân chuyển, ngoại t
 
 **Subnet ưu tiên**
 
+Theo mặc định, các dịch vụ DNS Server sử dụng ưu tiên subnet cục bộ như là phương pháp ưu tiên cho các địa chỉ IP trên cùng một mạng khi một truy vấn khách hàng giải quyết cho một tên máy chủ được ánh xạ tới nhiều hơn một địa chỉ IP. Tính năng này đòi hỏi các ứng dụng khách hàng cố gắng để kết nối với các máy chủ sử dụng gần nhất (và thường là nhanh nhất) địa chỉ IP của nó có sẵn để kết nối.
+
+Các dịch vụ DNS Server sử dụng ưu tiên subnet địa phương như sau:
+
+1 . Các dịch vụ DNS Server sẽ xác định nếu ưu tiên subnet địa phương là cần thiết để đáp ứng truy vấn.
+
+Nếu có nhiều hơn một bản ghi tài nguyên (RR) phù hợp với tên máy chủ truy vấn, các dịch vụ DNS Server có thể sắp xếp lại các hồ sơ theo vị trí mạng con của họ. Nếu tên máy chủ truy vấn chỉ phù hợp với một bản ghi tài nguyên duy nhất, hoặc nếu địa chỉ IP của khách hàng không phù hợp với một địa chỉ mạng IP cho bất kỳ địa chỉ ánh xạ trong một danh sách câu trả lời của nhiều RR, không có ưu tiên là bắt buộc.
+
+2 . Đối với mỗi RR trong danh sách câu trả lời phù hợp, các dịch vụ DNS Server xác định trong đó ghi lại (nếu có) phù hợp với vị trí subnet của khách hàng yêu cầu.
+
+3 . Các dịch vụ DNS Server sắp xếp lại danh sách câu trả lời để A RR phù hợp với mạng con nội bộ của khách hàng yêu cầu được đặt đầu tiên trong danh sách câu trả lời.
+
+4 .    Ưu tiên theo lệnh subnet, danh sách câu trả lời sẽ được trả về cho khách hàng yêu cầu.
+
+**Tham số dịch vụ DNS Server cấp cao**
+
+Khi khởi tạo dịch vụ, máy chủ DNS sử dụng cài đặt cấu hình máy chủ lấy từ các thông số ghi trong một tập tin thông tin khởi động, đăng ký, và có thể khoanh vùng thông tin được cung cấp thông qua Active Directory.
+
+Trong hầu hết các trường hợp, cài đặt mặc định là chấp nhận được và không nên yêu cầu sửa đổi. Tuy nhiên, khi cần thiết, bạn có thể sử dụng DNS console để điều chỉnh các thông số. 
+
+<p align="center">Dịch vụ DNS Server các thông số cao cấp</p>
+
+|Gía trị|Mô tả|
+|-------|--------|
+|Disable recursion(Vô hiệu hóa đệ quy)|Xác định xem máy chủ DNS sử dụng đệ quy. Theo mặc định, các dịch vụ DNS Server được kích hoạt để sử dụng đệ quy.|
+|BIND secondaries|Xác định xem có sử dụng định dạng nhanh chóng chuyển giao khi chuyển vùng đến các máy chủ DNS chạy triển khai Berkeley Internet Name Domain (BIND) triển khai.|
+|Fail on load if bad zone data(Thất bại trên tải nếu dữ liệu zone xấu|Thiết lập máy chủ DNS để phân tích các tập tin đúng. Theo mặc định, các dịch vụ DNS Server ghi dữ liệu lỗi, bỏ qua bất kỳ sai lầm dữ liệu trong các tập tin khu vực, và tiếp tục tải một vùng. Tùy chọn này có thể được cấu hình lại bằng cách sử dụng giao diện DNS để dịch vụ DNS Server ghi lỗi và không tải một khu tập tin chứa dữ liệu hồ sơ mà là quyết tâm có lỗi. |
+|Enable round robin|Xác định xem máy chủ DNS sử dụng round robin và sắp xếp lại một danh sách các bản ghi tài nguyên nếu nhiều RR cùng loại tồn tại cho một câu trả lời truy vấn.|
+|Enable netmask ordering|Xác định xem máy chủ DNS sắp xếp lại một bản ghi tài nguyên trong các bản ghi tài nguyên cùng một thiết lập trong phản ứng của nó với một truy vấn dựa trên địa chỉ IP của các nguồn của các truy vấn.|
+|Secure cache against pollution|Xác định xem máy chủ cố gắng để làm sạch những phản ứng để tránh ô nhiễm bộ nhớ cache. Thiết lập này được kích hoạt theo mặc định.|
+
+
+<a name="33"></a>
+###3.3 Bản ghi tài nguyên trong DNS
+
+Bản ghi tài nguyên DNS là các dữ liệu được liên kết với DNS tên trong không gian tên DNS. Mỗi tên miền của cây không gian tên DNS chứa một tập hợp các bản ghi tài nguyên, và mỗi bản ghi tài nguyên trong các thiết lập bao gồm các loại khác nhau của thông tin liên quan đến tên miền. DNS truy vấn bao gồm các tên miền DNS để được giải quyết và các loại thông tin bạn muốn (các bản ghi tài nguyên được yêu cầu). Truy vấn cho các địa chỉ IP của máy chủ DNS trở về một nguồn tài nguyên bản ghi và truy vấn các máy chủ DNS uỷ quyền cho một tên miền DNS tên trở lại tên máy chủ (NS) bản ghi tài nguyên.
+
+Bản ghi tài nguyên thường được thảo luận trong hai loại: hồ sơ cơ quan (Authority Records) và các hồ sơ khác. Hồ sơ thẩm quyền xác định máy chủ DNS được uỷ quyền cho các tên miền trong không gian tên DNS và cách zone của họ nên được quản lý, và tất cả các bản ghi DNS khác chứa thông tin về một tên miền không liên quan đến thẩm quyền.
+
+**Authority Records (quyền ghi)**
+
+Zone được dựa trên một khái niệm về chủ quyền. Khi một máy chủ DNS được cấu hình để tải một zone, nó sử dụng hai loại bản ghi tài nguyên để xác định các tính chất cod thẩm quyền của zone:
+
+- Đầu tiên khi bắt đầu quyền ghi (SOA) tài nguyên cho biết tên gốc cho zone và chứa tên của máy chủ đó là nguồn chính thông tin về zone. Nó cũng cho thấy các tính chất cơ bản của zone.
+
+- Tiếp theo, các bản ghi tài nguyên tên máy chủ (NS) được sử dụng để ghi nốt mà DNS server được chỉ định như là độc quyền cho khu vực. Bằng cách liệt kê một máy chủ trong RR NS, nó trở nên được biết đến với những người khác như một máy chủ có thẩm quyền đối với khu vực. Điều này có nghĩa rằng bất kỳ máy chủ xác định trong RR NS được coi là một nguồn thẩm quyền của người khác, và có thể trả lời chắc chắn bất kỳ truy vấn được đưa cho các tên có trong khu vực.
+
+Các bản ghi tài nguyên SOA và NS chiếm một vai trò đặc biệt trong cấu hình khu vực. Họ được yêu cầu hồ sơ cho vùng bất kỳ và thường là các bản ghi tài nguyên đầu tiên được liệt kê trong tập tin.
+
+**Bản ghi tài nguyên SOA**
+
+Sự bắt đầu của chính quyền bản ghi tài nguyên (SOA) luôn luôn là đầu tiên trong bất kỳ vùng tiêu chuẩn. Nó chỉ ra các máy chủ DNS mà một trong hai ban đầu tạo ra nó hay bây giờ là máy chủ chính cho zone. Nó cũng được sử dụng để lưu trữ các tài sản khác như thông tin phiên bản và thời gian ảnh hưởng đến đổi mới zone hoặc hết hạn. Các tính chất này ảnh hưởng đến mức độ thường xuyên chuyển của zone được thực hiện giữa các máy chủ có thẩm quyền đối với zone.
+
+Các bản ghi tài nguyên SOA có chứa các thông tin sau:
+
+<p align="center">Trường bản ghi tài nguyên SOA</p>
+
+|Trường|Mô tả|
+|---------|--------|
+|Primary server (owner) (máy chủ chính)|Tên máy chủ cho các máy chủ DNS chính cho zone.|
+|Responsible person (người có trách nhiệm)|Địa chỉ e-mail của người chịu trách nhiệm quản lý zone. Một dấu chấm (.) Được dùng thay cho một ký hiệu (@) trong tên e-mail này.|
+|Serial number (số serial)|Các số phiên bản của khu tập tin. Con số này tăng lên mỗi khi một bản ghi tài nguyên trong vùng thay đổi. Điều quan trọng là giá trị này tăng mỗi lần vùng được thay đổi, vì vậy mà một trong hai thay đổi một phần hoặc zone điều chỉnh hoàn toàn có thể được nhân rộng đến các máy chủ thứ cấp khác trong quá trình chuyển tiếp theo.|
+|Refresh interval |Hiện, trong vài giây, mà một máy chủ DNS thứ cấp phải đợi trước khi truy vấn nguồn của nó đối với zone để cố gắng đổi mới của khu vực. Khi khoảng Refresh interval hết hạn, các máy chủ DNS thứ cấp yêu cầu một bản sao của bản ghi SOA hiện tại cho các vùng từ nguồn của nó, mà câu trả lời yêu cầu này. Các máy chủ DNS thứ cấp sau đó so sánh số serial của bản ghi SOA hiện tại của máy chủ nguồn (như được chỉ ra trong các phản ứng) với số serial trong hồ sơ SOA riêng của địa phương. Nếu chúng khác nhau, các máy chủ DNS thứ cấp yêu cầu chuyển vùng từ các máy chủ DNS chính. Mặc định cho trường này là 900 giây (15 phút).|
+|Retry interval|Thời gian, trong vài giây, máy chủ phụ chờ đợi trước khi thử lại chuyển vùng không thành công. Thông thường, thời gian này là ít hơn so với khoảng thời gian Refresh interval. Giá trị mặc định là 600 giây (10 phút).|
+|Expire interval|Thời gian, trong vài giây, trước khi máy chủ phụ dừng đáp ứng cho các truy vấn sau một khoảng thời gian Refresh interval mất hiệu lực nơi khu vực không phải là làm mới hoặc Cập Nhật. Hết hạn xảy ra bởi vì ở tại thời điểm này, các máy chủ trung học phải xem xét dữ liệu địa phương của nó không đáng tin cậy. Giá trị mặc định là 86.400 giây (24 giờ).|
+|Minimum (default) TTL|Mặc định thời gian để sống (TTL) của zone và khoảng thời gian tối đa cho bộ nhớ đệm phủ định câu trả lời cho truy vấn tên. Giá trị mặc định là 3.600 giây (1 giờ).|
+
+Sau đây là một ví dụ về một bản ghi tài nguyên SOA mặc định:
+
+```
+@   IN  SOA     nameserver.example.microsoft.com.  postmaster.example.microsoft.com. (
+                               1            ; serial number
+                               3600         ; refresh   [1h]
+                               600          ; retry     [10m]
+                               86400        ; expire    [1d]
+                               3600 )       ; min TTL   [1h]
+```
+
+**Bản ghi tài nguyên NS**
+
+Tên máy chủ (NS) bản ghi tài nguyên có thể được sử dụng để gán quyền cho các máy chủ được chỉ định cho một tên miền DNS trong hai cách:
+
+- Bằng cách thiết lập một danh sách các máy chủ có thẩm quyền đối với các tên miền để các máy chủ có thể được thực hiện được biết đến với những người khác mà yêu cầu thông tin về miền này (One).
+
+- Bằng cách cho các máy chủ DNS có thẩm quyền cho bất kỳ tên miền phụ được giao đi từ zone.
+
+Trong trường hợp phân công các máy chủ với tên máy chủ trong cùng một khu vực, địa chỉ tương ứng (A) ghi tài nguyên thường được sử dụng trong các khu vực để giải quyết các tên máy chủ định đến các địa chỉ IP của họ. Đối với các máy chủ được chỉ định sử dụng RR này như là một phần của một zone ủy quyền đến tên miền phụ, các bản ghi tài nguyên NS thường chứa tên ngoài zone. Đối với những tên ngoài khu vực để được giải quyết, một bản ghi tài nguyên cho các máy chủ được chỉ định ngoài zone có thể là cần thiết. Khi NS ngoài zone này và  một hồ sơ cần thiết để cung cấp ủy quyền, chúng được biết như bản ghi đi kèm.
+
+Bảng dưới đây cho thấy các cú pháp cơ bản của cách một RR NS được sử dụng.
+
+|         |
+|---------|
+|**Mô tả**: Được sử dụng để ánh xạ tên miền DNS như quy định tại chủ sở hữu tên của máy chủ điều hành máy chủ DNS được quy định trong lĩnh vực name_server_domain_name.|
+|**Cú pháp**: chủ ttl TRÊN NS name_server_domain_name.|
+|**Thí dụ**: example.microsoft.com. IN NS nameserver1.example.microsoft.com |
+
+**Bản ghi quan trọng khacs**
+
+Sau khi một khu vực được tạo ra, bản ghi tài nguyên bổ sung cần phải được thêm vào nó. Bảng sau liệt kê các bản ghi tài nguyên phổ biến nhất (RRs) sẽ được thêm vào.
+
+<p align="center">Bản ghi tài nguyên DNS thông dụng</p>
+
+|Bản ghi tài nguyên|Mô tả|
+|-------------------------|--------|
+|Host (A)|Để ánh xạ tên miền DNS để địa chỉ IP được sử dụng bởi một máy tính.|
+|Alias (CNAME)|Đối với việc lập bản đồ một tên miền bí danh DNS khác tên chính hay tên kinh điển.|
+|Mail Exchanger (MX)|Để ánh xạ tên miền DNS cho tên của máy tính đó trao đổi hoặc chuyển tiếp thư.|
+|Pointer (PTR)|Để ánh xạ tên miền DNS đảo ngược dựa trên địa chỉ IP của một máy tính mà chỉ vào tên miền DNS phía trước của máy tính đó.|
+|Service location (SRV)|Lập bản đồ các tên miền DNS để xác định danh sách các DNS lưu trữ máy tính mà cung cấp một loại hình cụ thể của dịch vụ, chẳng hạn như bộ điều khiển vùng Active Directory.|
+
+**Host (A) resource records**
+
+
+<a name="34"></a>
+###3.4 Các file liên quan đến DNS
+
+Các tập tin sau đây liên quan đến việc sử dụng và cấu hình máy chủ DNS và khách hàng.
+
+|Tập tin|Mô tả|
+|----------|--------|
+|Boot|BIND tập tin cấu hình khởi động. Tệp này không được tạo ra bởi giao diện điều khiển DNS.  Tuy nhiên, như là một cấu hình tùy chọn cho dịch vụ DNS Server, nó có thể được sao chép từ một máy chủ DNS chạy Internet Berkeley Tên miền (BIND) thực hiện máy chủ DNS. Để sử dụng tập tin này với các dịch vụ DNS Server, bạn cần phải bấm Từ tập tin trong tính Server. Trên máy chủ BIND, tập tin này thường được gọi là "named.boot" tập tin.|
+|Cache.dns|Được sử dụng để tải trước bản ghi tài nguyên vào bộ nhớ cache tên máy chủ DNS. các máy chủ DNS sử dụng tập tin này để giúp xác định vị trí máy chủ root trên hoặc mạng của bạn hoặc mạng Internet.|
+||Theo mặc định, file này chứa các bản ghi tài nguyên DNS rằng thủ cache nội bộ của máy chủ với địa chỉ của máy chủ gốc có thẩm quyền cho Internet. Nếu bạn đang thiết lập một máy chủ DNS để phân giải tên DNS Internet, những thông tin trong tập tin này là cần thiết trừ khi bạn cho phép sử dụng một máy chủ DNS như một giao nhận để giải quyết các tên này.|
+||Lưu lượng truy cập đến các máy chủ gốc Internet là nặng, nhưng bởi vì máy chủ lưu trữ tên không được giải quyết thông thường ở cấp độ này, tải trọng có thể được xử lý hợp lý. Thay vào đó, tập tin gốc gợi ý cung cấp thông tin giới thiệu có thể hữu ích trong phân giải tên DNS để chuyển hướng một truy vấn đến các máy chủ khác được uỷ quyền cho tên nằm bên dưới gốc.|
+||Đối với các máy chủ DNS hoạt động riêng trên mạng nội bộ của bạn, giao diện điều khiển DNS có thể học hỏi |
+||và thay thế nội dung của tập tin này với các máy chủ gốc nội bộ trên mạng của bạn, miễn là chúng có thể truy cập thông qua mạng khi bạn đang thiết lập và cấu hình máy chủ DNS mới. Nó có thể được cập nhật bằng cách sử dụng giao diện điều khiển DNS từ tab gốc gợi ý nằm dưới các thuộc tính máy chủ hiện hành.|
+||Tập tin này có cài đặt sẵn bộ nhớ cache tên máy chủ khi nó được bắt đầu.|
+|Root.dns|Tập tin Root zone. Tập tin này có thể xuất hiện tại một máy chủ DNS nếu nó được cấu hình như một máy chủ gốc cho mạng của bạn.|
+|zone_name.dns|Được sử dụng khi một zone tiêu chuẩn (hoặc chính hay thứ cấp) được thêm vào và cấu hình cho máy chủ. Loại tệp này không được tạo ra hoặc sử dụng cho zone chính đó là thư mục tích hợp, được lưu trữ trong cơ sở dữ liệu Active Directory.|
+
+
+
+Những tập tin này có thể được tìm thấy trong systemroot \ System32 \ Dns thư mục trên máy tính của máy chủ. 
+
+
+<a name="35"></a>
+###3.5 Zones and Zone Transfer
+
+DNS phân phối các cơ sở dữ liệu không gian tên DNS sử dụng những zone DNS, trong đó lưu trữ thông tin tên về một hoặc nhiều miền DNS. Có ba loại khu DNS được hỗ trợ trong Windows Server 2008:
+
+- Zone chính. Các bản sao gốc của một khu vực nơi mà tất cả bản ghi tài nguyên được thêm vào, sửa đổi và xóa.
+
+- Zone thứ hai. Chỉ đọc bản sao của zone chính được tạo ra và Cập Nhật bởi chuyển vùng dữ liệu từ zone chính.
+
+- Khu vực sơ khai. Chỉ đọc bản sao của khu vực chính chỉ chứa các bản ghi tài nguyên DNS cho các máy chủ DNS được liệt kê trong vùng (SOA, NS, và kèm theo một bản ghi tài nguyên).
+
+**Sự khác nhau giữa các zone, domain**
+
+Zone bắt đầu như là một cơ sở dữ liệu lưu trữ cho một tên miền DNS duy nhất. Nếu các tên miền khác được thêm vào bên dưới các tên miền được sử dụng để tạo ra zone, các tên miền này có thể là một phần của zone cùng hoặc thuộc về một zone. Một khi một tên miền phụ được thêm vào, nó sau đó có thể hoặc là:
+
+- Quản lý và bao gồm như là một phần của các hồ sơ ban đầu của khu vực, hoặc
+
+- Ủy quyền đi đến một khu vực tạo ra để hỗ trợ các tên miền phụ
+
+Ví dụ như hình dưới đây cho thấy tên miền microsoft.com, chứa các tên miền cho Microsoft. Khi miền microsoft.com lần đầu tiên được tạo ra tại một máy chủ, nó cấu hình như là một vùng duy nhất cho tất cả các tên Microsoft DNS. Tuy nhiên, nếu các miền microsoft.com nhu cầu sử dụng tên miền phụ, những tên miền phụ phải được bao gồm trong zone, hoặc giao đi tới một zone.
+
+<p align="center">Tên miền DNS và Tên Subdomain</p>
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195470.gif" /></p>
+
+
+Trong ví dụ này, tên miền example.microsoft.com cho thấy một tên miền phụ mới - miền example.microsoft.com - giao đi từ zone microsoft.com và quản lý trong zone riêng của mình. Tuy nhiên, vùng microsoft.com cần chứa một vài bản ghi tài nguyên để cung cấp các thông tin đoàn tham chiếu đến các máy chủ DNS được uỷ quyền cho miền phụ giao example.microsoft.com.
+
+Nếu khu vực microsoft.com không sử dụng uỷ quyền cho một tên miền phụ, bất kỳ dữ liệu nào cho tên miền phụ vẫn là một phần của zone microsoft.com. Ví dụ, dev.microsoft.com tên miền phụ không được ủy quyền đi nhưng được quản lý bởi zone microsoft.com.
+
+**Chuyển zone gia tăng**
+
+Chuyển vùng gia tăng được mô tả trong RFC 1995 như là một tiêu chuẩn để sao chép các khu DNS DNS bổ sung. Khi gia tăng chuyển được hỗ trợ bởi một máy chủ DNS hoạt động như là nguồn gốc cho khu vực và bất kỳ máy chủ có thể sao chép các khu vực từ nó, chuyển gia tăng cung cấp một phương pháp hiệu quả hơn của tuyên truyền thay đổi khu vực và Cập Nhật.
+
+Trong triển khai DNS trước đó, bất kỳ yêu cầu một bản cập nhật của dữ liệu vùng cần chuyển đầy đủ của toàn bộ cơ sở dữ liệu zone sử dụng một truy vấn AXFR. Với chuyển gia tăng, một loại truy vấn thay thế (IXFR) có thể được sử dụng để thay thế. Điều này cho phép các máy chủ thứ cấp để chỉ kéo những zone thay đổi cần thiết để đồng bộ hóa các bản sao của nó trong những zone có nguồn gốc của nó, hoặc là một bản sao chính hoặc phụ của zone được duy trì bởi một máy chủ DNS.
+
+Với IXFR zone chuyển, sự khác biệt giữa các mã nguồn và các phiên bản sao chép của zone one đầu tiên được xác định. Nếu các zone được xác định là phiên bản tương tự-như được chỉ ra bởi trường số serial trong bản ghi tài nguyên SOA của từng zone — không chuyển giao được thực hiện.
+
+Nếu số serial cho các khu vực tại nguồn là lớn hơn ở các máy chủ thứ cấp yêu cầu, chuyển giao được thực hiện chỉ có những thay đổi để RR cho mỗi phiên bản gia tăng của zone. Đối với một truy vấn IXFR để thành công và thay đổi được gửi đi, các máy chủ DNS nguồn cho các zone phải giữ một lịch sử của những thay đổi zone gia tăng để sử dụng khi trả lời các câu truy vấn. Quá trình chuyển giao gia tăng đòi hỏi ít lưu lượng đáng kể trên một mạng lưới và vùng chuyển được hoàn thành nhanh hơn nhiều.
+
+**Ví dụ: chuyển Zone**
+
+Một chuyển vùng có thể xảy ra trong bất kỳ tình huống sau đây:
+
+- Khi Refresh interval hết hạn
+
+- Khi một máy chủ thứ cấp được thông báo về những thay đổi vùng bằng máy chủ của nó.
+
+- Khi các dịch vụ DNS Server được bắt đầu tại một máy chủ thứ cấp cho zone.
+
+- Khi điều khiển DNS được sử dụng tại một máy chủ thứ cấp cho các khu vực tự bắt đầu chuyển từ máy chủ tổng thể của nó.
+
+Zone chuyển tiếp yêu cầu luôn luôn thực hiện tại máy chủ thứ cấp cho một zone, và sau đó được gửi đến các máy chủ master được cấu hình mà hành động như là nguồn của họ cho zone. máy chủ Master có thể là bất kỳ máy chủ DNS khác đó tải khu vực, chẳng hạn như một trong hai máy chủ chính cho zone hoặc một máy chủ thứ cấp. Khi máy chủ tổng nhận được yêu cầu cho các zone, nó có thể trả lời với một hoặc chuyển nhượng một phần hoặc toàn bộ zone để máy chủ thứ cấp. 
+
+**Quá trình chuyển giao Zone**
+
+Như thể hiện trong hình sau đây, chuyển vùng giữa các máy chủ theo một quá trình đặt hàng. Quá trình này khác nhau, tuỳ thuộc vào một zone đã được nhân rộng trước đó, hoặc nếu nhân rộng ban đầu của một zone mới đang được thực hiện.
+
+<p align="center">Quy trình chuyển Zone</p>
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195472.gif" /></p>
+
+1 .Trong cấu hình mới, máy chủ đích sẽ gửi một chuyển giao đầu tiên "tất cả zone" (AXFR) yêu cầu đến máy chủ tổng DNS được cấu hình như là nguồn của nó đối với zone.
+
+2 .(Nguồn) máy chủ tổng thể đáp ứng đầy đủ và chuyển vùng đến máy chủ thứ cấp (đích). 
+
+Các khu vực được giao cho các máy chủ đích yêu cầu chuyển với phiên bản của nó được thiết lập bằng cách sử dụng một số lĩnh vực nối tiếp trong các thuộc tính cho sự bắt đầu của chính quyền RR. SOA RR cũng có một khoảng thời gian quy định refresh interval trong vài giây (theo mặc định, 900 giây hoặc 15 phút) để cho biết khi máy chủ đích nên yêu cầu tiếp theo để làm mới các khu vực có các máy chủ nguồn.
+
+3 .Khi khoảng refresh interval hết hạn, một truy vấn SOA được sử dụng bởi các máy chủ đích để yêu cầu đổi mới của vùng từ máy chủ nguồn.
+
+4 .Các máy chủ nguồn sẽ trả lời các truy vấn cho các hồ sơ SOA của nó.
+
+Phản ứng này có chứa số serial cho các zone trong tình trạng hiện tại của mình tại máy chủ nguồn.
+
+ Các máy chủ đích kiểm tra số serial của bản ghi SOA trong các phản ứng và xác định làm thế nào để refresh interval khu vực. 
+
+Nếu giá trị của số thứ tự trong các phản ứng SOA bằng số địa phương hiện tại của nó, nó kết luận rằng khu vực là như nhau ở cả hai máy chủ và chuyển giao khu vực không cần thiết. Các máy chủ đích sau đó đổi mới khu vực bằng cách đặt lại khoảng thời gian refresh của nó dựa trên giá trị của lĩnh vực này trong việc ứng phó SOA từ máy chủ nguồn của nó.
+
+Nếu giá trị của số thứ tự trong các phản ứng SOA là cao hơn số địa phương hiện tại của nó, nó kết luận rằng khu vực đã được cập nhật và chuyển giao được yêu cầu.
+
+5 .Nếu máy chủ đích kết luận rằng khu vực đã thay đổi, nó sẽ gửi một truy vấn đến máy chủ IXFR nguồn, chứa giá trị hiện tại địa phương của mình cho số nối tiếp trong các bản ghi SOA cho khu vực.
+
+6 .Các máy chủ nguồn phản ứng với hoặc là chuyển gia tăng hoặc đầy đủ của zone.
+
+Nếu máy chủ nguồn hỗ trợ chuyển gia tăng bằng cách duy trì một lịch sử thay đổi khu vực gia tăng gần đây cho bản ghi tài nguyên sửa đổi, nó có thể trả lời với một IXFR của khu vực.
+
+Nếu máy chủ nguồn không hỗ trợ chuyển gia tăng, hoặc không có một lịch sử thay đổi khu vực, nó có thể trả lời với một (AXFR) đầy đủ chuyển vùng để thay thế.
+
+
+**EDNS0**
+
+Mở rộng cơ chế cho DNS (EDNS0 như được định nghĩa trong RFC 2671) cho phép DNS người yêu cầu để quảng cáo kích thước của gói UDP và tạo điều kiện cho việc chuyển giao các gói dữ liệu lớn hơn 512 octet, hạn chế DNS gốc cho kích thước gói tin UDP (RFC 1035). Khi một máy chủ DNS sẽ nhận được một yêu cầu trên tầng giao vận UDP, nó xác định kích thước gói tin UDP của người yêu cầu từ tùy chọn (OPT) RR và quy mô của nó phản ứng có chứa càng nhiều bản ghi tài nguyên như được cho phép gói tin UDP tối đa kích thước được chỉ định bởi người yêu cầu.
+
+Hỗ trợ Windows Server 2003 DNS cho EDNS0 được kích hoạt theo mặc định. Nó có thể bị vô hiệu hóa bằng cách sử dụng sổ đăng ký. Xác định vị trí registry subkey sau đây:
+
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\DNS\Parameters
+
+Thêm EnableEDNSProbes nhập vào khóa. Cho nhập một giá trị DWORD và đặt nó vào 0x0 để vô hiệu hóa EDNS0.
+
+**Phản ứng ENDS0 UDP**
+Trước khi một máy chủ DNS giả định rằng người yêu cầu hỗ trợ EDNS0, máy chủ DNS phải nhận được một truy vấn có chứa một bản ghi tài nguyên OPT. Một bản ghi OPT không chứa dữ liệu DNS thực tế và nội dung của nó liên quan đến lớp chỉ có tin nhắn UDP vận chuyển. 
+
+Khi máy chủ DNS sẽ nhận được một truy vấn có chứa một bản ghi OPT quảng cáo UDP gói kích thước tối đa, nó sẽ cắt ngắn kích thước bất kỳ phản ứng của UDP lớn hơn giới hạn quy định trong hồ sơ OPT. 
+
+Theo mặc định, các máy chủ DNS bao gồm bản ghi tài nguyên OPT chỉ tối đa UDP của nó trong phản ứng với các truy vấn có chứa bản ghi tài nguyên OPT. 
+
+Nếu máy chủ DNS sẽ nhận được một truy vấn mà không chứa một bản ghi tài nguyên OPT, nó giả định máy chủ của người yêu cầu không hỗ trợ EDNS0 và sẽ trả lời cho người yêu cầu giả định rằng người gửi không chấp nhận các gói UDP lớn hơn 512 byte. Trong trường hợp này, máy chủ DNS sẽ cắt kích thước phản ứng UDP của mình đến tối đa là 512 byte.
+
+**Truy vấn EDNS0 UDP**
+
+Trước khi máy chủ DNS yêu cầu gửi một truy vấn, nó sẽ kiểm tra bộ nhớ cache của nó để xác định nếu các máy chủ DNS đáp ứng hỗ trợ EDNS0. Nếu máy chủ DNS đáp ứng hỗ trợ EDNS0, máy chủ DNS yêu cầu gắn một bản ghi tài nguyên OPT phần bổ sung của các truy vấn nó sẽ gửi. (Tất cả các truy vấn có năm phần:. Tiêu đề, câu hỏi, câu trả lời, quyền hạn và bổ sung) Nếu, theo bộ nhớ cache của máy chủ DNS yêu cầu, máy chủ DNS phản ứng không hỗ trợ EDNS0, máy chủ DNS yêu cầu sẽ không được đính kèm một bản ghi tài nguyên OPT để truy vấn trước khi nó được gửi.
+
+**Việc xác định và bộ nhớ đệm EDNS0 hỗ trợ**
+
+Khi máy chủ DNS sẽ nhận được một yêu cầu hoặc phản ứng từ một máy chủ có chứa một bản ghi OPT, máy chủ DNS lưu trữ các phiên bản EDNS hỗ trợ bởi các máy chủ (như EDNS0). Nếu không có hồ sơ OPT trong một yêu cầu hoặc phản ứng từ một máy chủ, bộ nhớ cache của máy chủ DNS sẽ chỉ ra rằng các máy chủ không hỗ trợ EDNS0. Nếu bộ nhớ cache đã chỉ ra rằng các máy chủ hỗ trợ ENDS0, sau đó bộ nhớ cache sẽ không được thay đổi.
+
+Giá trị mặc định cho bao lâu một loạt EDNS0 hỗ trợ thông tin được lưu trữ là 86400 (một ngày được chỉ định trong giây). Giá trị này có thể được thay đổi trong sổ đăng ký.
+
+Các máy chủ DNS xác định rằng một máy chủ không hỗ trợ EDNS0 khi nó yêu cầu một bản ghi tài nguyên OPT và nhận được một phản ứng có chứa một trong các mã phản ứng sau đây (RCODE) giá trị trong tiêu đề, như thể hiện trong bảng sau. 
+
+<p align="center">Giá trị mã thất bại EDNS0</p>
+
+|Tên|Gía trị|Mô tả|
+|-----|----------|-------|
+|FORMERR|1|Format Error. Các máy chủ tên đã không giải thích các bản ghi tài nguyên OPT.|
+|SERVFAIL|2|Server Failure. Các máy chủ tên đã không xử lý truy vấn vì một vấn đề với máy chủ tên.|
+|NOTIMPL|4|Not Implemented.  Tên server không hỗ trợ các loại truy vấn yêu cầu.|
+
+<a name="36"></a>
+###3.6 Tích hợp Active Directory
+
+Các dịch vụ DNS Server được tích hợp vào thiết kế và thực hiện của Active Directory. Active Directory cung cấp một công cụ doanh nghiệp cấp cho tổ chức, quản lý và định vị các nguồn lực trong một mạng.
+
+Ngoài việc hỗ trợ một cách thông thường của việc duy trì và nhân rộng các tập tin DNS, việc thực hiện của DNS trong Windows Server 2003 có tùy chọn sử dụng Active Directory như là lưu trữ dữ liệu và các công cụ sao chép cho DNS. DNS là miền cơ chế vị trí điều khiển cho Active Directory.
+
+**Lợi ích của việc tích hợp DNS với AD DS**
+
+Sử dụng AD DS như là lưu trữ dữ liệu và các công cụ sao chép cung cấp các lợi ích sau:  
+
+- Nhân rộng DNS được thực hiện bởi Active Directory, do đó, không cần thiết phải hỗ trợ một cấu trúc liên kết nhân rộng riêng biệt cho các máy chủ DNS.
+
+- Active Diẻctory dịch vụ sao chép cung cấp cho bất động sản nhân rộng.
+
+- Active Directory là dịch vụ an toàn. 
+
+- Một máy chủ DNS chính là loại bỏ như một điểm duy nhất của thất bại. Không giống như bản sao DNS gốc, Active Directory Dịch là dịch vụ đa chủ; một bản Cập Nhật có thể được thực hiện cho bất kỳ kiểm soát miền trong nó, và thay đổi sẽ được truyền đến các bộ điều khiển tên miền. Bằng cách này nếu DNS được tích hợp vào dịch vụ Active Directory công cụ sao chép sẽ luôn luôn đồng bộ hoá thông tin zone DNS.
+
+Do đó tích hợp Active Directory đơn giản hoá đáng kể sự quản lý của một không gian tên DNS. Đồng thời, chuyển vùng tiêu chuẩn để các máy chủ DNS khác (máy chủ DNS khác so với Windows 2000 Server, Windows Server 2003 và Windows máy chủ DNS Server 2008, cũng như các phiên bản trước của máy chủ DNS Microsoft) vẫn được hỗ trợ.
+
+**Làm thế nào DNS tích hợp với AD DS**
+
+Khi bạn cài đặt Active Directory trên một máy chủ, bạn có thể quảng bá máy chủ đến vai trò của một bộ điều khiển tên miền cho tên miền được chỉ định. Khi hoàn tất quá trình này, bạn sẽ được nhắc để chỉ định một tên miền DNS cho tên miền Active Directory mà bạn đang tham gia và thúc đẩy các máy chủ.
+
+**Nhân rộng mô hình**
+
+Khi thông tin DNS zone được lưu trữ trong Active Directory và một bản Cập Nhật được thực hiện với một máy chủ DNS, nó viết dữ liệu Cập Nhật vào Active Directory. Active Directory bây giờ là trách nhiệm sao chép dữ liệu cho các bộ điều khiển tên miền. Các máy chủ DNS đang chạy trên bộ điều khiển tên miền khác sẽ thăm dò ý kiến các bản Cập Nhật từ Active Directory.
+
+Bởi vì dịch vụ Active Directory sử dụng các mô hình nhân rộng đa chủ, cập nhật DNS có thể được viết với bất kỳ máy chủ DNS Active Directory tích hợp, và các dữ liệu sẽ tự động được nhân rộng trên tất cả các bộ điều khiển miền. 
+
+Khả năng viết để Active Directory từ bộ điều khiển vùng nhiều cùng một lúc có thể tạo ra một tình huống xung đột, nơi các thay đổi được thực hiện đến cùng một đối tượng trên hai máy chủ DNS khác nhau. Cuộc xung đột cuối cùng sẽ được giải quyết trong lợi của Cập Nhật được thực hiện cho các đối tượng dựa trên timestamps các bản Cập Nhật. Các quy tắc tương tự được áp dụng trong trường hợp mà hai hoặc nhiều nút với cùng tên được tạo ra trên hai hoặc nhiều máy chủ DNS. Cho đến khi cuộc xung đột đã được giải quyết và các máy chủ DNS chứa bản Cập Nhật không hợp lệ, cuộc thăm dò các dữ liệu hợp lệ từ Active Directory, có thể yêu cầu cho các đối tượng tương tự được thực hiện cho hai máy chủ DNS khác nhau sẽ được giải quyết một cách khác nhau. Đây là lý do tại sao cơ sở dữ liệu Active Directory được gọi là lỏng lẻo nhất quán.
+
+Active Directory tích hợp cung cấp một lợi thế đối với zone tin sao lưu. Với khu tập hậu thuẫn, chỉ máy chủ DNS có thẩm quyền chính cho một zone có thể sửa đổi các zone. Với Active Directory tích hợp, tất cả các bộ điều khiển miền cho miền Active Directory, nơi vùng được lưu trữ có thể sửa đổi các zone và sau đó tái tạo những thay đổi để điều khiển tên miền khác. Quá trình sao chép này được gọi là sao chép đa chủ vì nhiều bộ điều khiển miền có thể cập nhật các zone.
+
+Windows Server 2003 domain controller tái tạo bản ghi tài nguyên chứa trong khu Active Directory tích hợp sử dụng bản sao Active Directory. Khu lưu trữ trong Active Directory cũng có thể được chuyển đến các máy chủ thứ cấp để tạo ra các vùng thứ cấp trong cùng một cách mà khu tập hậu thuẫn được chuyển giao.
+
+Active Directory tích hợp cung cấp nhiều lợi ích, bao gồm cả khả năng chịu lỗi, an ninh, quản lý đơn giản, và nhân rộng hiệu quả hơn các khu.
+
+**Zone Active Directory tích hợp**
+
+Khi bạn cấu hình một khu vực chính là Active Directory tích hợp, các khu vực được lưu trữ trong AD DS. 
+
+Hình dưới đây cho thấy cấu hình này. 
+
+<p align="center">Khu Active Directory tích hợp </p>
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195473.gif" /></p>
+
+Các thành phần máy chủ DNS chỉ chứa một bản sao của zone. Khi DNS bắt đầu, nó đọc một bản sao của zone từ các cơ sở dữ liệu Active Directory (bước 1). Sau đó, khi máy chủ DNS sẽ nhận được một sự thay đổi, nó viết thay đổi cơ sở dữ liệu Active Directory (bước 2).
+
+Thông qua bản sao Active Directory,  Ngoài ra, thông qua chuyển khoản tiêu chuẩn zone, các máy chủ DNS có thể gửi bản sao của vùng với bất kỳ máy chủ DNS thứ cấp mà yêu cầu nó. Các máy chủ DNS có thể thực hiện cả hai chuyển zone gia tăng và đầy đủ. Hình dưới đây cho thấy cách cùng một zone có thể được nhân rộng bằng cách sử dụng cả hai Active Directory nhân rộng và chuyển giao zone chuẩn.
+
+<p align="center">Active Directory nhân rộng và chuyển vùng</p>
+
+<p align="center"><img src="https://s-media-cache-ak0.pinimg.com/736x/12/53/3b/12533b1bbf6f6a3da43f43ead0314418.jpg" /></p>
+
+Theo mặc định, khi dịch vụ DNS Server bắt đầu trên một bộ điều khiển tên miền, nó sẽ kiểm tra xem liệu Active Directory có sẵn và nếu nó có chứa bất kỳ vùng DNS. Nếu Active Directory không có zone, các dịch vụ DNS Server tải chúng từ Active Directory. Các dịch vụ DNS Server tự động ghi lại các tập tin khởi động đều đặn. Các tập tin khởi động có thể được cập nhật bằng tay bằng cách sử dụng giao diện điều khiển DNS.
+
+**Vị trí lưu trữ khu Directory tích hợp**
+
+Active Directory là một hướng đối tượng X.500 tương thích cơ sở dữ liệu mà tổ chức các nguồn lực sẵn có trên mạng của bạn trong một cấu trúc giống như cây phân cấp. Cơ sở dữ liệu này được quản lý bởi một bộ điều khiển miền. Các phần của cơ sở dữ liệu Active Directory mà một bộ điều khiển tên miền cụ thể là quyền được đặt trên cùng một máy tính như bộ điều khiển tên miền là. Mọi nguồn lực trong Active Directory được đại diện bởi một đối tượng. Có hai kiểu khác nhau của các đối tượng được hỗ trợ bởi Active Directory: 
+
+-  Container-đối tượng có thể chứa các đối tượng container và lá khác.
+
+- Leafs-đối tượng đại diện cho một tài nguyên cụ thể trong cây dịch vụ Active Directory.
+
+Mỗi đối tượng Active Directory có thuộc tính gắn với nó mà xác định tính chất đặc thù của đối tượng. 
+
+Các lớp học của các đối tượng trong cơ sở dữ liệu Active Directory, cũng như các thuộc tính của từng đối tượng, được định nghĩa trong lược đồ Active Directory. Nói cách khác, các container định nghĩa cho mỗi lớp đối tượng có sẵn trong Active Directory. Sau đây là ví dụ của các đối tượng lớp dịch vụ Active Directory:
+
+- User
+
+- Group
+
+- Organizational Unit
+
+- DnsZone
+
+- DnsNode
+
+Trong Windows 2000 Server, khu tích hợp Active Directory đã được lưu trữ trong vùng miền của thư mục. Khu vựcone lưu trữ tên miền phân vùng được sao chép tới tất cả các bộ kiểm soát miền trong tên miền. Phạm vi mở rộng này không phải là cần thiết cho một số ứng dụng, chẳng hạn như DNS. Windows Server 2003 Active Directory cung cấp một loại mới của phân vùng, được gọi là phân vùng thư mục ứng dụng, để cho phép phạm vi rộng khác nhau. 
+
+**Các đối tượng DNS Active Directory**
+
+Theo mặc định, Windows Server 2003 Active Directory tích hợp khu được lưu trữ trong toàn miền ứng dụng phân thư mục của thư mục. Khu vực thông tin được lưu trữ với các thùng chứa có tên phân biệt là: CN = MicrosoftDNS, DC = tên miền DNS. Thông tin khu cho các khu vực lưu trữ trên bộ kiểm soát miền trong tên miền example.com sẽ được lưu trữ trong CN = MicrosoftDNS, DC = DomainDnsZones, DC = ví dụ, DC = com.
+
+Các phân vùng thư mục ứng dụng DNS không được hiển thị bởi tất cả các công cụ quản trị Active Directory. Để xem các phân vùng thư mục, bạn có thể sử dụng dnscmd (công cụ dòng lệnh) hoặc ADSI Edit (adsiedit.msc) ở công cụ hỗ trợ.
+
+Phạm vi rộng của phân vùng thư mục ứng dụng DNS tùy chỉnh được xác định bởi số lượng các bộ điều khiển vùng cho gia nhập phân vùng. Theo mặc định, chỉ có các thành viên của nhóm quản trị viên của doanh nghiệp có thể tranh thủ một máy chủ DNS trong một phân vùng thư mục ứng dụng DNS.
+
+Khi một máy chủ DNS được gia nhập vào một phân vùng thư mục ứng dụng DNS, bạn có thể lưu trữ các vùng DNS trong đó phân vùng thư mục ứng dụng bằng cách sử dụng giao diện điều khiển DNS. Giá trị FQDN cần chỉ định tên của phân vùng thư mục ứng dụng DNS mới. Bạn phải sử dụng một DNS tên miền đầy đủ.Bảng sau đây liệt kê các loại đối tượng DNS được lưu trữ trong Active Directory.
+
+**Đối tượng DNS lưu trữ trong Active Directory**
+
+|Đối tượng|Mô tả|
+|--------------|--------|
+|DnsZone|Container được tạo ra khi một zone được lưu trữ trong Active Directory.|
+|DnsNode|Leaf đối tượng sử dụng để lập bản đồ và kết hợp một tên trong vùng để tài nguyên dữ liệu.|
+|DnsRecord|Đặc tính của một đối tượng dnsNode được sử dụng để lưu trữ các bản ghi tài nguyên liên kết với các đối tượng được đặt tên theo nút.|
+|DnsProperty|Đặc tính của một đối tượng dnsZone được sử dụng để lưu trữ thông tin cấu hình zone.|
+
+Các đối tượng MicrosoftDNS chứa một hoặc nhiều đối tượng chứa dnsZone. Mỗi đối tượng dnsZone đại diện cho một zone.
+
+MicrosoftDNS chứa những đối tượng dnsZone sau đây:
+
+- Zone ngược 72.16.172.in-addr.arpa
+
+-  Zone chuyển tiếp tra cứu, example.com
+
+- Root hints , RootDNSServers
+
+Hình ảnh sau đây cho thấy các đối tượng dnsZone trong Active Directory.
+
+<p align="center">Đối tượng DNS trong Active Directory</p>
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC213338.gif" /></p>
+
+Hình này cho thấy các đối tượng dnsNode sau trong các đối tượng container dnsZone cho example.com:
+
+- @, cho thấy rằng các nút có tên giống như các đối tượng dnsZone. 
+
+- **delegated**, một tên miền phụ được giao.
+
+- **host.notdelegated**, một máy chủ trong miền không delegated.example.com, một tên miền mà được điều khiển bởi các zone trên example.com.
+
+- **host1**, một máy trong miền example.com
+
+- **mailserver**, mail server trong miền example.com
+
+- **nameserver**, tên server trong miền example.com
+
+- **notdelegated**, tên miền notdelegated.example.com, mà được điều khiển bởi zone trên example.com.
+
+Đối tượng lá dnsNode có một đặc tính được gọi là dnsRecord với một thể hiện của một giá trị cho mỗi bản ghi kết hợp với tên của đối tượng. Trong ví dụ này, dnsNode lá đối tượng mailserver.example.com có một thuộc tính "A" mà chứa địa chỉ IP.
+
+ Nếu bạn muốn xem hệ thống phân cấp tên miền DNS và các hồ sơ liên quan, sử dụng DNS console. Ngoài ra, nếu bạn muốn xem các khu vực, bạn có thể lấy chúng bằng cách sử dụng nslookup. 
 
 
