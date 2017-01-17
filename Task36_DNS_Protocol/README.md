@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **15/1/2017**
+> Cập nhật: **17/01/2017**
 
 ### Mục lục
 [1.Kiến trúc DNS](#1)
@@ -50,6 +50,11 @@
 - [3.5 Zones and Zone Transfer](#35)
 
 - [3.6 Tích hợp Active Directory](#36)
+
+[4.Các qúa trình và tương tác DNS](#4)
+
+- [4.1 Truy vấn DNS hoạt động thế nào](#41)
+
 
 ---
 
@@ -937,5 +942,149 @@ Hình này cho thấy các đối tượng dnsNode sau trong các đối tượn
 Đối tượng lá dnsNode có một đặc tính được gọi là dnsRecord với một thể hiện của một giá trị cho mỗi bản ghi kết hợp với tên của đối tượng. Trong ví dụ này, dnsNode lá đối tượng mailserver.example.com có một thuộc tính "A" mà chứa địa chỉ IP.
 
  Nếu bạn muốn xem hệ thống phân cấp tên miền DNS và các hồ sơ liên quan, sử dụng DNS console. Ngoài ra, nếu bạn muốn xem các khu vực, bạn có thể lấy chúng bằng cách sử dụng nslookup. 
+
+
+<a name="4"></a>
+#4.Các qúa trình và tương tác DNS
+
+Các qúa trình và tương tác DNS liên quan đến các thông tin liên lạc giữa các máy khách và máy chủ DNS trong việc giải quyết các truy vấn DNS và cập nhật động, và giữa các máy chủ DNS trong phân giải tên và quản lý zone. Quá trình học và tương tác phụ thuộc vào sự hỗ trợ cho các công nghệ như Unicode và WINS.
+
+<a name="41"></a>
+###4.1 Truy vấn DNS hoạt động thế nào
+
+Khi một DNS client cần phải tìm một tên được sử dụng trong một chương trình, nó sẽ truy vấn máy chủ DNS để giải quyết tên. Mỗi thông điệp truy vấn của khách hàng gửi có chứa ba mẩu thông tin, xác định một câu hỏi cho các máy chủ để trả lời:
+
+1 . Một quy định tên miền DNS, trạng thái như là một tên miền hoàn toàn đủ điều kiện.
+
+2 . Một loại truy vấn cụ thể, có thể chỉ định một bản ghi tài nguyên theo loại hoặc một loại đặc biệt của hoạt động truy vấn.
+
+3 . Một lớp được chỉ định cho các tên miền DNS. Đối với các máy chủ DNS Windows, điều này luôn luôn nên được quy định như lớp Internet (IN).
+
+Ví dụ, các tên được chỉ định có thể là FQDN cho máy tính, chẳng hạn như "" host-a.example.microsoft.com. "", và loại truy vấn cụ thể để tìm kiếm một bản ghi địa chỉ (A) tài nguyên của tên đó. Hãy suy nghĩ của một truy vấn DNS là một khách hàng yêu cầu một máy chủ một câu hỏi gồm hai phần, chẳng hạn như "bạn có bất kỳ bản ghi tài nguyên A cho một máy tính được đặt tên 'hostname.example.microsoft.com.' ”? Khi khách hàng nhận được một câu trả lời từ máy chủ, nó đọc và giải thích các trả lời một bản ghi tài nguyên, học các địa chỉ IP cho máy tính mà nó yêu cầu tên.
+
+Truy vấn DNS giải quyết trong một số cách khác nhau. Một khách hàng đôi khi có thể trả lời một truy vấn địa phương sử dụng các thông tin được lưu trữ thu được từ một truy vấn trước đó. Các máy chủ DNS có thể sử dụng bộ nhớ cache riêng của mình thông tin bản ghi tài nguyên để trả lời một truy vấn. Một máy chủ DNS cũng có thể truy vấn hoặc liên hệ với máy chủ DNS khác thay mặt cho các khách hàng yêu cầu để giải quyết đầy đủ tên, sau đó gửi một câu trả lời lại cho khách hàng. Quá trình này được gọi là đệ quy.
+
+Ngoài ra, khách hàng có thể tự cố gắng liên lạc thêm các máy chủ DNS để giải quyết một tên. Khi một khách hàng như vậy, nó sử dụng các truy vấn riêng biệt và bổ sung dựa trên câu trả lời giới thiệu từ các máy chủ. Quá trình này được gọi là sự lặp lại.
+
+Nói chung, quá trình truy vấn DNS xảy ra trong hai phần:
+
+- Một truy vấn tên bắt đầu tại một máy tính khách hàng và được thông qua một trình giải quyết, các dịch vụ DNS Client, giải quyết.
+
+- Khi truy vấn không thể được giải quyết tại địa phương, các máy chủ DNS có thể được truy vấn khi cần thiết để giải quyết tên.
+
+Cả hai quá trình đều được giải thích chi tiết hơn trong các phần sau.
+
+**Phần 1: Dịch vụ giải quyết DNS Client  **
+
+ Hình dưới đây cho thấy một cái nhìn tổng quan về quá trình truy vấn DNS hoàn chỉnh. 
+
+*Tổng quan về quá trình truy vấn DNS *
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195476.gif" /></p>
+
+Như thể hiện trong những bước đầu tiên của quá trình truy vấn, một tên miền DNS được sử dụng trong một chương trình trên máy tính địa phương. Các yêu cầu sau đó được đưa đến dịch vụ DNS Client cho độ phân giải sử dụng thông tin được lưu trữ tại địa phương. Nếu tên truy vấn có thể được giải quyết, các truy vấn được trả lời và quá trình được hoàn thành.
+
+Giải quyết bộ nhớ cache tại địa phương có thể bao gồm thông tin tên được lấy từ hai nguồn:
+
+- Nếu một tập tin máy chủ được cấu hình tại địa phương, bất kỳ máy chủ tên-to-địa chỉ ánh xạ từ tập tin đó được cài đặt sẵn vào bộ nhớ cache khi dịch vụ DNS Client được bắt đầu.
+
+-  bản ghi tài nguyên thu được trong phản ứng trả lời từ các truy vấn DNS trước được thêm vào bộ nhớ cache và lưu giữ trong một khoảng thời gian. 
+
+ Nếu truy vấn không phù hợp với một mục trong bộ nhớ cache, quá trình phân giải tiếp tục với các khách hàng truy vấn máy chủ DNS để giải quyết tên. 
+
+**Phần 2: Truy vấn một DNS Server**
+
+Như được chỉ ra trong hình trước đó, khách hàng truy vấn một máy chủ DNS ưa thích. Các máy chủ thực sự được sử dụng trong các truy vấn ban đầu khách hàng/máy chủ được lựa chọn từ một danh sách toàn cầu.
+
+Khi máy chủ DNS sẽ nhận được một truy vấn, đầu tiên nó sẽ kiểm tra xem nó có thể trả lời các truy vấn có quyền dựa trên các thông tin bản ghi tài nguyên chứa trong một zone cấu hình cục bộ trên máy chủ. Nếu tên truy vấn phù hợp với một bản ghi tài nguyên tương ứng trong thông tin zone địa phương, các máy chủ trả lời có quyền sử dụng thông tin này để giải quyết các tên được truy vấn.
+
+Nếu không có thông tin khu vực tồn tại cho tên truy vấn, máy chủ sau đó sẽ kiểm tra để xem nếu nó có thể giải quyết tên bằng cách sử dụng các thông tin đã lưu ẩn cục bộ từ truy vấn trước đó.  Nếu trùng hợp được tìm thấy ở đây, các máy chủ trả lời với thông tin này. Một lần nữa, nếu máy chủ ưa thích có thể trả lời với một phản ứng tích cực phù hợp từ bộ nhớ cache của nó cho khách hàng yêu cầu, các truy vấn được hoàn thành.
+
+Nếu tên truy vấn không tìm thấy một câu trả lời phù hợp tại máy chủ ưa thích của nó - hoặc từ thông tin bộ nhớ cache hoặc zone của nó - quá trình truy vấn có thể tiếp tục, sử dụng đệ quy để giải quyết đầy đủ tên. Điều này liên quan đến việc hỗ trợ từ các máy chủ DNS khác để giúp giải quyết tên. Theo mặc định, các dịch vụ DNS Client yêu cầu máy chủ để sử dụng một quá trình đệ quy để giải quyết đầy đủ tên đại diện cho khách hàng trước khi trở về một câu trả lời.
+
+Để cho các máy chủ DNS để làm đệ quy đúng cách, đầu tiên nó cần một số thông tin liên lạc hữu ích về các máy chủ DNS khác trong không gian tên miền DNS. Thông tin này được cung cấp dưới hình thức gợi ý gốc, một danh sách các bản ghi tài nguyên sơ bộ mà có thể được sử dụng bởi các dịch vụ DNS để xác định vị trí các máy chủ DNS khác có thẩm quyền đối với thư mục gốc của cây không gian tên miền DNS. máy chủ gốc có thẩm quyền cho các tên miền gốc và miền cấp cao nhất trong cây không gian tên miền DNS.
+
+Bằng cách sử dụng những gợi ý gốc để tìm các máy chủ gốc, một máy chủ DNS có thể hoàn thành việc sử dụng đệ quy. Về lý thuyết, quá trình này cho phép bất kỳ máy chủ DNS để xác định vị trí các máy chủ có thẩm quyền cho bất kỳ tên miền DNS khác sử dụng ở bất kỳ cấp độ nào trong cây không gian tên.
+
+Ba hình sau đây minh họa quá trình mà theo đó các DNS client truy vấn các máy chủ trên mỗi bộ điều hợp.
+
+*Truy vấn DNS Server, Phần 1 *
+
+<p align="center><img src="https://i-technet.sec.s-msft.com/dynimg/IC195477.gif" /></p>
+
+*Truy vấn DNS Server, Phần 2*
+
+<p align="center><img src="https://i-technet.sec.s-msft.com/dynimg/IC195478.gif" /></p>
+
+*Truy vấn DNS Server, Phần 3*
+
+<p align="center><img src="https://technet.microsoft.com/en-us/library/bb457118.f24zs09_big(l=en-us).jpg" /></p>
+
+ Các dịch vụ DNS Client truy vấn các máy chủ DNS theo thứ tự sau: 
+
+1 .  Các dịch vụ DNS Client sẽ gửi các truy vấn tên cho máy chủ DNS đầu tiên trong danh sách các adapter ưa thích của các máy chủ DNS và chờ đợi một giây cho một phản ứng. 
+
+
+2 .  Nếu dịch vụ DNS Client không nhận được phản hồi từ máy chủ DNS đầu tiên trong vòng một giây, nó sẽ gửi các truy vấn tên cho các máy chủ DNS đầu tiên trên tất cả các adapter mà vẫn đang được xem xét và chờ đợi hai giây cho một phản ứng. 
+
+3 .  Nếu dịch vụ DNS Client không nhận được phản hồi từ bất kỳ máy chủ DNS trong vòng hai giây, các dịch vụ DNS Client sẽ gửi các truy vấn cho tất cả các máy chủ DNS trên tất cả các adapter mà vẫn đang được xem xét và chờ đợi một hai giây cho một phản ứng. 
+
+4 .  Nếu dịch vụ DNS Client vẫn không nhận được phản hồi từ bất kỳ máy chủ DNS, nó sẽ gửi các truy vấn tên cho tất cả các máy chủ DNS trên tất cả các adapter mà vẫn đang được xem xét và chờ đợi bốn giây cho một phản ứng. 
+
+5 .  Nếu các dịch vụ DNS Client không nhận được phản hồi từ bất kỳ máy chủ DNS, máy khách DNS gửi truy vấn cho tất cả các máy chủ DNS trên tất cả các adapter mà vẫn đang được xem xét và chờ đợi tám giây cho một phản ứng. 
+
+ Nếu dịch vụ DNS Client nhận được một phản ứng tích cực, nó ngừng truy vấn tên, cho biết thêm các phản ứng vào bộ nhớ cache và trả về đáp ứng cho khách hàng. Nếu dịch vụ DNS Client đã không nhận được phản hồi từ bất kỳ máy chủ trong vòng tám giây, các dịch vụ DNS Client phản ứng với một thời gian ra. 
+
+Ngoài ra, nếu nó đã không nhận được phản hồi từ bất kỳ máy chủ DNS trên một bộ chuyển đổi nhất định, sau đó trong 30 giây tiếp theo, các dịch vụ DNS Client đáp ứng tất cả các truy vấn dành cho các máy chủ trên rằng adapter với thời gian chờ và không truy vấn các máy chủ . Chỉ có các máy tính chạy Windows 2000 hoặc Windows Server 2003 trả lại thời gian chờ.
+
+Nếu tại bất kỳ điểm nào DNS Client dịch vụ sẽ nhận được một phản ứng tiêu cực từ một máy chủ, nó loại bỏ mỗi máy chủ trên bộ điều hợp rằng từ việc xem xét trong quá trình tìm kiếm này. Ví dụ, nếu ở bước 2, các máy chủ đầu tiên trên thay thế bộ điều hợp A đã cung cấp một phản ứng tiêu cực, các dịch vụ DNS Client sẽ không gửi truy vấn đến bất kỳ máy chủ nào khác trong danh sách để thay thế bộ điều hợp A.
+
+Các dịch vụ DNS Client theo dõi mà các máy chủ trả lời tên truy vấn nhanh hơn, và nó di chuyển máy chủ lên hoặc xuống trong danh sách dựa trên một cách nhanh chóng như thế nào họ trả lời tên truy vấn.
+
+ Hình dưới đây cho thấy cách máy khách DNS truy vấn mỗi máy chủ trên mỗi bộ điều khiển. 
+
+* Multihomed Name Resolution *
+
+<p align="center"><img src="https://i-technet.sec.s-msft.com/dynimg/IC195480.gif" /></p>
+
+**Phản ứng truy vấn thay thế**
+
+ Các mô tả trên đây của các truy vấn DNS giả định rằng quá trình này kết thúc bằng một phản ứng tích cực trở lại cho khách hàng. Tuy nhiên, các truy vấn có thể trả lại câu trả lời khác. Đây là những câu trả lời truy vấn phổ biến nhất: 
+
+- Quyền trả lời 
+
+-  Một câu trả lời tích cực 
+
+-  Một câu trả lời giới thiệu 
+
+-  Một câu trả lời tiêu cực 
+
+
+Quyền trả lời là một câu trả lời tích cực trở lại cho khách hàng và cung cấp với cơ quan thiết lập bit trong thông điệp DNS để chỉ ra các câu trả lời thu được từ một máy chủ có thẩm quyền trực tiếp cho tên truy vấn.
+
+ Một phản ứng tích cực có thể bao gồm các RR truy vấn hoặc một danh sách các RR (cũng được biết đến như một RRset) phù hợp với các tên miền DNS và ghi loại truy vấn xác định thông điệp truy vấn. 
+
+Một câu trả lời giới thiệu có chứa RR thêm không ghi rõ tên hoặc nhập truy vấn. Đây là loại câu trả lời sẽ được trả về cho khách hàng nếu quá trình đệ quy không được hỗ trợ. Các hồ sơ có nghĩa là hành động tham khảo câu trả lời hữu ích mà khách hàng có thể sử dụng để tiếp tục truy vấn sử dụng lặp đi lặp lại. Một câu trả lời giới thiệu có chứa dữ liệu bổ sung như RR có khác hơn so với các loại truy vấn. 
+
+ Một phản ứng tiêu cực từ các máy chủ có thể chỉ ra rằng một trong hai kết quả có thể được bắt gặp trong khi các máy chủ đã cố gắng để xử lý và giải quyết một cách đệ quy các truy vấn đầy đủ và uy quyền: 
+
+-  Một máy chủ có thẩm quyền thông báo rằng tên truy vấn không tồn tại trong không gian tên DNS. 
+
+
+-  Một máy chủ có thẩm quyền thông báo rằng tên truy vấn tồn tại, nhưng không có hồ sơ của các loại quy định tồn tại cho tên đó. 
+
+
+Bộ giải quyết vượt qua các kết quả của các truy vấn, trong các hình thức hoặc là một phản ứng tích cực hay tiêu cực, quay lại chương trình yêu cầu và lưu trữ các phản ứng.
+
+Nếu câu trả lời kết quả cho một truy vấn quá dài để gửi và được giải quyết trong duy nhất một gói tin UDP, các máy chủ DNS có thể bắt đầu một chuyển đổi dự phòng phản ứng trên TCP cổng 53 trả lời khách hàng đầy đủ trong một phiên làm việc  kết nối  giao thức TCP.
+
+Vô hiệu hóa việc sử dụng đệ quy trên một máy chủ DNS thường được thực hiện khi khách hàng  DNS hoàn toàn đang bị giới hạn để giải quyết tên cho một máy chủ DNS cụ thể, chẳng hạn như một đặt trên mạng nội bộ của bạn. Đệ quy cũng có thể bị vô hiệu hóa khi máy chủ DNS không có khả năng giải quyết các tên DNS bên ngoài, và khách hàng được dự kiến ​​sẽ thực hiện chuyển sang một máy chủ DNS cho độ phân giải của các tên này. Nếu bạn vô hiệu hóa đệ quy trên máy chủ DNS, bạn sẽ không thể sử dụng giao nhận trên cùng một máy chủ.
+
+Theo mặc định, máy chủ DNS sử dụng một số mặc định timings khi thực hiện đệ quy một truy vấn và liên lạc với các máy chủ DNS khác. Các giá trị mặc định bao gồm:
+
+-  Một khoảng thời gian đệ quy thử lại trong vòng 3 giây. Đây là khoảng thời gian của dịch vụ DNS đợi trước khi thử lại một truy vấn được thực hiện trong một tra cứu đệ quy. 
+
+-  Một khoảng thời gian chờ đệ quy của 8 giây. Đây là khoảng thời gian của dịch vụ DNS đợi trước khi bị tra cứu đệ quy đã được thử lại. 
+
 
 
