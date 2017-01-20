@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **17/01/2017**
+> Cập nhật: **19/1/2017**
 
 ### Mục lục
 [1.Kiến trúc DNS](#1)
@@ -55,6 +55,13 @@
 
 - [4.1 Truy vấn DNS hoạt động thế nào](#41)
 
+- [4.2 Tra cứu ngược](#42)
+
+- [4.3 Forwarding (chuyển tiếp)](#43)
+
+- [4.4 Dynamic Update (cập nhật động)](#44)
+
+[5.Understanding Aging and Scavenging](#5)
 
 ---
 
@@ -1087,4 +1094,333 @@ Theo mặc định, máy chủ DNS sử dụng một số mặc định timings 
 -  Một khoảng thời gian chờ đệ quy của 8 giây. Đây là khoảng thời gian của dịch vụ DNS đợi trước khi bị tra cứu đệ quy đã được thử lại. 
 
 
+**Truy vấn lặp làm việc như thế nào**
+
+ Lặp đi lặp lại là các loại phân giải tên được sử dụng giữa các máy khách và máy chủ DNS khi các điều kiện sau đây là có hiệu lực: 
+
+-  Các khách hàng yêu cầu việc sử dụng đệ quy, nhưng đệ quy được vô hiệu hóa trên máy chủ DNS. 
+
+-  Các khách hàng không yêu cầu sử dụng của đệ quy khi truy vấn các máy chủ DNS. 
+
+Một yêu cầu lặp đi lặp lại từ một khách hàng nói với các máy chủ DNS mà khách hàng mong đợi câu trả lời tốt nhất các máy chủ DNS có thể cung cấp ngay lập tức, mà không liên lạc máy chủ DNS khác.
+
+Khi dùng lặp đi lặp lại, một máy chủ DNS câu trả lời khách hàng dựa trên kiến thức cụ thể của riêng mình về không gian tên đối với các dữ liệu tên được truy vấn.
+
+Khi lặp được sử dụng, một máy chủ DNS có thể tiếp tục hỗ trợ độ phân giải tên truy vấn ngoài cho câu trả lời tốt nhất của nó trở lại cho khách hàng.  Đối với các truy vấn lặp đi lặp lại một khách hàng sử dụng danh sách cấu hình cục bộ của máy chủ DNS để liên lạc với máy chủ tên khác trong cả không gian tên DNS nếu máy chủ DNS chính của nó không thể giải quyết các truy vấn.
+
+**Bộ nhớ đệm Caching làm việc như thế nào**
+
+
+Khi các máy chủ DNS xử lý truy vấn khách hàng sử dụng đệ quy hoặc lặp đi lặp lại, họ khám phá và có được một kho quan trọng của thông tin về không gian tên DNS. Thông tin này sau đó được lưu trữ bởi máy chủ.
+
+Bộ nhớ đệm cung cấp một cách để tăng tốc độ hiệu suất của DNS phân giải cho các truy vấn tiếp theo của tên phổ biến, trong khi giảm đáng kể lưu lượng truy vấn liên quan đến DNS trên mạng.
+
+Như các máy chủ DNS thực hiện truy vấn đệ quy thay mặt cho khách hàng, họ tạm thời bộ nhớ cache ghi tài nguyên (RR). RR cache chứa các thông tin thu được từ các máy chủ DNS có thẩm quyền đối với tên miền DNS học được trong khi làm cho các truy vấn lặp đi lặp lại để tìm kiếm và hoàn toàn trả lời một truy vấn đệ quy thực hiện thay mặt cho một khách hàng. Sau đó, khi các khách hàng đặt mới truy vấn yêu cầu thông tin RR kết hợp lưu trữ RRs, các máy chủ DNS có thể sử dụng các thông tin lưu trữ RR để trả lời chúng.
+
+Khi thông tin được lưu trữ, một giá trị thời gian để sống (TTL) áp dụng cho tất cả lưu trữ RRs. Miễn là TTL cho RR cache không hết hạn, một máy chủ DNS có thể tiếp tục bộ nhớ cache và sử dụng RR lại khi trả lời các truy vấn của khách hàng phù hợp với các RR. bộ nhớ đệm TTL được sử dụng bởi RRs trong hầu hết các cấu hình khu vực được phân công tối thiểu (mặc định) TTL được thiết lập trong khu vực bắt đầu của chính quyền (SOA) tài nguyên bản ghi. Theo mặc định, tối thiểu TTL là 3.600 giây (một giờ), nhưng có thể được điều chỉnh hoặc, nếu cần thiết, TTLs bộ nhớ đệm riêng lẻ có thể được đặt tại mỗi RR.
+
+
+<a name="42"></a>
+###4.2 Tra cứu ngược
+
+Trong hầu hết các tra cứu DNS, khách hàng thường thực hiện một tra cứu về phía trước, đó là một tìm kiếm dựa trên các tên DNS của máy tính khác như được lưu trữ trong một bản ghi tài nguyên địa chỉ (A). Đây là loại truy vấn hy vọng một địa chỉ IP như dữ liệu tài nguyên cho các phản ứng trả lời.
+
+DNS cũng cung cấp một quá trình tra cứu đảo ngược, cho phép khách hàng sử dụng một địa chỉ IP được biết đến trong một truy vấn tên và tìm kiếm các tên máy tính dựa trên địa chỉ của nó. Một tra cứu đảo ngược có dạng một câu hỏi, chẳng hạn như "Có thể bạn cho tôi biết tên DNS của máy tính sử dụng địa chỉ IP 192.168.1.20?"
+
+DNS không ban đầu được thiết kế để hỗ trợ các loại truy vấn. Một vấn đề để hỗ trợ quá trình ngược lại truy vấn là sự khác biệt trong cách tổ chức các không gian tên DNS và chỉ số tên và cách các địa chỉ IP được gán. Nếu phương pháp duy nhất sẵn sàng trả lời câu hỏi trước để tìm kiếm tất cả các tên miền trong không gian tên DNS, một truy vấn ngược lại sẽ mất quá nhiều thời gian và đòi hỏi quá nhiều qúa trinh để hữu ích.
+
+Để giải quyết vấn đề này, một miền đặc biệt được gọi là miền in-addr.arpa đã được xác định trong các tiêu chuẩn DNS và bảo lưu trong không gian tên DNS Internet để cung cấp một cách thiết thực và đáng tin cậy để thực hiện truy vấn ngược lại. Để tạo ra các không gian tên ngược lại, tên miền phụ trong miền in-addr.arpa được hình thành bằng cách sử dụng đảo ngược thứu tự của những con số trong ký hiệu chấm thập phân của địa chỉ IP.
+
+Điều này đảo ngược trật tự của các tên miền cho mỗi giá trị octet là cần thiết bởi vì, không giống như các tên DNS, khi các địa chỉ IP được đọc từ trái sang phải, chúng được diễn giải theo cách ngược lại. Khi một địa chỉ IP được đọc từ trái sang phải, nó được xem từ các thông tin tổng quát nhất của nó (một địa chỉ mạng IP) trong phần đầu tiên của địa chỉ để các thông tin cụ thể hơn (một địa chỉ IP host) chứa trong octet cuối cùng.
+
+Vì lý do này, thứ tự của octet địa chỉ IP phải được đảo ngược khi xây dựng cây tên miền in-addr.arpa. Các địa chỉ IP của cây DNS in-addr.arpa có thể được giao cho công ty khi họ được giao một tập hợp cụ thể hoặc hạn chế về địa chỉ IP trong các lớp địa chỉ Internet được xác định.
+
+Cuối cùng, các cây miền in-addr.arpa, như xây dựng vào DNS, đòi hỏi thêm một loại RR - con trỏ (PTR) RR - được xác định. RR này được sử dụng để tạo ra một bản đồ trong vùng tra cứu ngược mà thường tương ứng với một host (A) tên là RR cho tên máy tính DNS của một máy chủ trong vùng chuyển tiếp tra cứu của mình.
+
+Tên miền in-addr.arpa áp dụng cho việc sử dụng trong tất cả các mạng TCP / IP dựa trên giao thức Internet phiên bản 4 (IPv4) giải quyết. Các New Zone Wizard tự động giả định rằng bạn đang sử dụng miền này khi tạo một vùng tra cứu ngược mới.
+
+Nếu bạn đang cài đặt DNS và cấu hình vùng tra cứu ngược lại cho một phiên bản Internet Protocol 6 (IPv6) mạng, bạn có thể chỉ định một tên chính xác ở New Zone Wizard. Điều này sẽ cho phép bạn tạo ra các vùng tra cứu ngược lại trong bảng điều khiển DNS có thể được sử dụng để hỗ trợ các mạng IPv6, trong đó sử dụng một tên miền đặc biệt khác nhau, các miền ip6.arpa.
+
+
+<a name="43"></a>
+###4.3 Forwarding (chuyển tiếp)
+
+Một chuyển tiếp là một máy chủ Domain Name System (DNS) trên một mạng được sử dụng để chuyển tiếp các truy vấn DNS cho tên bên ngoài DNS đến các máy chủ DNS bên ngoài của mạng đó. Bạn cũng có thể chuyển các truy vấn theo tên miền cụ thể sử dụng giao nhận có điều kiện.
+
+Một máy chủ DNS trên một mạng được thiết kế như là một chuyển tiếp do các máy chủ DNS khác trong mạng chuyển tiếp các truy vấn mà họ không thể giải quyết tại địa phương đến máy chủ DNS. Bằng cách sử dụng một chuyển tiêp, bạn có thể quản lý phân giải tên cho tên bên ngoài mạng của bạn, chẳng hạn như tên trên Internet, và nâng cao hiệu quả phân giải tên cho các máy tính trong mạng của bạn.
+
+*Chỉ đạo tên truy vấn sử dụng chuyển tiếp*
+
+ Hình dưới đây minh họa cách truy vấn tên bên ngoài đang hướng sử dụng chuyển tiếp. 
+
+
+<p align="center">Tên truy vấn sử dụng chuyển tiếp bên ngoài</p>
+
+<p align="center"><img src="https://s-media-cache-ak0.pinimg.com/736x/80/96/83/80968315500ac47580b6994696536fd7.jpg" /></p>
+
+Nếu không có một máy chủ DNS cụ thể được xem như là một giao nhận, tất cả các máy chủ DNS có thể gửi các truy vấn bên ngoài của một mạng sử dụng gợi ý gốc của họ. Kết quả là,  rất nhiều thông tin DNS nội bộ, và có thể quan trọng, có thể được tiếp xúc trên Internet. Ngoài vấn đề an ninh và sự riêng tư này, phương pháp này có độ phân giải có thể dẫn đến một khối lượng lớn lưu lượng bên ngoài mà là tốn kém và không hiệu quả cho một mạng lưới với một kết nối Internet chậm hoặc một công ty với chi phí dịch vụ Internet cao.
+
+Khi bạn chỉ định một máy chủ DNS như một máy chuyển tiếp, bạn thực hiện giao trách nhiệm chuyển tiếp xử lý lưu lượng truy cập bên ngoài, do đó hạn chế tiếp xúc với máy chủ DNS với Internet. Một chuyển tiếp sẽ xây dựng một bộ nhớ cache lớn các thông tin DNS bên ngoài bởi vì tất cả các truy vấn DNS bên ngoài trong mạng được giải quyết thông qua nó. Trong một khoảng thời gian ngắn, một nhà chuyển tiếp sẽ giải quyết một phần tốt đẹp của các truy vấn DNS bên ngoài sử dụng dữ liệu được lưu trữ này và do đó làm giảm lưu lượng Internet qua mạng và thời gian đáp ứng cho khách hàng DNS.
+
+**Hành vi của một máy chủ DNS được cấu hình để sử dụng chuyển tiếp**
+
+ Một máy chủ DNS được cấu hình để sử dụng một chuyển tiếp sẽ hành xử khác nhau từ một máy chủ DNS mà không được cấu hình để sử dụng một chuyển tiếp. Một máy chủ DNS được cấu hình để sử dụng một ứng xử chuyển tiếp như sau: 
+
+-  Khi máy chủ DNS sẽ nhận được một truy vấn, nó cố gắng để giải quyết truy vấn này sử dụng các zone sơ cấp và thứ cấp mà nó tổ chức và bộ nhớ cache của nó. 
+
+-  Nếu truy vấn không thể giải quyết được sử dụng dữ liệu địa phương này, sau đó nó sẽ chuyển tiếp các truy vấn đến máy chủ DNS được chỉ định như một người chuyển tiếp. 
+
+-  Các máy chủ DNS sẽ chờ đợi một thời gian ngắn cho một câu trả lời từ chuyển tiếp trước khi cố gắng liên lạc với máy chủ DNS được quy định trong gợi ý gốc của nó. 
+
+**Trình tự chuyển tiếp**
+
+Trình tự giao cấu hình trên một máy chủ DNS được sử dụng được xác định theo thứ tự mà trong đó các địa chỉ IP được liệt kê trên các máy chủ DNS. Sau khi các máy chủ DNS chuyển tiếp các truy vấn để giao nhận với địa chỉ IP đầu tiên, nó chờ đợi một thời gian ngắn cho một câu trả lời từ đó giao nhận (theo các cài đặt thời gian của máy chủ DNS) trước khi tiếp tục các hoạt động chuyển tiếp với địa chỉ IP tiếp theo. Nó tiếp tục quá trình này cho đến khi nó nhận được một câu trả lời khẳng định từ một máy chuyển tiếp.
+
+Không giống như độ phân giải thông thường, nơi một thời gian khứ hồi (RTT) được kết hợp với mỗi máy chủ, các địa chỉ IP trong danh sách giao nhận không được sắp xếp theo thời gian bay và phải được sắp xếp lại bằng tay để thay đổi tuỳ chọn.
+
+**Chuyển tiếp và ủy quyền**
+
+Một máy chủ DNS được cấu hình với một chuyển tiếp và lưu trữ một zone gốc sẽ sử dụng thông tin ủy quyền của nó trước khi chuyển tiếp truy vấn. Nếu không có hồ sơ ủy quyền tồn tại cho các tên DNS truy vấn, sau đó các máy chủ DNS sẽ sử dụng chuyển tiếp của mình để giải quyết các truy vấn.
+
+**Chuyển tiếp và các máy chủ gốc**
+
+Một lỗi thường gặp khi cấu hình chuyển tiếp là cố gắng để cấu hình chuyển tiếp trên các máy chủ gốc của một không gian tên DNS riêng. Mục tiêu của cố gắng để cấu hình chuyển tiếp trên máy chủ gốc cho một không gian tên DNS riêng là để chuyển tiếp tất cả các truy vấn ngoại vi cho máy chủ Internet DNS. Máy chủ gốc không thể được cấu hình với giao nhận tiêu chuẩn. Nếu một máy chủ gốc được truy vấn về bất kỳ tên miền, sau đó nó sẽ đề cập đến một máy chủ DNS có thể trả lời các câu hỏi (từ zone địa phương của nó, bộ nhớ cache), hoặc nó sẽ phản ứng với một thất bại (NXDOMAIN), nhưng nó không thể được cấu hình để chuyển tiếp đến các máy chủ cụ thể.
+
+**Quy định chuyển tiếp**
+
+Một giao nhận có điều kiện là một máy chủ DNS trên một mạng được sử dụng để chuyển các truy vấn DNS theo tên miền DNS trong truy vấn. Ví dụ, một máy chủ DNS có thể được cấu hình để chuyển tiếp tất cả các truy vấn nó nhận cho tên kết thúc với widgets.example.com đến địa chỉ IP của một máy chủ DNS cụ thể hoặc các địa chỉ IP của nhiều máy chủ DNS.
+
+**Độ phân giải tên Intranet**
+
+Giao nhận có điều kiện có thể được sử dụng để cải thiện độ phân giải tên miền trong mạng nội bộ của bạn. Độ phân giải tên mạng nội bộ có thể được cải thiện bằng cách cấu hình máy chủ DNS với giao cho các tên miền cụ thể bên trong. Ví dụ, tất cả các máy chủ DNS trong miền widgets.example.com có thể được cấu hình để chuyển tiếp truy vấn cho các tên kết thúc bằng test.example.com để các thẩm quyền máy chủ DNS cho merged.widgets.example.com, do đó loại bỏ bước của truy vấn các máy chủ gốc của example.com, hoặc loại bỏ các bước cấu hình máy chủ DNS trong zone widgets.example.com với các zone thứ cấp cho test.example.com.
+
+**Độ phân giải tên Internet**
+
+Các máy chủ DNS có thể sử dụng nhà có điều kiện để giải quyết các truy vấn giữa tên miền DNS của các công ty chia sẻ thông tin.
+
+
+<a name="44"></a>
+###4.4 Dynamic Update (cập nhật động)
+
+Cập Nhật động cho phép các máy khách DNS để đăng ký và tự động cập nhật các bản ghi tài nguyên với một máy chủ DNS bất cứ khi nào thay đổi xảy ra. Điều này làm giảm sự cần thiết để hướng dẫn sử dụng quản lý bản ghi zone, đặc biệt là cho các khách hàng thường xuyên di chuyển hoặc thay đổi vị trí và sử dụng dịch vụ DHCP để có được một địa chỉ IP.
+
+Các dịch vụ DNS Client và Server hỗ trợ sử dụng Cập Nhật năng động, như được mô tả trong RFC 2136, "Cập nhật động trong hệ thống tên miền." Dịch vụ máy chủ DNS cho phép cập nhật động được kích hoạt hoặc vô hiệu hóa trên một cơ sở cho một khu vực ở mỗi máy chủ được cấu hình để tải một trong hai khu chính hoặc tích hợp thư mục tiêu chuẩn. Theo mặc định, các dịch vụ Windows Server 2003 DNS Client sẽ tự động cập nhật bản ghi tài nguyên máy chủ (A) trong DNS khi cấu hình TCP/IP. Các dịch vụ Windows Server 2003 DNS Server được cấu hình theo mặc định, cho phép chỉ bảo mật cập nhật động. Bạn phải thay đổi cấu hình này nếu bạn sẽ sử dụng Cập nhật động.
+
+**Mô tả giao thức**
+
+RFC 2136 giới thiệu một định dạng mã máy tin nhắn định dạng mới được gọi là bản Cập Nhật. Các thông báo cập nhật có thể thêm và xóa các bản ghi tài nguyên từ một khu vực cụ thể cũng như kiểm tra các điều kiện tiên quyết. Cập nhật là nguyên tử, có nghĩa là, tất cả các điều kiện tiên quyết phải được thỏa mãn hoặc không có hoạt động cập nhật sẽ diễn ra.
+
+Như trong bất kỳ việc thực hiện quy ước DNS, Cập Nhật zone phải được cam kết trên một máy chủ DNS chính cho zone đó. Nếu một bản Cập Nhật được nhận bởi một máy chủ DNS phụ, nó sẽ được chuyển tiếp lên cấu trúc liên kết nhân rộng cho đến khi nó đạt đến các máy chủ DNS chính. Lưu ý rằng trong trường hợp của một zone tích hợp Active Directory, một Cập Nhật cho bản ghi tài nguyên trong một zone có thể được gửi đến bất kỳ máy chủ DNS đang chạy trên một bộ điều khiển zone Active Directory có lưu trữ dữ liệu chứa trong zone.
+
+Một quá trình chuyển giao zone sẽ luôn luôn khóa một zone vì vậy mà một máy chủ DNS phụ học sẽ nhận được một cái nhìn thống nhất zone trong khi chuyển zone dữ liệu. Khi zone bị khóa nó không còn có thể chấp nhận bản Cập Nhật động. Nếu zone lớn và bị khóa thường xuyên cho mục đích chuyển giao các zone, nó sẽ cạn Cập Nhật động khách hàng và hệ thống có thể trở nên không ổn định. Các dịch vụ Windows Server 2003 DNS Server hàng đợi yêu cầu bản cập nhật mà đến trong khi chuyển zone và xử lý chúng sau khi chuyển zone hoàn tất.
+
+**Làm thế nào khách hàng và máy chủ máy tính cập nhật tên DNS của họ**
+
+Theo mặc định, máy vi tính được cấu hình tĩnh TCP/IP cố gắng tự động đăng ký host (A) và bản ghi tài nguyên trỏ (PTR) cho địa chỉ IP được cấu hình và sử dụng kết nối mạng được cài đặt của họ. Tất cả máy tính đăng ký hồ sơ dựa trên tên miền hoàn toàn đủ điều kiện (FQDN).
+
+Các mặc định sau đây cũng áp dụng cho máy tính như thế nào cập nhật tên DNS của họ:
+
+-  Theo mặc định, máy khách DNS trên Windows XP không cố gắng cập nhật động trên một truy cập từ xa hoặc kết nối mạng riêng ảo (VPN). Để thay đổi cấu hình này, bạn có thể sửa đổi các thiết lập TCP / IP tiên tiến của các kết nối mạng cụ thể hoặc chỉnh sửa đăng ký. 
+
+- Theo mặc định, máy khách DNS không cố gắng cập nhật năng động của miền (TLD) zone cấp cao nhất. Bất kỳ zone được đặt tên với một cái tên duy nhất nhãn hiệu được coi là một zone TLD, ví dụ, com, edu, ...
+
+- Theo mặc định, phần hậu tố DNS chính của FQDN của máy tính là giống như tên của miền Active Directory để mà các máy tính được nối. Để cho phép các hậu tố DNS chính khác nhau, một quản trị viên miền có thể tạo ra một danh sách hạn chế các hậu tố cho phép bằng cách thay đổi các thuộc tính msDS-AllowedDNSSuffixes trong container đối tượng miền. Thuộc tính này được quản lý bởi các quản trị viên miền bằng Active Directory dịch vụ giao diện (ADSI) hoặc Lightweight Directory Access Protocol (LDAP).
+
+** Cập nhật động có thể được gửi cho bất kỳ lý do hoặc các sự kiện sau đây: **
+
+- Một địa chỉ IP được bổ sung, loại bỏ, hoặc sửa đổi trong cấu hình thuộc tính TCP / IP cho bất kỳ một trong các kết nối mạng được cài đặt.
+
+- Một địa chỉ IP thay đổi hợp đồng thuê hoặc làm mới với máy chủ DHCP bất kỳ một trong các kết nối mạng được cài đặt. Ví dụ, khi máy tính được khởi động hoặc nếu ipconfig / renew lệnh được sử dụng.
+
+- Lệnh ipconfig /registerdns được sử dụng để tự lực làm mới một khách hàng tên đăng ký trong DNS.
+
+- Lúc khởi động, khi máy tính được bật.
+
+- Một máy chủ thành viên được thăng lên một bộ điều khiển miền.
+
+
+Khi một trong những sự kiện trước đó gây ra một Cập Nhật động, Dịch vụ DHCP Client (không phải dịch vụ DNS Client) sẽ gửi thông tin Cập Nhật. Điều này được thiết kế để nếu thông tin địa chỉ IP thay đổi xảy ra vì dịch vụ DHCP, bản Cập Nhật tương ứng trong DNS được thực hiện đồng bộ hoá tên địa chỉ ánh xạ cho các máy tính. Dịch vụ DHCP Client thực hiện chức năng này cho tất cả các kết nối mạng được sử dụng trên hệ thống, bao gồm cả kết nối không được cấu hình để sử dụng DHCP.
+
+Quá trình Cập Nhật được mô tả ở trên giả định rằng cài đặt mặc định có hiệu lực đối với máy tính chạy Windows 2000, Windows XP hoặc máy chủ đang chạy Windows Server 2003. Tên cụ thể và bản Cập Nhật là hành vi ứng nơi thuộc tính TCP/IP nâng cao được cấu hình để sử dụng cài đặt DNS-default.
+
+Ngoài tên đầy đủ máy tính (hoặc tên chính) của máy tính, thêm tên DNS kết nối cụ thể có thể được cấu hình và tùy chọn đăng ký hoặc cập nhật trong DNS.
+
+Bản Cập Nhật động được gửi hoặc làm mới theo định kỳ. Theo mặc định, máy tính gửi làm mới một lần mỗi bảy ngày. Nếu việc Cập Nhật kết quả trong không có thay đổi zone dữ liệu, zone vẫn còn ở phiên bản hiện tại của nó và không có thay đổi được viết.
+
+Khi dịch vụ DHCP Client đăng ký tài ghi A và PTR cho một máy tính, nó sử dụng một bộ nhớ đệm thời gian thực mặc định (TTL) là 15 phút cho các hồ sơ lưu trữ. Điều này xác định bao lâu máy chủ DNS và khách hàng khác bộ nhớ cache của máy tính ghi khi họ được bao gồm trong một phản ứng truy vấn.
+
+**DNS và DHCP client và server**
+
+Windows 2000, Windows XP, và Windows Server 2003 DHCP khách hàng là động cập nhật, nhận thức và có thể bắt đầu quá trình cập nhật động. Một khách hàng dịch vụ DHCP sử dụng quá trình Cập Nhật động với máy chủ DHCP khi khách hàng cho thuê một địa chỉ IP hoặc đổi mới thuê, xác định những máy tính Cập Nhật bản ghi tài nguyên A và PTR của khách hàng. Tùy thuộc vào quá trình đàm phán, các khách hàng DHCP, DHCP server, hoặc cả hai, Cập nhật các bản ghi bằng cách gửi các yêu cầu Cập Nhật động đến các máy chủ DNS chính được uỷ quyền cho những cái tên đang được Cập Nhật.
+
+Khách hàng và máy chủ đang chạy phiên bản Windows trước đó hơn so với Windows 2000 không hỗ trợ cập nhật động. Windows 2000 và Windows Server 2003 dịch vụ DHCP Server có thể thực hiện các Cập Nhật động thay mặt cho khách hàng không hỗ trợ tùy chọn FQDN dịch vụ DHCP Client (trong đó được mô tả trong phần sau). Ví dụ: khách hàng đang chạy Microsoft Windows 95, Windows 98 và Windows NT không hỗ trợ tùy chọn FQDN uy nhiên, chức năng này có thể được kích hoạt trong tab DNS của các thuộc tính cho giao diện điều khiển dịch vụ DHCP. Các máy chủ DHCP đầu tiên lấy tên của khách hàng di sản từ các gói tin DHCP REQUEST. sau đó nó gắn thêm tên miền nhất định cho phạm vi đó và đăng kí các tài nguyên ghi A và PTR.
+
+Trong một số trường hợp, cũ PTR hoặc một bản ghi tài nguyên có thể xuất hiện trên các máy chủ DNS khi hợp đồng thuê của một khách hàng DHCP hết hạn. Ví dụ, khi một Windows 2000, Windows XP hoặc Windows Server 2003 DHCP client cố gắng thương lượng một thủ tục cập nhật năng động với một máy chủ Windows NT 4.0 DHCP, DHCP client phải đăng ký cả hai A và tài nguyên ghi PTR chính nó. Sau đó, nếu Windows 2000, Windows XP hoặc Windows Server 2003 DHCP client là không đúng loại bỏ từ mạng, khách hàng không thể xoá đăng ký A và bản ghi tài nguyên PTR và họ trở thành cũ.
+
+Để cung cấp khả năng chịu lỗi cho bản cập nhật động, xem xét việc tích hợp Active Directory cho những zone chấp nhận nâng cấp động từ Windows Server 2003 khách hàng dựa trên mạng. Để tăng tốc độ phát hiện các máy chủ DNS có thẩm quyền, bạn có thể cấu hình mỗi khách hàng với một danh sách các máy chủ DNS ưa thích và thay thế mà là chính cho rằng zone thư mục tích hợp. Nếu khách hàng không cập nhật các zone có máy chủ DNS ưa thích của mình vì các máy chủ DNS không có sẵn, khách hàng có thể thử một máy chủ thay thế. Khi các máy chủ DNS ưa thích trở thành có sẵn, nó tải Cập Nhật, thư mục, tích hợp các zone bao gồm các bản Cập Nhật từ khách hàng.
+
+**Quá trình cập nhật động cho các kết nối mạng được cấu hình DHCP**
+
+ Để bắt đầu quá trình cập nhật năng động, DHCP client gửi FQDN của nó đến máy chủ DHCP trong gói DHCPREQUEST bằng cách sử dụng các dịch vụ DHCP Client FQDN tùy chọn. Các máy chủ DHCP sau đó trả lời cho khách hàng DHCP bằng cách gửi một thông điệp DHCP nhận (DHCPACK) bao gồm các tùy chọn FQDN (tùy chọn mã 81). 
+
+Bảng sau đây liệt kê các trường tùy chọn FQDN của gói DHCPREQUEST. 
+
+**Các trường trong tùy chọn FQDN của gói DHCPREQUEST **
+
+|Trường|Gải thích|
+|----------|------------|
+|Code| Chỉ định mã cho tùy chọn này (81). |
+|Len| Xác định chiều dài, trong octet, các tùy chọn này (tối thiểu là 4). |
+|Flags|Có thể là một trong các giá trị sau:|
+|| 0 . Khách hàng muốn đăng ký A RR và yêu cầu các máy chủ cập nhật RR PTR.|
+|| 1 . Khách hàng muốn máy chủ để đăng ký A và PTR RR.|
+|| 3 .  máy chủ DHCP đăng ký A và PTR RR không phụ thuộc vào yêu cầu của khách hàng. |
+|RCODE1 and RCODE 2| Các máy chủ DHCP sử dụng các trường để xác định mã phản hồi từ việc đăng ký A và PTR RR thực hiện thay mặt cho khách hàng và để cho biết nó đã cố gắng cập nhật trước khi gửi DHCPACK. |
+|Domain Name| Chỉ định FQDN của khách hàng. |
+
+
+Các điều kiện theo DHCP mà khách hàng gửi cho các tùy chọn FQDN và hành động thực hiện bởi các máy chủ DHCP phụ thuộc vào hệ điều hành máy khách và máy chủ đang chạy và làm thế nào các khách hàng và máy chủ được cấu hình. 
+
+Khách hàng yêu cầu bản Cập Nhật động tùy thuộc vào việc có hay không nó đang chạy hệ điều hành Windows Server 2003, Windows 2000 hoặc trước đó. Nó cũng phụ thuộc vào khách hàng cấu hình. Khách hàng có thể thực hiện bất kỳ hành động sau đây:
+
+- Theo mặc định, các dịch vụ Windows 2000, Windows XP và Windows Server 2003 DHCP Client gửi các tùy chọn FQDN với lĩnh vực cờ đặt là 0 để yêu cầu các khách hàng Cập Nhật bản ghi tài nguyên A, và các dịch vụ DHCP Server Cập Nhật bản ghi tài nguyên PTR. Sau khi khách hàng gửi các tùy chọn FQDN, nó chờ đợi câu trả lời từ máy chủ DHCP. Trừ khi các máy chủ DHCP thiết lập trường Flags đến 3, khách hàng sau đó khởi tạo một bản Cập Nhật cho bản ghi tài nguyên A. Nếu máy chủ DHCP không hỗ trợ hoặc không được cấu hình để thực hiện đăng ký bản ghi DNS, sau đó FQDN không được bao gồm trong các phản ứng máy chủ DHCP và khách hàng cố gắng đăng ký của các bản ghi tài nguyên A và PTR.
+
+- Nếu DHCP client đang chạy một hệ điều hành Windows trước đó hơn so với Windows 2000, hoặc nếu khách hàng là Windows 2000 và nó được cấu hình không phải đăng ký bản ghi tài nguyên DNS, sau đó khách hàng không gửi các tùy chọn FQDN. Trong trường hợp này, khách hàng không cập nhật hoặc kỷ lục.
+
+Tùy thuộc vào những gì mà khách hàng yêu cầu DHCP, máy chủ DHCP có thể có những hành động khác nhau. Nếu DHCP client gửi một thông điệp DHCPREQUEST mà không có sự lựa chọn FQDN, hành vi phụ thuộc vào loại máy chủ DHCP và làm thế nào nó được cấu hình. Các máy chủ DHCP có thể cập nhật cả hai hồ sơ nếu nó được cấu hình để cập nhật hồ sơ thay mặt cho DHCP client không hỗ trợ tùy chọn FQDN.
+
+ Trong các trường hợp sau đây, máy chủ DHCP không thực hiện bất kỳ hành động: 
+
+- Các máy chủ DHCP (ví dụ, một máy chủ đang chạy Windows NT 4.0) không hỗ trợ cập nhật động.
+
+-  Các máy chủ DHCP đang chạy Windows Server 2008 và được cấu hình để không cập nhật động cho khách hàng mà không hỗ trợ tùy chọn FQDN. 
+
+-  Các máy chủ DHCP đang chạy Windows Server 2008 và được cấu hình không phải đăng ký bản ghi tài nguyên DNS. 
+
+Nếu Windows 2000, Windows XP hoặc Windows Server 2003 DHCP yêu cầu của khách hàng dựa trên mạng mà máy chủ cập nhật các bản ghi tài nguyên PTR nhưng không phải là bản ghi tài nguyên, hành vi này phụ thuộc vào loại máy chủ DHCP và làm thế nào nó được cấu hình. Các máy chủ có thể thực hiện bất kỳ hành động sau đây:
+
+- Nếu máy chủ DHCP đang chạy Windows 2000 hoặc hệ điều hành Windows Server 2003 và được cấu hình không thực hiện cập nhật động, phản ứng của nó không chứa các tùy chọn FQDN và không cập nhật hoặc bản ghi tài nguyên. Trong trường hợp này, khách hàng DHCP cố gắng cập nhật cả hai tài nguyên ghi A và PTR, nếu nó có khả năng.
+
+
+- Nếu DHCP server đang chạy hệ điều hành Windows 2000 hoặc Windows Server 2003 và được cấu hình để cập nhật theo yêu cầu của các khách hàng DHCP, máy chủ cố gắng để Cập Nhật bản ghi tài nguyên PTR. Thông báo DHCPACK máy chủ DHCP cho khách hàng dịch vụ DHCP có tùy chọn FQDN với cờ đặt thành 0, xác nhận rằng máy chủ DHCP Cập nhật hồ sơ PTR. DHCP client sau đó cố gắng để Cập Nhật bản ghi tài nguyên A, nếu nó có khả năng.
+
+Nếu DHCP server đang chạy hệ điều hành Windows 2000 hoặc Windows Server 2003, và là cấu hình để luôn luôn Cập Nhật A và PTR ghi cả hai máy chủ DHCP cố gắng Cập Nhật bản ghi tài nguyên cả. Thông báo DHCPACK máy chủ DHCP cho khách hàng dịch vụ DHCP có tùy chọn FQDN với cờ set 3, thông báo cho khách hàng DHCP rằng các bản cập nhật máy chủ DHCP A và bản ghi PTR. Trong trường hợp này, khách hàng DHCP không cố gắng để cập nhật hoặc bản ghi tài nguyên.
+
+**Quá trình cập nhật động cho khách được cấu hình tĩnh và truy cập từ xa**
+
+khách hàng được cấu hình tĩnh và các khách hàng truy cập từ xa không dựa trên máy chủ DHCP đăng ký DNS. khách hàng được cấu hình tĩnh tự động cập nhật A và tài nguyên PTR ghi lại mỗi khi khởi động và sau đó mỗi 24 giờ trong trường hợp các hồ sơ bị hỏng hoặc cần được làm mới trong cơ sở dữ liệu DNS.
+
+khách hàng truy cập từ xa có thể tự động cập nhật tài nguyên ghi A và PTR khi một kết nối dial-up được thực hiện. Họ cũng có thể cố gắng để thu hồi, hoặc xoá đăng ký, các nguồn tài nguyên bản ghi A và PTR khi người dùng đóng cửa các kết nối một cách rõ ràng. Máy tính chạy Windows 2000 hoặc hệ điều hành Windows Server 2003 với một kết nối mạng truy cập từ xa cố gắng đăng ký động của các bản ghi A và PTR tương ứng với địa chỉ IP của kết nối này. Theo mặc định, các dịch vụ DNS Client trên Windows XP không cố gắng động cập nhật qua một dịch vụ truy cập từ xa (RAS) hoặc kết nối mạng riêng ảo (VPN). Để thay đổi cấu hình này, bạn có thể sửa đổi các thiết lập TCP / IP tiên tiến của các kết nối mạng cụ thể hoặc chỉnh sửa registry.
+
+Trong tất cả các hệ điều hành, nếu một khách hàng truy cập từ xa không nhận được phản hồi thành công từ sự nỗ lực để xoá đăng ký một bản ghi tài nguyên DNS, hoặc nếu vì lý do nào khác không xoá đăng ký một bản ghi tài nguyên trong vòng bốn giây, DNS client đóng kết nối. Trong trường hợp này, cơ sở dữ liệu DNS có thể chứa một bản ghi cũ.
+
+Nếu khách hàng truy cập từ xa không thành công để xoá đăng ký một bản ghi tài nguyên DNS, nó cho biết thêm một tin nhắn để ghi sự kiện, bạn có thể xem bằng cách sử dụng trình xem sự kiện. Khách hàng truy cập từ xa không bao giờ xóa hồ sơ cũ, nhưng các máy chủ truy cập từ xa cố gắng để xoá đăng ký các bản ghi tài nguyên PTR khi khách hàng được ngắt kết nối.
+
+Windows 2000 quay mạng khách hàng cố gắng để đăng ký các bản ghi A và PTR cho kết nối quay số.  Theo mặc định, Windows XP và Windows Server 2003 DNS Client dịch vụ quay số mạng khách hàng cố gắng tự động Cập Nhật bản ghi A và PTR.   Do tính chất kinh doanh của họ, nó là phổ biến rằng các ISP không cho phép Cập Nhật động của thông tin DNS bởi khách hàng của họ. Nếu bạn sử dụng một ISP không hỗ trợ Cập Nhật động, cấu hình các thuộc tính kết nối để ngăn chặn máy tính thực hiện Cập Nhật động.
+
+**Quá trình cập nhật động cho khách hàng multihomed**
+
+Nếu một khách hàng cập nhật động được multihomed (có nhiều hơn một kết nối mạng và địa chỉ IP liên kết), nó đăng ký địa chỉ IP đầu tiên cho mỗi kết nối mạng theo mặc định. Nếu bạn không muốn nó để đăng ký các địa chỉ IP, bạn có thể cấu hình kết nối mạng để không phải đăng ký địa chỉ IP.
+
+Bản cập nhật khách hàng năng động không đăng ký tất cả các địa chỉ IP với các máy chủ DNS trong tất cả các không gian tên mà các máy tính được kết nối với. Ví dụ, một máy tính multihomed, client1.noam.example.com, được kết nối với cả hai mạng Internet và mạng nội bộ của công ty. Client1 được kết nối vào mạng nội bộ của bộ chuyển đổi A, một bộ điều hợp DHCP với địa chỉ IP 172.16.8.7. Client1 cũng được kết nối với Internet bằng bộ chuyển đổi B, một bộ chuyển đổi truy cập từ xa với địa chỉ IP 10.3.3.9. Client1 giải quyết tên mạng nội bộ bằng cách sử dụng một máy chủ tên trên mạng nội bộ, NoamDC1, và giải quyết tên Internet bằng cách sử dụng một máy chủ tên trên Internet, ISPNameServer.
+
+**Thời gian thực**
+
+Bất cứ khi nào một khách hàng Cập Nhật động đăng ký trong DNS, các liên kết tài nguyên A và PTR hồ sơ bao gồm thời gian thực (TTL), mà theo mặc định được thiết lập để 10 phút cho các hồ sơ đăng ký dịch vụ đăng nhập mạng, và 15 phút đối với hồ sơ đăng ký của dịch vụ DHCP Client.  Nếu dịch vụ DNS Server tự động đăng ký hồ sơ cho các zone riêng của mình, mặc định TTL là 20 phút.  Một giá trị nhỏ gây ra các mục nhập được lưu trữ hết hạn sớm hơn, mà làm tăng lưu lượng truy cập DNS, nhưng giảm nguy cơ hồ sơ lưu trữ trở nên lỗi thời. Hết hạn mục một cách nhanh chóng là hữu ích cho các máy tính thường xuyên làm mới DHCP cho thuê của họ. thời gian lưu dài có ích cho các máy tính mới DHCP cho thuê của họ không thường xuyên.
+
+**Giải quyết tên xung đột**
+
+Khi dịch vụ DNS Client cố gắng để đăng ký một bản ghi A và phát hiện ra rằng zone DNS uỷ quyền đã chứa một bản ghi A cho tên tương tự, nhưng với một địa chỉ IP khác nhau, theo mặc định, các dịch vụ DNS Client cố gắng để thay thế các bản ghi hiện có A ( s) với các bản ghi có chứa địa chỉ IP của máy khách DNS.  Kết quả là, bất kỳ máy tính trên mạng có thể thay đổi hiện tại một hồ sơ trừ khi Cập Nhật động an toàn được sử dụng. Các zone được đặt cấu hình cho bảo mật Cập Nhật động cho phép chỉ những người dùng được ủy quyền để sửa đổi các bản ghi tài nguyên.
+
+Bạn có thể thay đổi các thiết lập mặc định để các dịch vụ DNS Client hủy bỏ quá trình đăng ký và bản ghi lỗi trong Event Viewer, thay vì thay thế hiện tại Một kỷ lục.
+
+**Cập nhật động an toàn**
+
+Cập nhật DNS an ninh chỉ có sẵn cho các zone đã được tích hợp vào Active Directory. Một khi bạn được tích hợp Active Directory vào một zone, danh sách điều khiển truy cập (ACL) tính năng chỉnh sửa có sẵn trong giao diện DNS, do đó bạn có thể thêm hoặc loại bỏ người dùng hoặc nhóm từ ACL cho một zone quy định hoặc hồ sơ tài nguyên. ACL là để kiểm soát truy cập quản lý DNS chỉ, và không ảnh hưởng đến độ phân giải truy vấn DNS.
+
+ Theo mặc định, cập nhật động an toàn cho các máy chủ DNS và khách hàng được xử lý như sau: 
+
+- Khách hàng DNS cố gắng sử dụng cập nhật động không có bảo đảm đầu tiên. Nếu một bản cập nhật không có bảo đảm từ chối, khách hàng cố gắng để sử dụng bản cập nhật bảo mật.
+
+ Ngoài ra, khách hàng sử dụng một chính sách Cập Nhật mặc định cho phép họ để cố gắng ghi đè lên một hồ sơ đăng ký trước tài nguyên, trừ khi họ được đặc biệt bị chặn bởi các bản Cập Nhật bảo mật.
+
+- Khi một khu vực trở thành Active Directory tích hợp, máy chủ DNS đang chạy Windows Server 2003 mặc định chỉ cho phép cập nhật động an toàn.
+
+Khi sử dụng lưu trữ zone chuẩn, mặc định cho các dịch vụ DNS Server là không cho phép cập nhật động trên các zone của nó. Đối với các khu hoặc là tích hợp thư mục hoặc sử dụng tiêu chuẩn dựa trên tập tin lưu trữ, bạn có thể thay đổi khu vực để cho phép tất cả các bản Cập Nhật động cho phép tất cả các bản cập nhật để được chấp nhận.
+
+Cập nhật động hoạt động như thế nào
+
+ Quá trình cập nhật an toàn động được mô tả như sau: 
+
+- Để bắt đầu Cập Nhật động an toàn, DNS client lần đầu tiên bắt đầu quá trình đàm phán bối cảnh an ninh, trong đó các thẻ được truyền giữa máy khách và máy chủ bằng cách sử dụng bản ghi tài nguyên TKEY. Ở phần cuối của quá trình đàm phán bối cảnh an ninh được thành lập.
+
+
+- Tiếp theo, các DNS client gửi yêu cầu cập nhật động (có chứa bản ghi tài nguyên cho mục đích của việc thêm, xóa, hoặc sửa đổi dữ liệu) đến máy chủ DNS, ký sử dụng bối cảnh an ninh được thiết lập trước đó và đi qua các chữ ký trong các bản ghi tài nguyên TSIG, bao gồm các gói cập nhật động.
+
+- Máy chủ cố gắng để cập nhật các hoạt động thư mục bằng cách sử dụng thông tin đăng nhập của khách hàng và gửi kết quả Cập Nhật cho khách hàng. Những kết quả này được ký kết bằng cách sử dụng bối cảnh an ninh và vượt qua chữ ký trong bản ghi tài nguyên TSIG được bao gồm trong các phản ứng.
+
+Đảm bảo quá trình cập nhật năng động
+
+ Quá trình cập nhật an toàn năng động được mô tả như sau: 
+
+1 . DNS client truy vấn máy chủ DNS ưa thích để xác định máy chủ DNS là uỷ quyền cho các tên miền đó là cố gắng để cập nhật. Các máy chủ DNS ưa thích đáp ứng với tên của zone và các máy chủ DNS chính uỷ quyền cho zone.
+
+2 . Các DNS client cố gắng cập nhật động tiêu chuẩn, và nếu zone được cấu hình để cho phép chỉ đảm bảo cập nhật động (cấu hình mặc định cho các zone Active Directory tích hợp), máy chủ DNS từ chối bản cập nhật không an toàn. Có zone được cấu hình cho tiêu chuẩn Cập Nhật động chứ không phải là bảo mật Cập Nhật động, các máy chủ DNS nào đã chấp nhận DNS client cố gắng để thêm, xóa, hoặc sửa đổi bản ghi tài nguyên trong zone đó.
+
+
+3 . DNS client và DNS server bắt đầu đàm phán TKEY.
+
+4 . Trước tiên, DNS client và DNS server thương lượng một cơ chế bảo mật tiềm ẩn. Windows Cập Nhật động khách hàng và máy chủ DNS có thể chỉ dùng giao thức Kerberos.
+
+5 . Tiếp theo, bằng cách sử dụng cơ chế bảo mật, DNS client và máy chủ DNS xác minh danh tính tương ứng của họ và thiết lập bối cảnh an ninh.
+
+6 . DNS client gửi yêu cầu Cập Nhật động cho các máy chủ DNS, đăng nhập bằng cách sử dụng bối cảnh an ninh được thành lập. Chữ ký được bao gồm trong lĩnh vực chữ ký của các bản ghi tài nguyên TSIG được bao gồm trong các gói Cập Nhật động yêu cầu. Các máy chủ DNS xác minh nguồn gốc của các gói Cập Nhật động bằng cách sử dụng bối cảnh an ninh và chữ ký TSIG.
+
+7 . Các máy chủ DNS cố gắng thêm, xóa hoặc sửa đổi các bản ghi tài nguyên trong Active Directory. Có hay không nó có thể thực hiện các cập nhật tùy thuộc vào liệu DNS client có quyền thích hợp để thực hiện các Cập Nhật và cho dù điều kiện tiên quyết đã được đáp ứng.
+
+8 . Các máy chủ DNS gửi trả lời cho DNS client nêu rõ cho dù có hay không nó đã có thể thực hiện Cập Nhật, đăng nhập bằng cách sử dụng bối cảnh an ninh được thành lập. Chữ ký được bao gồm trong lĩnh vực chữ ký của các bản ghi tài nguyên TSIG được bao gồm trong các gói Cập Nhật động phản ứng. Nếu DNS client sẽ nhận được một thư trả lời gỉa mạo, nó bỏ qua nó và chờ đợi cho một phản ứng đã ký.
+
+**Bảo mật cho ứng dụng khách DHCP không hỗ trợ tùy chọn FQDN**
+
+
+Khách hàng Windows DHCP không hỗ trợ tùy chọn FQDN (tùy chọn 81)  không có khả năng cập nhật động. Nếu bạn muốn tài nguyên ghi A và PTR cho các khách hàng tự động đăng ký trong DNS, bạn phải cấu hình máy chủ DHCP để thực hiện nâng cấp động thay mặt họ.
+
+Tuy nhiên, có máy chủ DHCP để thực hiện cập nhật an toàn năng động thay mặt cho khách hàng DHCP mà không hỗ trợ tùy chọn FQDN là không mong muốn bởi vì khi một máy chủ DHCP thực hiện một cập nhật động bảo mật trên một cái tên, mà máy chủ DHCP sẽ trở thành chủ sở hữu của tên đó, và chỉ có máy chủ DHCP có thể cập nhật bất cứ hồ sơ cho tên đó. Điều này có thể gây ra các vấn đề trong một vài hoàn cảnh khác nhau.
+
+Để giải quyết vấn đề này, nhóm được xây dựng trong bảo mật được gọi là DnsUpdateProxy được cung cấp. Nếu tất cả các máy chủ DHCP được thêm vào như là thành viên của nhóm DnsUpdateProxy, một bản ghi máy chủ có thể được Cập Nhật bởi một máy chủ, nếu máy chủ đầu tiên không thành công. Ngoài ra, bởi vì tất cả các đối tượng được tạo bởi các thành viên của nhóm DnsUpdateProxy không bảo đảm, người sử dụng đầu tiên (mà không phải là thành viên của nhóm DnsUpdateProxy) để sửa đổi các thiết lập của các hồ sơ liên quan đến DNS tên trở thành chủ nhân của nó. Khi khách hàng cũ được nâng cấp, họ có thể do đó mất quyền sở hữu của tên hồ sơ của họ tại các máy chủ DNS. Nếu mỗi máy chủ DHCP, đăng ký các bản ghi tài nguyên cho các khách hàng lớn là thành viên của nhóm DnsUpdateProxy, các vấn đề thảo luận trước đó được loại bỏ.
+
+Bảo mật hồ sơ khi sử dụng nhóm DNSUpdateProxy
+
+tên miền DNS được đăng ký bởi các máy chủ DHCP không an toàn khi máy chủ DHCP là một thành viên của nhóm DNSUpdateProxy. Kết quả là, không sử dụng nhóm này trong một Active Directory tích hợp zone mà chỉ cho phép đảm bảo cập nhật động mà không cần dùng các bước bổ sung để cho phép ghi được tạo ra bởi các thành viên của nhóm phải được bảo đảm.
+
+Để bảo vệ chống lại các hồ sơ không có bảo đảm, hoặc cho phép thành viên của nhóm DNSUpdateProxy đăng ký hồ sơ tại các zone mà chỉ cho phép bảo đảm cập nhật năng động, Windows Server 2003 DHCP và DNS cho phép bạn tạo một tài khoản người dùng chuyên dụng và cấu hình máy chủ DHCP để thực hiện DNS động cập nhật với các thông tin tài khoản người dùng (tên người dùng, mật khẩu và tên miền). Các thông tin của một tài khoản người dùng chuyên dụng có thể được sử dụng bởi nhiều máy chủ DHCP.
+
+Tài khoản người dùng chuyên dụng là một tài khoản người dùng chuẩn được sử dụng chỉ được cung cấp các máy chủ DHCP với các thông tin cho DNS đăng ký cập nhật động. Mỗi máy chủ DHCP cung cấp những thông tin khi đăng ký tên thay mặt cho khách hàng sử dụng DHCP DNS cập nhật động. Tài khoản người dùng chuyên dụng được tạo ra trong rừng cùng một nơi mà các máy chủ DNS chính cho zone phải được cập nhật thường trú. Tài khoản người dùng chuyên dụng cũng có thể được đặt trong rừng khác miễn là rừng nó cư trú trong có một sự tin tưởng rừng thành lập với diện tích rừng có máy chủ DNS chính cho zone được cập nhật.
+
+Khi cài đặt trên một bộ điều khiển tên miền, dịch vụ DHCP Server được thừa hưởng các khoản bảo mật của bộ điều khiển tên miền và có quyền cập nhật hoặc xóa bất kỳ bản ghi DNS được đăng ký tại một vùng Active Directory tích hợp an toàn (kể cả hồ sơ được đăng ký một cách an toàn bằng cách máy tính đang chạy Windows 2000 hoặc Windows server 2003, bao gồm các bộ điều khiển miền). Khi cài đặt trên một bộ điều khiển tên miền, cấu hình máy chủ DHCP với các thông tin của tài khoản người dùng chuyên dụng để ngăn chặn các máy chủ từ thừa kế, và có thể lợi dụng, sức mạnh của các bộ điều khiển miền.
+
+ Cấu hình một tài khoản người dùng chuyên dụng và cấu hình dịch vụ DHCP Server với các thông tin tài khoản trong các trường hợp sau đây: 
+
+-  Một bộ điều khiển miền được cấu hình để hoạt động như một máy chủ DHCP. 
+
+-  Các máy chủ DHCP được cấu hình để thực hiện DNS cập nhật động thay mặt cho khách hàng DHCP. 
+
+-  Các zone DNS được cập nhật bởi các máy chủ DHCP được cấu hình để cho phép chỉ đảm bảo cập nhật động. 
+
+**Kiểm soát cập nhật truy cập vào zone và tên**
+
+Danh sách kiểm soát truy cập truy cập vào các zone DNS và ghi tài nguyên được lưu trữ trong Active Directory được kiểm soát (ACL). ACL có thể được chỉ định cho các dịch vụ DNS Server, một zone toàn bộ hoặc cho các tên DNS cụ thể. Theo mặc định, bất kỳ người sử dụng Active Directory xác thực có thể tạo ra các bản ghi A hoặc nguồn PTR trong khu vực bất kỳ. Khi một tên chủ sở hữu đã được tạo ra cho một zone (không phân biệt các loại hồ sơ tài nguyên), chỉ có người dùng hoặc nhóm quy định trong ACL cho tên đó có quyền ghi được kích hoạt để sửa đổi hồ sơ tương ứng với tên đó. Trong khi cách tiếp cận này là mong muốn trong hầu hết các tình huống, một số trường hợp đặc biệt cần phải được xem xét riêng biệt.
+
+**Nhóm DNSAdmins**
+
+Theo mặc định, các nhóm DNSAdmins đã kiểm soát đầy đủ của tất cả các zone và các bản ghi trong Server 2003 miền Windows, trong đó nó được chỉ định. Để cho một người sử dụng để có thể liệt kê các zone trong một miền Windows Server 2003 cụ thể, người sử dụng (hoặc thuộc một nhóm người sử dụng) phải được gia nhập vào nhóm DNSAdmin.
+
+Có thể là một quản trị viên miền có thể không muốn cấp kiểm soát đầy đủ cho tất cả các người dùng được liệt kê trong nhóm DNSAdmins. Thông thường, điều này sẽ là kết quả nếu người quản trị domain muốn cấp quyền kiểm soát đầy đủ cho một zone cụ thể và chỉ đọc kiểm soát đối với các zone khác trong miền đến một tập người dùng. Để thực hiện điều này, các quản trị viên miền có thể tạo một nhóm riêng biệt cho từng zone, và thêm người dùng cụ thể cho từng nhóm. Sau đó, ACL cho từng zone sẽ chứa một nhóm với đầy đủ chỉ zone đó. Đồng thời, tất cả các nhóm sẽ được bao gồm trong nhóm DNSAdmins, mà có thể được cấu hình để chỉ có quyền đọc. Như một kết quả của thực tế là ACL của một zone luôn chứa nhóm DNSAdmins, tất cả người dùng gia nhập vào nhóm zone cụ thể sẽ có quyền đọc cho tất cả các zone trong miền.
+
+**Đặt tên**
+
+Cấu hình dịch vụ DNS Server mặc định cho phép bất kỳ người dùng xác thực để tạo ra một cái tên mới trong một zone có thể không đủ cho môi trường đòi hỏi một mức độ bảo mật cao. Trong trường hợp như vậy, các ACL mặc định có thể được thay đổi để cho phép tạo ra các đối tượng trong một zone của một số nhóm hoặc chỉ người dùng. Để thực hiện việc này, người quản trị tạo ra một hồ sơ cho tên dành riêng và bộ thích hợp danh sách các nhóm hoặc người dùng trong ACL. Kết quả là, chỉ người dùng được liệt kê trong ACL sẽ có thể đăng ký một bản ghi với tên dành riêng.
+
+<a name="5"></a>
+#5.Understanding Aging and Scavenging
 
