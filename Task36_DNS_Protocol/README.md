@@ -4,7 +4,7 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **19/1/2017**
+> Cập nhật: **20/1/2017**
 
 ### Mục lục
 [1.Kiến trúc DNS](#1)
@@ -53,7 +53,7 @@
 
 [4.Các qúa trình và tương tác DNS](#4)
 
-- [4.1 Truy vấn DNS hoạt động thế nào](#41)
+- [4.1 Truy vấn DNS hoạt động thế nào?](#41)
 
 - [4.2 Tra cứu ngược](#42)
 
@@ -62,6 +62,28 @@
 - [4.4 Dynamic Update (cập nhật động)](#44)
 
 [5.Understanding Aging and Scavenging](#5)
+
+- [5.1 Điều kiện tiên quyết cho lão hóa và loại bỏ](#51)
+
+- [5.2 Thuật ngữ lão hóa và loại bỏ](#52)
+
+- [5.3 Khi loại bỏ có thể bắt đầu](#53)
+
+[6.Hỗ trợ ký tự Unicode](#6)
+
+- [6.1 UTF-8 là gì?](#61)
+
+- [6.2 Làm thế nào các dịch vụ DNS thực hiện UTF-8?](#62)
+
+- [6.3 Cân nhắc cho khả năng tương tác với UTF-8](#63)
+
+[7.WINS Lookup Integration](#7)
+
+- [7.1 Bản ghi tài nguyên WINS](#71)
+
+- [7.2 WINS tra cứu như thế nào](#72)
+
+- [7.3 Làm thế nào WINS tra cứu ngược lại](#73)
 
 ---
 
@@ -1423,4 +1445,231 @@ Cấu hình dịch vụ DNS Server mặc định cho phép bất kỳ người d
 
 <a name="5"></a>
 #5.Understanding Aging and Scavenging
+
+Các máy chủ DNS đang chạy Windows Server 2003 hỗ trợ tính năng lão hóa và loại bỏ. Các tính năng được cung cấp như một cơ chế cho các hoạt động dọn dẹp và loại bỏ các bản ghi tài nguyên (RRs) củ, mà có thể tích lũy trong vùng dữ liệu theo thời gian.
+
+Với bản cập nhật động, RR sẽ được tự động thêm vào zone khi máy tính khởi động trên mạng. Tuy nhiên, trong một số trường hợp, họ không được tự động loại bỏ khi rời khỏi máy tính trong mạng. Ví dụ, nếu một máy tính đăng ký máy chủ riêng (A) RR của nó lúc khởi động và sau đó không đúng cách ngắt kết nối từ mạng, máy chủ (A) RR của nó có thể không bị xóa. Nếu mạng của bạn có sử dụng điện thoại di động và máy tính, tình trạng này có thể xảy ra thường xuyên.
+
+Nếu không được quản lý, sự hiện diện của RR cũ trong khu dữ liệu có thể gây ra một số vấn đề. Sau đây là những ví dụ: 
+
+- Nếu một số lượng lớn các RR cũ vẫn còn trong khu máy chủ, cuối cùng họ có thể mất không gian đĩa máy chủ và gây chuyển vùng rất dài.
+
+- Các máy chủ DNS tải zone với RRs củ có thể sử dụng thông tin lỗi thời để trả lời các truy vấn khách hàng, có khả năng gây ra các khách hàng để trải nghiệm các vấn đề về độ phân giải tên trên mạng.
+
+- Sự tích lũy của RR cũ tại máy chủ DNS có thể làm suy giảm hiệu suất và sự đáp ứng của nó.
+
+- Trong một số trường hợp, sự hiện diện của một RR cũ trong một zone có thể ngăn chặn từ một tên miền DNS đang được sử dụng bởi một máy tính hoặc máy chủ thiết bị.
+
+ Để giải quyết những vấn đề này, các dịch vụ DNS Server có các tính năng sau: 
+
+- Thời gian đóng dấu, dựa trên ngày và thời gian thiết lập hiện tại ở máy chủ, cho bất kỳ RRs được thêm tự động vào kiểu zone chính. Ngoài ra, thời gian tem được ghi lại trong tiêu chuẩn khu vực chính nơi lão hóa/nhặt rác được kích hoạt.
+
+- Đối với RR mà bạn thêm tự, một giá trị thời gian đóng dấu của không được sử dụng, chỉ ra rằng họ không bị ảnh hưởng bởi quá trình lão hóa và có thể vẫn còn nhưng không giới hạn trong zone dữ liệu trừ khi bạn nếu không thay đổi tem thời gian của họ hoặc xóa chúng.
+
+- Lão hóa của RR trong dữ liệu địa phương, dựa trên một khoảng thời gian làm mới quy định, đối với bất kỳ zone nào đủ điều kiện. Chỉ có zone chính được tải bởi các dịch vụ DNS Server là đủ điều kiện để tham gia vào quá trình này.
+
+- Nhặt rác cho bất kỳ RR mà vẫn tồn tại ngoài thời gian quy định làm mới. Khi một máy chủ DNS thực hiện một hoạt động nhặt rác, nó có thể xác định rằng RR đã ở độ tuổi đến mức trở thành cũ và loại bỏ chúng từ zone dữ liệu. Máy chủ có thể được cấu hình để thực hiện các hoạt động nhặt rác định kỳ tự động, hoặc bạn có thể bắt đầu một hoạt động nhặt rác ngay tại máy chủ.
+
+Các máy chủ sử dụng các nội dung của mỗi con tem thời gian RR-cụ thể, cùng với tính chất lão hóa / loại bỏ khác mà bạn có thể điều chỉnh hoặc cấu hình, để xác định khi nó dọn sạch các bản ghi.
+
+<a name="51"></a>
+###5.1 Điều kiện tiên quyết cho lão hóa và loại bỏ
+
+ Trước khi các tính năng lão hóa và loại bỏ của DNS có thể được sử dụng, một số điều kiện phải được đáp ứng: 
+
+1 .  Loại bỏ và lão hóa phải được cho phép cả hai máy chủ DNS và trên zone. 
+
+ Theo mặc định, lão hóa và loại bỏ của bản ghi tài nguyên bị vô hiệu hóa. 
+
+2 .  Bản ghi tài nguyên hoặc phải được tự động thêm vào zone hoặc tự sửa đổi để được sử dụng trong các hoạt động lão hóa và nhặt rác. 
+
+Thông thường, chỉ những bản ghi tài nguyên bổ sung tự động bằng cách sử dụng giao thức Cập Nhật động DNS có thể lão hóa và loại bỏ.
+
+Bạn có thể, tuy nhiên, cho phép loại bỏ cho các bản ghi tài nguyên khác thêm vào thông qua các phương tiện không động. Đối với các bane ghi bổ sung vào zone trong cách này, bằng cách tải một zone tập tin dựa trên văn bản từ một máy chủ DNS hoặc bằng tay bằng cách thêm chúng vào một zone, một tem thời gian của không được thiết lập. Điều này làm cho những hồ sơ không đủ điều kiện để sử dụng trong các hoạt động lão hóa / loại bỏ.
+
+Để thay đổi mặc định này, bạn có thể quản lý các bane ghi cá nhân, để thiết lập lại và cho phép họ sử dụng một giá trị thời gian tem hiện hành (zero-không). Điều này cho phép những bane ghi này để trở thành niên và loại bỏ.
+
+
+<a name="52"></a>
+###5.2 Thuật ngữ lão hóa và loại bỏ
+
+Danh sách sau đây chỉ ra điều khoản mới hoặc sửa đổi đã được giới thiệu để giúp cụ thể khi thảo luận về lão hóa và nhặt rác.
+
+**Current server name** thời điểm hiện hành trên các máy chủ DNS. Con số này có thể được thể hiện như là một giá trị số chính xác tại bất kỳ thời điểm nào.
+
+**No-refresh interval** Một khoảng thời gian, xác định đối với từng zone, như được bao bọc bởi hai sự kiện sau đây:
+
+- Ngày và thời gian khi các bản ghi là cuối cùng làm mới và bộ tem thời gian của nó.
+
+- Ngày và thời gian khi bản ghi tiếp theo sẽ trở thành đủ điều kiện để được làm mới và có thiết lập lại thời gian đóng dấu của nó.
+
+Giá trị này là cần thiết để giảm số lượng các hoạt động ghi vào cơ sở dữ liệu Active Directory. Theo mặc định, khoảng thời gian này được thiết lập đến bảy ngày. Nó không nên được tăng lên đến một mức độ cao bất hợp lý, vì lợi ích của tính năng lão hóa và loại bỏ có thể hoặc là bị mất hoặc bị giảm sút.
+
+**Record refresh** Khi một cập nhật DNS động được xử lý cho một bản ghi tài nguyên khi chỉ có thời gian đóng dấu bản ghi tài nguyên, và không có các đặc điểm khác của các hồ sơ, được sửa đổi. Làm mới thường xảy ra vì những lý do sau đây:
+
+- Khi một máy tính được khởi động lại trên mạng, và nếu lúc khởi động, tên của nó và thông tin địa chỉ IP phù hợp với cùng tên và thông tin địa chỉ nó được sử dụng trước khi bị đóng cửa, nó sẽ gửi một làm mới để làm mới bản ghi tài nguyên liên kết của nó cho thông tin này .
+
+- Làm mới định kỳ được gửi bởi các máy tính trong khi nó đang chạy.
+
+- Các dịch vụ Windows XP và Windows Server 2003 DNS Client renews đăng ký khách hàng ghi tài nguyên DNS mỗi 24 giờ. Khi cập nhật động này xảy ra, nếu các yêu cầu cập nhật động không gây ra biến đổi cơ sở dữ liệu DNS, sau đó nó được coi là một làm mới và không phải là một bản cập nhật bản ghi tài nguyên.
+
+- Các dịch vụ mạng khác làm cho những nỗ lực làm mới, chẳng hạn như: máy chủ DHCP mà làm mới cho thuê địa chỉ khách hàng, cụm máy chủ mà đăng ký và cập nhật hồ sơ cho một cụm, và các dịch vụ Net Logon, có thể đăng ký và ghi tài nguyên cập nhật sử dụng bởi bộ điều khiển vùng Active Directory.
+
+**Record update** Khi một cập nhật DNS động được xử lý cho một bản ghi tài nguyên, nơi các đặc điểm khác của hồ sơ ngoài tem thời gian của nó được sửa đổi. Cập nhật này thường xảy ra vì những lý do sau đây:
+
+- Khi một máy tính mới được thêm vào mạng và, lúc khởi động, nó sẽ gửi một bản cập nhật để đăng ký bản ghi tài nguyên của mình cho lần đầu tiên với zone cấu hình của nó.
+
+- Khi một máy tính với bản ghi hiện có trong khu vực có thay đổi địa chỉ IP, gây cập nhật được gửi cho nó sửa đổi ánh xạ tên tới địa chỉ trong vùng dữ liệu DNS.
+
+- Khi các dịch vụ đăng nhập mạng đăng ký điều khiển vùng Active Directory mới.
+
+**Refresh interval** Một khoảng thời gian, xác định đối với từng zone, như được bao bọc bởi hai sự kiện riêng biệt sau đây:
+
+- Ngày sớm nhất và thời gian khi các bản ghi trở thành đủ điều kiện để được làm mới và có thiết lập lại thời gian đóng dấu của nó.
+
+- Ngày sớm nhất và thời gian khi các bản ghi trở thành đủ điều kiện để được nhặt và loại bỏ khỏi cơ sở dữ liệu khu vực.
+
+Giá trị này phải đủ lớn để cho phép tất cả các khách hàng để làm mới hồ sơ của họ. Theo mặc định, khoảng thời gian này được thiết lập đến bảy ngày. Nó không nên được tăng lên đến một mức độ cao bất hợp lý, vì lợi ích của tính năng lão hóa và loại bỏ có thể hoặc là bị mất hoặc bị giảm sút.
+
+**Resource record (RR) time stamp** Một ngày tháng và thời gian giá trị được sử dụng bởi các máy chủ DNS để xác định loại bỏ các bản ghi tài nguyên khi nó thực hiện các hoạt động lão hóa và loại bỏ.
+
+**Scavenging period** Khi nhặt loại bỏ động được kích hoạt tại máy chủ, thời gian này là thời gian giữa lần lặp lại của quá trình loại bỏ tự động. Giá trị mặc định cho điều này là bảy ngày. Để ngăn chặn sự suy giảm hiệu suất của máy chủ DNS, cho phép tối thiểu giá trị cho điều này là một giờ.
+
+**Scavenging servers** Một tham số zone tùy chọn nâng cao cho phép bạn chỉ định một danh sách hạn chế địa chỉ IP cho các máy chủ DNS được kích hoạt để thực hiện nhặt rác của zone. Theo mặc định, nếu tham số này không được xác định, tất cả các máy chủ DNS mà tải một zone thư mục tích hợp (cũng kích hoạt cho nhặt rác) nỗ lực để thực hiện loại bỏ của zone. Trong một số trường hợp, tham số này có thể hữu ích nếu nó là thích hợp hơn mà loại bỏ chỉ được thực hiện tại một số máy chủ tải zone tích hợp thư mục. Để thiết lập thông số này, bạn phải xác định danh sách các địa chỉ IP cho các máy chủ kích hoạt để loại bỏ zone trong tham số ScavengingServers cho zone. Điều này có thể được thực hiện bằng cách sử dụng lệnh dnscmd, một dựa trên công cụ dòng lệnh để quản lý các máy chủ DNS Windows.
+
+**Start scavenging time** Một thời gian cụ thể, thể hiện như một số. Thời gian này được sử dụng bởi các máy chủ để xác định khi một zone trở nên có sẵn để loại bỏ.
+
+
+<a name="53"></a>
+###5.3 Khi loại bỏ có thể bắt đầu
+
+Một khi tất cả các điều kiện tiên quyết cho phép sử dụng loại bỏ, loại bỏ có thể bắt đầu cho một zone máy chủ khi thời gian máy chủ hiện nay là lớn hơn giá trị của thời gian bắt đầu nhặt rác cho zone.
+
+Các máy chủ sẽ đặt giá trị thời gian để bắt đầu loại bỏ trên một cơ sở cho mỗi zone mỗi khi có một trong các sự kiện sau đây xảy ra:
+
+- Cập nhật động được kích hoạt cho khu vực.
+
+- Một sự thay đổi trong trạng thái của bản ghi tài nguyên cũ loại bỏ kiểm tra hộp được áp dụng. Bạn có thể sử dụng giao diện DNS để thay đổi cài đặt này hoặc một máy chủ DNS được áp dụng hoặc một trong các zone chính của nó.
+
+- Các máy chủ DNS tải một zone trọng điểm kích hoạt để sử dụng loại bỏ.  Điều này có thể xảy ra khi máy tính máy chủ được bắt đầu hoặc khi dịch vụ DNS Server được bắt đầu.
+
+- Khi một zone làm lại dịch vụ sau khi đã được tạm dừng.
+
+Khi một trong những sự kiện xảy ra trước đó, máy chủ DNS đặt giá trị của thời gian bắt đầu nhặt rác bằng cách tính tổng sau:
+
+Current server time + Refresh interval = Start scavenging time
+
+Giá trị này được sử dụng như một cơ sở so sánh trong hoạt động loại bỏ.
+
+
+<a name="6"></a>
+#6.Hỗ trợ ký tự Unicode
+
+Ban đầu, tên máy chủ lưu trữ Internet bị giới hạn ký tự được chỉ định trong RFCs 952 và 1123. Những hạn chế này bao gồm giới hạn tên để sử dụng chữ hoa và chữ thường (A-"Z", a-z), số (0-9) và dấu gạch ngang (-). Ngoài ra, các ký tự đầu tiên của tên DNS có thể là một số và tên phải được mã hóa và đại diện bằng cách sử dụng ký tự US-ASCII-based.
+
+Những yêu cầu này đã được duy trì khi DNS đã được giới thiệu như là một phần của RFC 1035, một trong những tiêu chuẩn kỹ thuật cốt lõi DNS. Nếu muốn sử dụng DNS trong thiết lập quốc tế, yêu cầu này có những hạn chế đáng kể mà các bộ ký tự mở rộng được sử dụng cho các tiêu chuẩn đặt tên địa phương.
+
+Để loại bỏ những hạn chế này, Microsoft mở rộng hỗ trợ ký tự DNS vượt ra ngoài các đặc tả RFC 1035. Các dịch vụ DNS hiện nay cung cấp hỗ trợ mặc định tăng cường cho UTF-8, một định dạng chuyển đổi Unicode.
+
+
+<a name="61"></a>
+###6.1 UTF-8 là gì?
+
+UTF-8 là tập hợp các nhân vật được đề nghị cho các giao thức được phát triển xa hơn nữa việc sử dụng của ASCII. Giao thức UTF-8 cung cấp để hỗ trợ cho các ký tự ASCII mở rộng và bản dịch của UCS-2, một 16-bit Unicode ký tự mà bao gồm hầu hết các hệ thống chữ viết trên thế giới. UTF-8 cho phép một phạm vi lớn hơn nhiều tên hơn có thể đạt được bằng cách sử dụng ASCII hoặc mở rộng ASCII mã hóa cho các dữ liệu ký tự.
+
+Máy tính chạy hệ điều hành Windows 2000, Windows XP và Windows Server 2003 là UTF-8 nhận thức. Điều này có nghĩa rằng khi ký tự UTF-8 mã hóa được nhận hoặc được sử dụng như là dữ liệu của máy chủ, máy chủ có thể tải và lưu trữ dữ liệu này trong zone của mình. Mặc dù máy chủ dựa trên Windows DNS UTF-8 nhận thức, họ vẫn còn tương thích với các máy chủ DNS khác sử dụng mã hóa dữ liệu US-ASCII truyền thống và các tiêu chuẩn DNS hiện tại.
+
+
+<a name="62"></a>
+###6.2 Làm thế nào các dịch vụ DNS thực hiện UTF-8
+
+Để cung cấp các tiêu chuẩn tương thích và khả năng tương tác với việc triển khai DNS khác, các dịch vụ DNS sử dụng thống nhất downcasing của bất kỳ dữ liệu nhận được ký tự. Trong quá trình này, các dịch vụ DNS chuyển đổi tất cả các ký tự chữ hoa được sử dụng dữ liệu US-ASCII chuẩn để chữ thường tương đương dữ liệu cho các lý do sau đây:
+
+- Để duy trì khả năng tương thích với các tiêu chuẩn DNS hiện tại và hiện tại.
+
+- Để cung cấp khả năng tương tác với việc triển khai máy chủ DNS mà không nhận ra hoặc hỗ trợ mã hoá UTF-8.
+
+Để hiểu tại sao downcasing thống nhất đã được lựa chọn, một số điểm liên quan trước tiên phải được xem xét từ các tiêu chuẩn Internet sửa đổi hiện nay cho DNS. Một số điểm chính trong các tiêu chuẩn liên quan trực tiếp đến cách dữ liệu ký tự được xử lý giữa các máy chủ và máy chủ DNS khác và khách hàng. Chúng bao gồm những điều sau đây:
+
+-  Bất kỳ chuỗi nhị phân có thể được sử dụng trong một tên DNS. (RFC 2181) 
+
+- các máy chủ DNS phải có khả năng so sánh được tên trong trường hợp nhạy cảm. (RFC 1035)
+
+- Trường hợp bản gốc cho dữ liệu ký tự cần được bảo tồn bất cứ khi nào có thể như là dữ liệu được nhập vào hệ thống. (RFC 1035)
+
+Vì trường hợp insensitivity là một phần bắt buộc của core tiêu chuẩn DNS và trường hợp bảo tồn là một đề nghị tùy chọn, downcasing thống nhất đã được lựa chọn để cung cấp một giải pháp tiêu chuẩn tuân thủ hiệu quả. Bởi downcasing UTF-8 mã hóa tên trước khi truyền tải, các máy chủ DNS khác (mà không phải UTF-8 nhận thức) có thể nhận được và thực hiện thành công các so sánh nhị phân của dữ liệu và có được kết quả mong muốn.
+
+
+<a name="63"></a>
+###6.3 Cân nhắc cho khả năng tương tác với UTF-8
+
+Các dịch vụ DNS Server có thể được cấu hình để cho phép hoặc không cho phép sử dụng UTF-8 ký tự trên một cơ sở cho mỗi máy chủ. Mặc dù triển khai máy chủ DNS khác mà không phải là UTF-8 nhận thức có thể chấp nhận việc chuyển giao một khu vực chứa UTF-8 tên mã hóa, những máy chủ có thể không có khả năng viết lại những cái tên đó đến một khu tập tin hoặc tải lại những cái tên đó từ một khu tập tin. Quản trị viên nên thận trọng khi chuyển một khu vực có chứa tên UTF-8 để một máy chủ DNS mà không phải là UTF-8-aware.
+
+Một số giao thức đặt hạn chế trên các ký tự được cho phép trong một tên. Ngoài ra, tên gọi được dự định để là nhìn thấy trên toàn cầu (RFC 1958) nên chứa chỉ các ký tự ASCII, theo khuyến cáo trong RFC 1123.
+
+Việc sử dụng UTF-8 để chuyển đổi các ký tự Unicode không phải là đáng chú ý cho người dùng nói chung. Chỉ trong trường hợp mạng lưới giám sát hoặc công cụ tương tự khác được sử dụng để phân tích lưu lượng truy cập liên quan đến DNS qua mạng vật lý là UTF-8 mã hóa ký tự có thể quan sát.
+
+Ngoài việc hỗ trợ máy chủ DNS cho các định dạng mã hóa UTF-8, bộ truy vấn khách hàng mặc định bằng cách sử dụng định dạng mã hóa ký tự UTF-8.
+
+Tên mã hóa trong định dạng UTF-8 không được vượt quá giới hạn kích thước làm rõ trong RFC 2181, trong đó quy định tối đa là 63 octet mỗi nhãn và 255 octet cho mỗi tên. số ký tự là không đủ để xác định kích thước bởi vì một số ký tự UTF-8 quá một octet.
+
+Các giao thức mã hóa UTF-8 thích nghi để sử dụng với việc triển khai giao thức DNS hiện có mà mong đợi ký tự US-ASCII vì đại diện của ký tự US-ASCII trong UTF-8 là giống hệt nhau, byte cho byte, các đại diện US-ASCII. DNS client hoặc server hiện thực mà không nhận ra ký tự UTF-8 mã hóa tên luôn trong định dạng US-ASCII. Những tên này được giải thích một cách chính xác bởi các dịch vụ DNS Server.
+
+Các dịch vụ DNS cung cấp khả năng cấu hình tên kiểm tra để cho phép hoặc hạn chế sử dụng UTF-8 ký tự trong dữ liệu DNS.
+
+Theo mặc định, kiểm tra tên UTF-8 multibyte được sử dụng, cho phép dung sai lớn nhất khi dịch vụ DNS xử lý ký tự. Đây là phương pháp kiểm tra tên ưa thích cho các máy chủ DNS tư nhân điều hành hầu hết không được cung cấp dịch vụ tên cho máy chủ Internet.
+
+
+<a name="7"></a>
+#7.WINS Lookup Integration
+
+Hỗ trợ cho việc sử dụng dịch vụ tên Windows Internet (WINS) được cung cấp để tìm kiếm tên DNS không thể được giải quyết bằng cách truy vấn tên miền DNS. Để thực hiện tra cứu WINS, hai loại bản ghi tài nguyên cụ thể được sử dụng và có thể được kích hoạt cho bất kỳ khu vực được nạp bởi dịch vụ DNS:
+
+- Các bản ghi tài nguyên WINS, có thể được kích hoạt để tích hợp WINS tra cứu vào vùng chuyển tiếp tra cứu
+
+- Các bản ghi tài nguyên WINS-R, có thể được kích hoạt để tích hợp trạng thái yêu cầu node adapter cho zone tra cứu ngược lại
+
+
+<a name="71"></a>
+###7.1 Bản ghi tài nguyên WINS
+
+Các WINS và dịch vụ DNS được sử dụng để cung cấp độ phân giải tên cho không gian tên NetBIOS và không gian tên miền DNS, tương ứng. Mặc dù cả hai DNS và WINS có thể cung cấp một dịch vụ tên riêng biệt và hữu ích cho khách hàng, WINS chủ yếu cần thiết để cung cấp hỗ trợ cho các khách hàng cũ và chương trình yêu cầu hỗ trợ cho NetBIOS đặt tên.
+
+Tuy nhiên, các dịch vụ DNS có thể làm việc với WINS để cung cấp kết hợp tên tìm kiếm trong cả hai không gian tên khi xử lý tên miền DNS không tìm thấy trong zone thông tin. Để cung cấp khả năng tương tác này, một bản ghi mới (bản ghi WINS) được định nghĩa như là một phần của tập tin cơ sở dữ liệu của khu vực.
+
+Các bản ghi tài nguyên thắng là cụ thể cho các máy tính chạy Windows NT 4.0 và trước đó, Windows 2000 và Windows Server 2003 hệ điều hành và có thể được gắn duy nhất để các tên miền gốc cho zone. Sự hiện diện của một bản ghi tài nguyên WINS có thể hướng dẫn dịch vụ DNS để sử dụng thắng để tìm kiếm bất kỳ thắc mắc về phía trước cho các máy chủ tên hoặc tên không được tìm thấy trong zone cơ sở dữ liệu. Chức năng này là đặc biệt hữu ích cho độ phân giải tên theo yêu cầu của khách hàng không phải WINS-aware (ví dụ, UNIX) cho các tên máy tính không được đăng ký với DNS, chẳng hạn như máy tính Windows 95 hoặc Windows 98.
+
+<a name="72"></a>
+###7.2 WINS tra cứu như thế nào
+
+Sau đây là một ví dụ của một DNS client (host-b) truy vấn máy chủ DNS của mình trong một nỗ lực để tìm kiếm các địa chỉ cho một máy tính có tên "host-a.example.microsoft.com."
+
+**Tra cứu WINS**
+
+<p align="center"><img src="https://s-media-cache-ak0.pinimg.com/736x/62/78/e3/6278e39552615d0e0dbd9ab3107142f7.jpg" /></p>
+
+Trong bước 1, khách hàng truy vấn máy chủ DNS ưa thích. Trong bước 2 đến 8, quá trình bình thường đệ quy  như các máy chủ DNS ưa thích truy vấn các máy chủ DNS khác liên tiếp thay mặt cho khách hàng. Quá trình này kết thúc ở bước 8, khi các máy chủ DNS cho zone example.microsoft.com nằm thông qua các chuỗi trước câu trả lời giới thiệu. Tại thời điểm này trong quá trình này, máy chủ liên lạc là một máy chủ DNS đang chạy Windows NT Server 4.0, Windows 2000 hoặc Windows Server 2003.
+
+Khi máy chủ DNS cho zone example.microsoft.com nhận được truy vấn cho host a, nó sẽ tìm trong zone cấu hình của nó để xem nếu một bản ghi tài nguyên địa chỉ phù hợp (A) (RR) có thể được tìm thấy. Nếu không có hồ sơ A được tìm thấy và các zone được kích hoạt để sử dụng WINS tra cứu, các máy chủ thực hiện như sau:
+
+- Các máy chủ DNS tách phần máy chủ tên (host a) từ tên miền đầy đủ chứa trong các truy vấn DNS.
+
+ Các phần host của tên là nhãn đầu tiên trong tên miền DNS truy vấn trước một khoảng thời gian được sử dụng trong tên.
+
+- Các máy chủ sau đó sẽ gửi một yêu cầu tên NetBIOS tới WINS server bằng cách sử dụng tên máy chủ, máy chủ-a.
+
+- Nếu máy chủ WINS có thể giải quyết tên, nó sẽ trả về địa chỉ IP cho các máy chủ DNS.
+
+- Các máy chủ DNS sau đó biên dịch một bản ghi A tài nguyên bằng cách sử dụng địa chỉ IP được giải quyết thông qua WINS server và trả lại bản ghi này đến máy chủ gốc DNS ưa thích mà được truy vấn bởi các khách hàng yêu cầu, máy b.
+
+- Các máy chủ DNS ưa thích sau đó truyền các câu trả lời truy vấn lại cho khách hàng yêu cầu.
+
+
+<a name="73"></a>
+###7.3 Làm thế nào WINS tra cứu ngược lại
+
+Ngoài ra còn có một bản WINS-R hoặc WINS mục tra cứu ngược lại có thể được kích hoạt và thêm vào để đảo ngược zone tra cứu. Tuy nhiên, vì cơ sở dữ liệu WINS không lập chỉ mục theo địa chỉ IP, các dịch vụ DNS có thể không gửi một tra cứu tên đảo ngược WINS để có được tên của một máy tính đưa ra địa chỉ IP của nó.
+
+Bởi vì WINS không cung cấp khả năng tra cứu ngược lại, các dịch vụ DNS thay vào đó sẽ gửi một yêu cầu trạng thái node adapter trực tiếp đến địa chỉ IP được ngụ ý trong các truy vấn DNS đảo ngược. Khi các máy chủ DNS được các tên NetBIOS phản hồi từ tình trạng node, nó gắn thêm tên miền DNS trở lại lên tên NetBIOS được cung cấp trong các phản hồi tình trạng node và chuyển kết quả cho khách hàng yêu cầu.
+
 
