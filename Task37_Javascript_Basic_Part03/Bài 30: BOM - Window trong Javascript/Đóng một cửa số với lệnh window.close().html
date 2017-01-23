@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+<p>Sau khi mở cửa sổ thì để đóng cửa sổ đó chúng ta sử dụng lệnh windowObj.close(), trong đó windowObj là cửa sổ mà ta sử dụng lệnh window.open() tạo ra.</p>
+	<script type="text/javascript">
+		var windowChild = null;
+		function openWindow(){
+			windowChild = window.open('http://freetuts.net', "windowChild", "width=500, height=500");
+			return false;
+		}
+		function closeWindow(){
+			windowChild.close()
+			return false;
+		}
+	</script>
+	<a href="#" onclick="return openWindow()"">Open</a>
+	<a href="#" onclick="return closeWindow()">Close</a>
+</body>
+</html>

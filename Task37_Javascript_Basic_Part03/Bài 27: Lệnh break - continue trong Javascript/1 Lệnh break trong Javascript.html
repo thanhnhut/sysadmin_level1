@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Lệnh break có tác dụng dừng vòng lặp cho dù điều kiện của vòng lặp vẫn đang đúng, hay nói cách khác là nó thoát khỏi vòng lặp một cách đột xuất và không quan tâm đến điều kiện lặp. Lệnh break có thể sử dụng với mọi vòng lặp như vòng lặp for, while và do while, each, ...
+
+		//Ví dụ 1: Vòng lặp for lặp từ 1 tới 10 và bị dừng tại vòng lặp thứ 5 
+
+		for (var i = 1; i <= 10; i++){
+			document.write(i + " - ");
+			if (i==5){
+				document.write("Vong lap bi dung");
+				break;
+			}
+		}
+		//Ví dụ 2: Vòng lặp while bị nhảy ra khỏi vòng lặp khi biến i chia hết cho 9
+		var i = 1;
+		while (i<=100){
+			document.write(i + " - ");
+			if(i%9 == 0){
+				document.write("Vong lap bi dung");
+				break;
+			}
+			i++;
+		}
+
+	</script>
+</body>
+</html>

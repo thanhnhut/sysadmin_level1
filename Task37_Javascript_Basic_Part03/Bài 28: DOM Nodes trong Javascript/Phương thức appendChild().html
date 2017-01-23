@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+<div id="TOP">Hello!</div>
+      
+      	<input type="button" value="Append" id="btn-append"/>
+	<script type="text/javascript">
+		 // Lấy button
+          var button = document.getElementById("btn-append");
+          
+          // Thêm sự kiện click cho button
+          button.addEventListener("click", function(){
+          	// Tạo mới một thẻ h1
+            var h1 = document.createElement("h1");
+
+            // Thêm nội dung HTML vào thẻ h1
+            h1.innerHTML = "learn Javascript"
+
+            // Đưa thẻ h1 vào trong thẻ div có id=TOP
+            document.getElementById('TOP').appendChild(h1);
+          });
+	</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<div id="content"><h5>Hello!!!!!</h5></div>
+	<script type="text/javascript">
+		//lay button
+		var button = document.getElenmentById("btn-remove");
+
+		//them su kien click vao button
+		button.addEventListener("click", function(){
+			//lay the can remove
+			var need_remove = document.getElementsByTagName("h5")[0];
+
+			//remove
+			document.getElementById("centent").removeChild(need_remove);
+			)};
+	</script>
+</body>
+</html>

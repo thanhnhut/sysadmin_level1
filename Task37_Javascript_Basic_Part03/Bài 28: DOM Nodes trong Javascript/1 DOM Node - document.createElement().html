@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Khi bạn sử dụng DOM Element để truy vấn tới một đối tượng HTML nào đó thì kết quả nó sẽ trả về một object và object đó ta gọi là DOM Nodes.
+
+		vd var node = document.getElementById("some-id");
+
+		Với cách này bắt buộc phải tồn tại một đối tượng HTML đang hiển thị trên website thì mới khởi tạo thành công. Giả sử nếu bạn muốn tạo một Node mới hoàn toàn v không liên quan tới những thẻ HTML đang hiển thị trên website thì làm thế nào? Rất đơn giản chúng ta sẽ sử dụng phương thức document.createElement() với tham số truyền vào là tên của thẻ HTML cần tạo.
+
+		var p = document.createElement("p");
+
+		Sau khi khởi tạo xong bạn hoàn toàn có thể sử dụng các phương thức, thuộc tính của DOM HTML, DOM CSS.
+
+		p.innerHTML = "film Friends very interesting"
+
+		Để thêm Node này vào trang web thì chúng ta sử dụng phương thức appendChild (sẽ học ở bên dưới). Giả sử tôi thêm vào thẻ body thì làm như sau:
+
+		document.getElementByTagName('body')[0].appendChild(p);*/
+		
+		//Tao moi 1 the p 
+		var p = document.createElement("p");
+
+		//Them noi dung HTML vao the p
+		p.innerHTML = "I want to go bird watching tomorrow"
+
+		//Dua the o vao trong the body
+		document.getElementsByTagName('body')[0].appendChild(p);
+	</script>
+</body>
+</html>

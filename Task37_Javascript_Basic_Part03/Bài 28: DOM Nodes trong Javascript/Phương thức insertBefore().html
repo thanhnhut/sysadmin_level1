@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<div id="content">
+		<h5>Hello!</h5>
+		<h5>Enjoy this moment</h5>
+	</div>
+	<input type="button" value="view" id="btn-view"/>
+	<script type="text/javascript">
+/*		Được dùng để thêm một Node vào đằng trước một node con nào đó. Phương thức này có hai tham số truyền vào insertBefore(node_insert, node_child), trong đó:
+
+    node_insert là node bạn muốn thêm vào
+    node_child là node con mà bạn muốn thêm vào đằng trước nó.*/
+    //lay button
+    var button = document.getElementById("btn-view");
+
+    //them su kien click cho button
+    button.addEventListener("click", function(){
+
+    //tao moi 1 the h1
+    var h1 = document.createElement("h1");
+
+    //them noi dung HTMl vao h1
+    h1.innerHTML = "Welcome"
+
+    //lay the ngoai cung
+    var element = document.getElementById("content");
+
+    //lay the can iserBefore
+    var element_child = document.getElementsByTagName("h5")[1];
+
+    //Insert Before
+    element.innerBefore(h1, element_child);
+	});
+
+	</script>
+</body>
+</html>

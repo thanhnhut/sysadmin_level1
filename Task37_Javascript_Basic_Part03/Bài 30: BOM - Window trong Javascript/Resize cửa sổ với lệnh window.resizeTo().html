@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+<p>Lúc mở cửa sổ bạn sẽ thiết lập height và with cho window, tuy nhiên nếu sau khi mở bạn muốn thay đổi thì sử dụng hàm windowObj.resizeTo(width, height), trong đó:</p>
+	<script type="text/javascript">
+		  var windowChild = null;
+         
+        function openWindow()
+        {
+            windowChild = window.open('http://freetuts.net', "windowChild", "width=500, height=500");
+            return false;
+        }
+         
+        function resizeWindow()
+        {
+            windowChild.resizeTo(1000, 1000);
+            windowChild.focus();
+            return false;
+        }
+	</script>
+	 <a href="#" onclick="return openWindow()">Open</a>
+      <a href="#" onclick="return resizeWindow()">Resize</a>
+</body>
+</html>

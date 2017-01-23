@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Text node là một node đặc biệt, nó không phải là một thẻ HTML thông thường mà chỉ là một chuỗi (string) nên thông thường chúng ta sử dụng nó để thay thế cách gán thông thường node.innerHTML.
+
+		//Tao mot the p
+		var p = document.createElement("p");
+		//Tao text node
+		var text = document.createTextNode("learn Javascript");
+		//them noi dung HTNL vao the p
+		p.appendChild(text);
+		//Dua the p vao trong the body
+		document.getElementsByTagName('body')[0].appendChild(p);
+	</script>
+</body>
+</html>

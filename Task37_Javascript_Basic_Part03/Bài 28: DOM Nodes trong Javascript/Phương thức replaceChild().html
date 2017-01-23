@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<div id="content"><h5>Hello!!!!</h5></div>
+	<input type="button" value="Replace" id="btn-replace">
+	<script type="text/javascript">
+		//lay button
+		var button = document.getElementById("btn-replace");
+
+		//them su kien click cho button
+		button.addEventListener("click", function(){
+			//tao moi 1 the
+			var p = document.createElement("h1");
+			p.innerHTML = "Fuck!!";
+
+			//lay the can replace
+			var replace = document.getElementsByTagName("h5")[0];
+
+			//replace
+			document.getElementById("content").replaceChild(p, replace);
+		});
+	</script>
+</body>
+</html>

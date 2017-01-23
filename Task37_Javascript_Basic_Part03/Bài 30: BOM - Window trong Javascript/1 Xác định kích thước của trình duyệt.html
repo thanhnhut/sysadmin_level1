@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<p>Để lấy kích thước chiều cao và chiều rộng của trình duyệt thì chúng ta sử dụng đối tượng </p>
+	<script type="text/javascript">
+		/*Đối với Internet Explorer, Chrome, Firefox, Opera, và Safari thì cú pháp như sau:
+		lay chieu cao
+		var heightBrower = window.innerHeight;
+
+		lay chieu rong
+		var widthBrower = window.innerWidth;
+
+		Đối với Internet Explorer các version 5,6,7,8 thì cú pháp như sau:
+
+		lay chieu cao
+		var height = document.documentElement.clientHeight;
+		hoac
+		var height = document.body.clientHeight;
+
+		lay chieu rong
+		var width = document.documentElement.clientWidth;
+		hoac
+		var width = document.body.clientWidth;
+
+		Việc tương thích với các trình duyệt quá rắc rối phải không nào? Vậy có cách nào giải quyết vấn đề này không? Câu trả lời là có bằng cách sử dụng một mẹo nhỏ như sau:
+
+		var width = window.innerWidth
+			|| document.documentElement.clientWidth
+			|| document.body.clientWidth;
+
+		var height = window.innerHeight
+			|| documen.documentElement.clientHeight
+			|| documen.body.clientHeight;
+
+			Hai dấu || có ý nghĩa rằng nếu vế trái không thực hiện được thì nó sẽ lấy vế phải và cứ như vậy cho tới khi lấy được thì dừng.*/
+
+		var width = window.innerWidth
+		||document.documentElement.clientWidth
+		||document.body.clientWidth;
+
+		var height = window.innerHeight	
+		||document.documentElement.clientHeight
+		||document.body.clientHeight;
+
+		document.write("Brower have a width: " + width + "<br/>");
+		document.write("Brower have a height: " + height + "<br/>");	
+
+
+	</script>
+</body>
+</html>

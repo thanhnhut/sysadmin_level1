@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+<p>Sau khi mở một cửa sổ nếu muốn di chuyển nó thì ta dùng lệnh windowObj.moveTo(top, left), trong đó:
+
+    top: là số pixels so với lề trên
+    left: là số pixels so với lề trái
+</p>
+	<script type="text/javascript">
+		var windowChild = null;
+		function openWindow(){
+			windowChild = window.open('http://freetuts.net', "windowChild", "width=500, height=500");
+			return false;
+		}
+		function moveWindow(){
+			windowChild.moveTo(500, 100);
+			windowChild.focus();
+			return false;
+		}
+	</script>
+	<a href="#" onclick="return openWindow()">Open</a>
+	<a href="#" oncancel="return moveWindo()">Move</a>
+</body>
+</html>
