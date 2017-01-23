@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>work work work work</title>
+	<style type="text/css">
+		/*
+	Thuộc tính backgroud-clip trong CSS3 dùng để xác định nơi mà background color sẽ hiển thị. Nó có ba giá trị sau:
+
+	- border-box: biên của background tính luôn border ngoài cùng
+	- padding-box: biên của background tính từ vị trí padding (sát lề border)
+	- content-box: biên của backgroudn tính từ vị trí có thể sử dụng
+	Như vậy công dụng của nó tương tự như background-origin nhưng nó có tác dụng với background color còn background-origin thì có tác dụng với background image.
+
+
+		*/
+		div{
+			width:250px;
+			height:100px;
+			margin:20px auto;
+			border:dotted 10px;
+			padding: 50px;
+			background:pink;
+		}
+		#div1{background-clip: border-box;}
+		#div2{background-clip: padding-box;}
+		#div3{background-clip: content-box;}
+	</style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+</body>
+</html>

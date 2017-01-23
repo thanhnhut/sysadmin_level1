@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			// Viết chương trình đăng nhập và validate thông tin username, password. Nếu người dùng không nhập username hoặc mật khẩu thì hiển thị thông báo message trong một thẻ div và chữ màu đỏ, ngược lại thì thông báo validate thành công và chữ màu xanh
+
+			//Với bài này bạn cần phải sử dụng thêm DOM Element để lấy giá trị của các ô input, đồng thời sử dụng DOM HTML để thay đổi nội dung của message và sử dụng DOM CSS để thay đổi màu sắc.
+
+			function validate()
+			{
+				//lấy giá trị inout
+				var username = document.getElementById("username").value;
+				var password = document.getElementById("password").value;
+				//lấy đối tượng message
+				var message = document.getElementById("message");
+				//validate
+				if (username == "" || password == ""){
+					message.innerHTML = "Mày chưa nhập thông tin đầy đủ";
+					mesage.style.color = "red";
+				}else{
+					message.innerHTML = "Chúc mừng mày, validate thành công!";
+					mesage.style.color = "pink";
+				}
+			}
+		</script>
+		Username: <input type="text" value="" id="username"/><br/>
+		Password: <input type="password" value="" id="password"/><br/>
+		<div id="message"></div>
+		<input type="button" value="Login" onclick="validate()"/>
+</body>
+</html>

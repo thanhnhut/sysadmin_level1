@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			/*Ví dụ: Xây dựng một ứng dụng khi di chuyển chuột thì sẽ xuất hiện một dãy số ngẫu nhiên, nếu người dùng click vào button Stop Random thì sẽ dừng random dãy số đó.
+
+			Như vậy ta có hai thẻ HTML chính, thứ nhất là một div dùng để hiển thị dãy số ngẫu nhiên và thứ hai là một button dùng để để click Stop Random. Và dây là một số lưu ý trước khi làm bài:
+
+			Đề bài yêu cầu khi move chuột trên trang web nên ta sẽ thêm sự kiện mousemove cho thẻ <html>.
+
+			Dùng hàm addEventListener() để thêm sự kiện mousemove vào thẻ <html>
+
+			Dùng đối tượng Math.random() để lấy dãy số ngẫu nhiên
+
+			Dùng hàm removeEventListener() để xóa đi những hành động của sự kiện mousemove (xem bài sự kiện trong javascript).*/
+			</script>
+			<div id="result"></div>
+        <input type="button" value="dung Random di nha" id="stop_random" />
+         
+        <script language="javascript">
+            // Bước 1: Lấy các đối tượng
+            var result = document.getElementById("result");
+            var button = document.getElementById("stop_random");
+            var html = document.getElementsByTagName("html")[0];
+           
+            // Bước 2: Định nghĩa hành động hiển thị dãy số random
+            function do_random()
+            {
+                var randomString = Math.random();
+                result.innerHTML = randomString;
+            }
+             
+            // Bước 3: Thêm hành động do_random cho sự kiện mousemove thẻ <html>, 
+            html.addEventListener("mousemove", do_random);
+           
+            // Bước 4: Thêm sự kiện click cho button
+            button.addEventListener("click", function(){
+                // Xóa hành động do_random khỏi sự kiện mousemove
+                html.removeEventListener("mousemove", do_random);
+            });     
+        </script>
+</body>
+</html>

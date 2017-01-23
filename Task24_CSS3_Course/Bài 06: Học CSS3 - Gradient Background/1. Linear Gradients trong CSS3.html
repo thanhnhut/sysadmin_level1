@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard work</title>
+	<style type="text/css">
+		/*Trong Photoshop bạn có thể tạo một hình ảnh với nhiều màu sắc và chúng trộn lẫn với nhau nhìn rất bắt mắt như hình dưới đây.
+
+		Thì bạn hoàn toàn có thể làm điều này trong CSS3  bằng cách sử dụng thuộc tính background kêt hợp với giá trị Gradient.
+
+		Trong CSS3 hỗ trợ hai loại Gradient:
+
+		- Linear Gradients (Kéo theo các vị trí lên, xuống, trái, phải, đường chéo)
+		- Radial Gradients (Kéo tại vị trí do lập trình viên chọn và lan tỏa ra tứ phía theo một hình nào đó (ví dụ ellipse))
+
+		+ cú pháp 
+		background : linear-gradient(direction, color1, color2, color3, color4, ...)
+
+		Trong đó direction gồm các giá trị: 
+
+		- Gía trị đơn to top hoặc to lèt hoặc to right hoặc to bottom thì nó sẽ kéo theo cạnh đối diện
+		- Gía trị đôi (to top lèt) hoặc (to lèt right) nếu bạn muốn chỉ rõ kéo từ cạnh nào sang cạnh nào (tức là đường chéo)
+		- Nếu ta không truyền direction thì theo mặc định nó sẽ có gía trị top (tức là top - bottom)
+
+		Tương tự chúng ta có code Hack CSS như sau:
+
+		background: -webkit-linear-gradient(direction, color1, color2, color3, color4, ...);  For Sẩi 5.1 to 6.0 
+		background: -o-linear-gradient(direction, color1, color2, color3, color4, ...);  For Opera 11.1 to 12.0 
+		background: -moz-linear-gradient(direction, color1, color2, color3, color4, ...);  For Firefox 3.6 to 15 */
+
+		div{
+			float: left;
+			width:200px;
+			height:100px;
+			margin:10px;
+		}
+		#div1{
+			background: linear-gradient(red,yellow);
+		}
+		#div2{
+			background:linear-gradient(to left,red,yellow);
+			background:-moz-linear-gradient(left,red,yellow);
+			background:-webkit-linear-gradient(left,red,yellow);
+			background:-o-linear-gradient(left,red,yellow);
+		}
+		#div3{
+			background:linear-gradient(to right, red, yellow);
+			background:-moz-linear-gradient(right,red,yellow);
+			background:-webkit-linear-gradient(right,red,yellow);
+			background:-o-linear-gradient(right,red,yellow);
+		}
+		#div4{
+			background: linear-gradient(to bottom left, red, yellow);
+			background:-moz-linear-gradient( bottom left,red,yellow);
+			background:-webkit-linear-gradient(bottom left,red,yellow);
+			background:-o-linear-gradient(bottom left,red,yellow);
+		}
+
+
+
+			</style>
+</head>
+<body>
+<div></div>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+<div id="div4"></div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		#dropdown {width: 200px;}
+		#dropdown li{
+			list-style: none;
+			line-height: 30px;
+			background: pink;
+			margin: 2px;
+		}
+		#dropdown ul {
+			display: none;
+			padding: 0px;
+			background: red;
+		}
+		#dropdown ul li{
+			background-color:green;
+		}
+		#dropdown ul li{
+			background-color: orange;
+		}
+
+	</style>
+</head>
+<body>
+		<ul id="dropdown">
+			<li><a href="#">Home</a></li>
+			<li>
+				<a href="#">Môn</a>
+				<ul>
+					<li><a href="#">Javascript</a></li>
+					<li><a href="#">HTML</a></li>
+					<li><a href="#">CSS</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">New</a>
+				<ul>
+					<li><a href="#">Tin IT</a></li>
+					<li><a href="#">Tin nước mình</a></li>
+					<li><a href="#">Tin thời sự</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">Service</a>
+				<ul>
+					<li><a href="#">Design Web</a></li>
+					<li><a href="#">Advertisement Web</a></li>
+					<li><a href="#">Design Graphics</a></li>
+				</ul>
+			</li>
+		</ul>
+		<script type="text/javascript">
+			//code javascript hieu ung dropdown
+			//lay danh sach menu
+			var menu = document.querySelectorAll('#dropdown > li');
+			//lap qua tung menu de gan su kien click
+			for(var i = 0; i < menu.length; i++){
+				menu[i].addEventListener("click",function(){
+					//an menu con
+					var menuList = document.querySelectorAll('#dropdown > li > ul');
+					for (var j = 0; j < menuList.length; j++){
+						menuList[j].style.display = "none";
+					}
+					//hien thi menu hien tai
+					//doi tuong this chinh la the li hien tai
+					//nen ta sai mang childrent de lay danh sach tre con
+					//ma the ul nam o vi tri thu2 nen trong mang con no se co vi tri la 1 (mang bat dau tu 0)
+					this.children[1].style.display = "block"
+					});
+			}
+		</script>
+</body>
+</html>

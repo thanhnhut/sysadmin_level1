@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			//Ở phần 2 là chúng ta sử dụng phương thức document.getElementById() nên kết quả nó sẽ trả về chỉ là một đối tượng nên có thể gán trược tiếp button.onclick = function(){}. Nhưng nếu bạn sử dụng truy vấn DOM theo selector thì kết quả nó sẽ trả về một mảng các đối tượng, lúc này ban phải sử dụng vòng lặp để thiết lập sự kiện.
+
+			/*
+			// lấy đối tượng html, bạn có thể sử dụng các DOM Element khác để lấy
+			var elementObjs = document.getElementByTagName('element');
+			// lặp qua từng phần tử trong kết quả và gán sự kiện
+			for (var i = 0; i < elementObjs.length; i++)
+			{
+				elementObjs[i].eventName = function()
+				{
+					//Do some thing
+				};
+			}*/
+
+		</script>
+		 <ul>
+            <li><a href="#" class="show">Tin công nghệ</a></li>
+            <li><a href="#">Tin trong nước</a></li>
+            <li><a href="#" class="show">Tin thời sự</a></li>
+        </ul>  
+        <script language="javascript">  
+            // Lấy đối tượng
+            var a_list = document.getElementsByClassName("show");
+             
+            // Lặp và gán sự kiện
+            for (var i = 0; i < a_list.length; i++){
+                a_list[i].onclick = function()
+                {
+                    alert('chào, you vừa click vào tôi');
+                   
+                    // return false để khỏi reload trang
+                    return false
+                };
+            }
+        </script>
+</body>
+</html>

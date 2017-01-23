@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<input type="text" id="txt-val" value="" />
+        <div id="result"></div>
+        <script language="javascript">
+            // Lấy đối tượng
+            var input = document.getElementById("txt-val");
+             
+            // Thêm sự kiện cho đối tượng
+            input.addEventListener('keyup', function(){
+                // Gán giá trị vào div
+                document.getElementById('result').innerHTML = input.value;
+            });
+           
+            // Bổ sung hành động nữa
+            input.addEventListener('keyup', function(){
+            	if(input.value.length > 5){
+            		alert("may nhap hon 5 ky tu r");
+            	}
+            });
+</script>
+</body>
+</html>

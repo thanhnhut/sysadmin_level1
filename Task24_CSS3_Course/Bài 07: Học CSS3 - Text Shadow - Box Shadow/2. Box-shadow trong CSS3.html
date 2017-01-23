@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>hard work</title>
+	<style type="text/css">
+		h2{
+			height:100px;
+			width:200px;
+			box-shadow:0px 0px 10px red;
+		}
+		/*Cú pháp của box-shadow như sau:
+
+
+box-shadow: h-shadow v-shadow blur spread color |inset|initial|inherit;
+Trong đó:
+
+- h-shadow : vị trí bóng ngang so với chữ, số âm sẽ đẩy lên trên và số dương sẽ đẩy xuống dưới
+- v-shadow : vị trí bóng dọc so với chứ, số âm sẽ đẩy lui phía sau và số dương sẽ đẩy tới phía trước
+- blur-radius : độ nhòe của chữ bóng, tính bằng pixel
+- spread: kích thước của bóng tối.
+- color : màu sắc của bóng, chấp nhận các định dạng màu sắc trong CSS3.
+- inset: thay đổi bóng từ bên ngoài vào trong thay vì từ trong ra ngoài
+- initial: thiết lập giá trị mặc định
+- inherit: kế thừa giá trị từ thẻ HTML cha
+
+Code Hack CSS:
+
+-moz-box-shadow: h-shadow v-shadow blur spread color |inset|initial|inherit;
+-webkit-box-shadow: h-shadow v-shadow blur spread color |inset|initial|inherit;
+*/
+#box1{
+	box-shadow: 0px 0px 12px 10px red;
+	-moz-box-shadow: 0px 0px 12px 10px red;
+	-webkit-box-shadow: 0px 0px 12px 10px red;
+}
+#box2{
+	box-shadow: 0px 0px 12px 10px red inset;
+	-moz-box-shadow:0px 0px 12px 10px red inset;
+	-webkit-box-shadow:0px 0px 12px 10px red inset;
+}
+#box3{
+	box-shadow: 5px 5px 12px 0px red;
+	-moz-box-shadow:5px 5px 12px 0px red;
+	-webkit-box-shadow:5px 5px 12px 0px red;
+}
+#box4{
+	box-shadow: 5px 5px 0px 0px red;
+	-moz-box-shadow:5px 5px 0px 0px red;
+	-webkit-box-shadow:5px 5px 0px 0px red;
+}
+#box5{
+	box-shadow: -5px -5px 5px 0px red;
+	-moz-box-shadow:-5px -5px 5px 0px red;
+	-webkit-box-shadow:-5px -5px 5px 0px red;
+}
+
+
+/*Sử dụng nhều Shadow*/
+h1{
+	height:100px;
+	width:200px;
+	text-align: center;
+	margin :20px;
+	border: solid 1px black;
+	box-shadow: 
+	0px 0px 5px 5px red,
+	0px 0px 5px 10px green,
+	0px 0px 5px 15px orange;
+	-moz-box-shadow:
+	0px 0px 5px 5px red,
+	0px 0px 5px 10px green,
+	0px 0px 5px 15px orange;
+	-webkit-box-shadow:
+	0px 0px 5px 5px red,
+	0px 0px 5px 10px green,
+	0px 0px 5px 15px orange;
+}
+
+
+
+
+	</style>
+
+</head>
+<body>
+<h2></h2>
+<h2 id="box2">box2</h2>
+<h2 id="box3">box3</h2>
+<h2 id="box4">box4</h2>
+<h2 id="box5">box5</h2>
+<h2 id="box1">box1</h2>
+<h1>Hard Work</h1>
+</body>
+</html>

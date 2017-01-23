@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<input type="text" value="Hard work">
+<script type="text/javascript">
+	//lay the input
+	var element = document.getElementsByTagName('input');
+	//lay gia tri cua the input
+	document.write(element[0].value);
+	/*Trong ví dụ này có sự khác biệt đó là đoạn code element[0].value. Tại sao lại như vậy? Như bạn biết trong một trang web có thể có nhiều thẻ HTML giống nhau (ví dụ có hai thẻ div) nên hàm getElementsByTagName() sẽ trả về một mảng các object (xem bài mảng trong javascript) chứ không phải là một object nữa, chính vì vậy ta sẽ lấy input thứ nhất nên truyền số 0 vào.*/
+</script>
+</body>
+</html>

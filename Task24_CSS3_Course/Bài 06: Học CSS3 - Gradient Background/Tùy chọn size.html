@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>hard work</title>
+	<style type="text/css">
+		/*Tùy chọn size
+Chúng ta có bốn giá trị sau:
+
+closest-side
+farthest-side
+closest-corner
+farthest-corner
+Mặc định nếu không chọn size thì nó sẽ lấy farthest-side.
+
+
+*/
+div{
+                float : left;
+                width: 200px;
+                height: 200px;
+                margin: 10px;
+                color: #fff;
+            }
+            #div1{
+                background : radial-gradient(circle closest-side, red, blue);
+                background : -moz-radial-gradient(circle, closest-side, red, blue);
+                background : -webkit-radial-gradient(circle, closest-side, red, blue);
+                background : -o-radial-gradient(circle, closest-side, red, blue);
+            }
+            #div2{
+                background : radial-gradient(circle farthest-side, red, blue);
+                background : -moz-radial-gradient(circle, farthest-side, red, blue);
+                background : -webkit-radial-gradient(circle, farthest-side, red, blue);
+                background : -o-radial-gradient(circle, farthest-side, red, blue);
+            }
+            #div3{
+                background : radial-gradient(circle closest-corner, red, blue);
+                background : -moz-radial-gradient(circle, closest-corner, red, blue);
+                background : -webkit-radial-gradient(circle, closest-corner, red, blue);
+                background : -o-radial-gradient(circle, closest-corner, red, blue);
+            }
+            #div4{
+                background : radial-gradient(circle farthest-corner, red, blue);
+                background : -moz-radial-gradient(circle, farthest-corner, red, blue);
+                background : -webkit-radial-gradient(circle, farthest-corner, red, blue);
+                background : -o-radial-gradient(circle, farthest-corner, red, blue);
+            }
+
+	</style>
+
+</head>
+<body>
+
+<div id="div1">closest-side</div>
+
+<div id="div2">farthest-side</div>
+
+<div id="div3">closest-corner</div>
+
+<div id="div4">farthest-corner</div>
+</body>
+</html>

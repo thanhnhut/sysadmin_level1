@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Bai11 tao menu co ban</title>
+	<style type="text/css">
+		ul{
+			width:250px;
+		}
+		ul li {
+			height: 30px;
+			line-height: 30px;/*cho chu canh giua*/
+			list-style: none;/*lam mat dau cham dau*/
+			padding: 0px 10px;/*day noi dung menu vao 10cm trai+phai*/
+			background: pink;
+			border: solid 1px red;
+			border-bottom: none;/*vi menu nam ke nhau nen vien k can*/
+			position: relative;/*chon lam khung*/
+			text-align: center;
+
+		}
+		ul li:last-child{
+			border-bottom: solid 1px red;
+		}
+		ul li ul {
+			position: absolute;
+			top:-1px;/*cho ngang hang voi menu cha*/
+			right: -250px;/*vi nam ngoai khug va dai 250 nen la so am */
+			display:none;/*ban dau k cho hien thi*/
+		}
+		ul li:hover ul{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+<ul>
+	<li><a href="#">Home</a></li>
+	<li><a href="#">New</a>
+	<ul>
+		<li><a href="#">News in state</a></li>
+		<li><a href="#">News broad</a></li>
+	</ul>
+	</li>
+	<li><a href="#">Science</a>
+	<ul>
+		<li><a href="#">Imagine</a></li>
+		<li><a href="#">Created</a></li>
+	</ul>
+	</li>
+	<li><a href="#">Law</a>
+	<ul>
+		<li><a href="#">Text</a></li>
+		<li><a href="#">Suggest</a></li>
+	</ul>
+	</li>
+</ul>
+</body>
+</html>

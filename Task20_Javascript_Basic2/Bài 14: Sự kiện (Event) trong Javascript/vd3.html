@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		
+	</title>
+</head>
+<body>
+<script type="text/javascript">
+	/* Viết chương trình tính tổng của hai số nhập vào (tính tự động)
+
+Bài này ta phải tạo 3 ô input và gán sự kiện onkeyup cho 2 ô input đầu tiên, trong sự kiện này sẽ thực hiện tính tổng của hai ô và in kết quả vào ô input thứ 3.*/
+	function tinh()
+	{
+		//lay 3 o input
+		var a = document.getElementById("a");
+		var b = document.getElementById("b");
+		var result = document.getElementById("result");
+		//tinh tong 2 o dau tien
+		var tong = parseInt(a.value) + parseInt(b.value);
+		//gan gia tri vao o thu 3
+		//phai kiem tra tong 2 so nay co bi loi hay k
+		if(!isNaN(tong)){
+			result.value = tong;
+		}
+	}
+</script>
+<input type="text" id="a" value="" onkeyup="tinh()"/>
+<input type="text" id="b" value="" onkeyup="tinh()"/>
+<input type="text" id="result" value=""/>
+
+</body>
+</html>

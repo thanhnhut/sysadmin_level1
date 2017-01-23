@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi"> 
+<head>
+	<meta charset="utf-8">
+	<title>hArD w0rK</title>
+	<style type="text/css">
+		/*
+		Nếu chúng ta thiết lập kích thước cố định cho background như vậy thì không thể chạy tốt trong thiết kế responsive được vì responsive co giãn nên không có định chiều cao và chiều rộng. Lúc này ta sẽ lựa chọn sử dụng hai giá trị chuẩn sau đây:
+
+		contain: background sẽ có tác dụng như thẻ img, nghĩa là nó sẽ co giãn theo chiều rộng và chiều cao theo đúng tỉ lệ của hình ảnh.
+		cover: Nếu chiều rộng và chiều cao của thẻ HTML lớn hơn hình ảnh thì nó sẽ giãn ra (full)
+
+		*/
+		.cover{
+			width:400px;
+			height:400px;
+			background:url(http://static3.comicvine.com/uploads/square_small/11112/111122896/5402107-super_saiyan_blue_goku__5_by_rayzorblade189-dacu6j6.png);
+			background-size: cover;
+		}
+		.contain{
+			width:400px;
+			height:100px;
+			border:solid 1px;
+			background:url(http://static3.comicvine.com/uploads/square_small/11112/111122896/5402107-super_saiyan_blue_goku__5_by_rayzorblade189-dacu6j6.png);
+			background-size: contain;
+		}
+	</style>
+</head>
+<body>
+<div class="cover"></div>
+<div class="contain"></div>
+</body>
+</html>

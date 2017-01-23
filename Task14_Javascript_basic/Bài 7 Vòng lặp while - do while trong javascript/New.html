@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>while va do while</title>
+</head>
+<body>
+	<script type="text/javascript">
+	//dong vong lap while lap tu 1 den 10
+	/*var i=1;
+	while (1<=10){
+		document.write(i + '<br/>');
+		i++;
+	}*/
+
+	/*//dung vong lap phuc tap
+	//bien luu gia tri nguoi dung nhap vao
+	var value=null;
+	//trong khi gia tri be hon 1 va lon hon 10
+	//thi chay than vong lap
+	while(value<1||value>10){
+		value=prompt("nhap vao so tu 1 den 10");
+	}
+	//sau khi nhap dung thi in ra man hinh
+	alert("so ban vua nhap la"+value);*/
+
+	/*//bien luu gia tri nguoi dung nhap vao
+	var value=null;
+	do{
+		value=prompt("nhap vao so 1 denn 10");
+	}
+	while(value<1||value>10);
+	//sau khi nhap dung thi in ra man hinh
+	alert("so ban vua nhap la"+value);*/
+
+	var i=0;
+	while(i<=9)
+	{
+		var j=0;
+		while(j<=9){
+			document.write('['+i+']['+j+']');
+			j++;
+	}
+	document.write('<br/>');
+	i++;
+}
+
+	</script>
+</body>
+</html>

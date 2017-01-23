@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>1 so javascript can ban </title>
+</head>
+<body>
+	<script type="text/javascript">
+		//2 bien luu min max
+		var min = null;
+		var max = null;
+		//bien luu gia tri ng dung nhap vao
+		var value = '';
+		//trong khu nguoi dung chua nhan huy
+		//vi ng dung nhan huy tuc la value=null,
+		//thi se dung vong lap
+		while (value != null)
+		{
+			//lay gia tri
+			value = prompt("nhap so, neu muon dung thi k nhap gi");
+			//neu ng dung nhan huy thi k thuc thi nhung doan code ben trong
+			if (value != null)
+			{
+				//neu nhap lan dau thi gan ca 2 min max = value
+				if (min == null){min = value; max = value;}
+				else {
+				//nguoc lai se kiem tra gan min max
+					if (min > value){min = value;}
+					if (max <value){max = value;}	
+				}
+			}
+		}
+		//in ra
+		document.write("Min la" + min + "Max la" + max);
+	</script>
+</body>
+</html>

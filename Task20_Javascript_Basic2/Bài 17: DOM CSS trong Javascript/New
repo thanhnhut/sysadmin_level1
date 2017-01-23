@@ -1,0 +1,23 @@
+Style bản chất nó cũng là một thuộc tính của các thẻ HTML nhưng bạn không thể sử dụng DOM HTML để thiết lập hay xóa bỏ CSS được mà phải thông qua một đối tượng biệt khác đó là style.
+
+Đối tượng style này sẽ chứa tất cả các thuộc tính của CSS và chúng ta sẽ dễ dàng thao tác với chúng bằng cú pháp riêng, và như thường lệ chúng ta có hai thao tác chính đó là thiết lập CSS và lấy giá trị CSS hiện tại.
+
+Cú pháp thiết lập CSS bằng Javascript:
+
+
+document.getElementById("object").style.cssName = 'something';
+Cú pháp lấy giá trị CSS bằng Javascript:
+
+
+var value = document.getElementById("object").style.cssName;
+
+Trường hợp thuộc tính có dấu gạch ngang như: font-size, line-height, margin-bottom thì thuộc tính đó trong style sẽ có tên là fontSize, lineHeight, marginBottom ,nghĩa là sẽ bỏ đi dấu gạch ngang và viết hoa ký tự đầu tiên của chữ thứ hai.
+
+
+document.getElementById("object").style.fontSize = 'something';
+document.getElementById("object").style.lineHeight = 'something';
+document.getElementById("object").style.marginBottom = 'something';<br />
+<br />
+Lưu ý rằng có những thuộc tính nếu bạn chưa thiết lập CSS cho nó thì khi bạn lấy giá trị sẽ là một giá trị rỗng.
+
+

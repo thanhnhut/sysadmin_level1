@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+	/*Để thêm sự kiện bằng Javascript thì bạn sẽ sử dụng cú pháp như sau:
+
+
+elementObject.eventName  = function(){
+    // do something
+};
+Trong đó:
+
+elementObject là đối tượng HTML mà chúng ta sử dụng DOM để lấy.
+eventName là tên của event như onclick, onchange, ...*/
+
+//Ví dụ: Thêm sự kiện click cho button có id="show-btn"
+
+		 // Lấy đối tượng
+            var button = document.getElementById("show-btn");
+             
+            // Thêm sự kiện cho đối tượng
+            button.onclick = function()
+            {
+              alert("may vừa click vào button");
+            };
+		</script>
+		<input type="button" value="click me" id="show-btn"/>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Hard Work</title>
+	<style type="text/css">
+		/*Thông thường để chạy đầy đủ trên các trình duyệt thì người ta sẽ bổ sung hai thuộc tính hack css nữa đó là:
+		-moz-border-radius: 15px; Firefox
+		-webkit-border-radius: 15px: Chrome va Safary
+
+		Trong đó mỗi cách dùng sẽ có những tác dụng khác nhau và giá trị của tham số tính theo đơn vị chiều dài (px, pt) hoặc (%).
+
+		1. 1 tham số: tr/h này sẽ có tâc dụng cả bốn góc
+			vd border-radius: 15px;
+
+		2. 2 tham số:
+			vd border-radius: 30px 10px;
+			+ cái đầu là góc lẽ
+			+ cái sau là góc chẵn
+
+		3. 3 tham số:
+			vd border-radius: 10px 20px 50px ;
+			+ cái đầu góc 1
+			+ cái 2 là góc 2 và góc 4
+			+ cái 3 là góc 3
+
+		Tạo hình tròn: để tạo hình tròn thì ta chỉ việc thiết lập width và height của thẻ HTML = nhau và bo tròn 4 góc với giá trị 50%	 	
+
+		*/
+		.rounded-corners{
+			margin: 50px;
+			width: 200px;
+			height: 200px;
+			border:solid 5px red;
+			background: black;
+			border-radius: 50%;
+			-moz-border-radius: 50%;
+			-webkit-border-radius: 50%;
+		}
+	</style>
+</head>
+<body>
+	<div class="rounded-corners"></div>
+</body>
+</html>

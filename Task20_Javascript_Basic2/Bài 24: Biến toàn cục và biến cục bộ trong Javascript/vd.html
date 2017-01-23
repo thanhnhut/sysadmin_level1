@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">	
+	<title></title>
+</head>
+<body>
+		<script type="text/javascript">
+			//Nếu trong hàm có sử dụng từ khóa var và để tạo một biến và tên của biến đó đã tồn tại ở bên ngoài (toàn cục) thì lúc này bên trong hàm nó sẽ hiểu là đang sử dụng biến cục bộ chứ không ảnh hưởng gì biến bên ngoài cả.
+
+			/*Nếu trong hàm có sử dụng từ khóa var và để tạo một biến và tên của biến đó đã tồn tại ở bên ngoài (toàn cục) thì lúc này bên trong hàm nó sẽ hiểu là đang sử dụng biến cục bộ chứ không ảnh hưởng gì biến bên ngoài cả.
+			//biến toàn cục
+			var comment = "nội dung comment toàn cục";
+			//hàm có sử dụng biến toan cục
+			function add_comment()
+			{
+				var comment = "nội dung comment cục bộ";
+				alert('Hardwork');
+			}
+			//gọi function comment
+			add_comment();
+			//in biến toàn cục
+			alert('comment');*/
+
+			//Nếu bạn không sử dụng từ khóa var để tạo tên biến trong hàm thì nó sẽ sử dụng biến toàn cục nên mọi thay đổi của biến đó trong hàm sẽ bị ảnh hưởng ra ngoài hàm.
+
+			//biến cục bộ
+			var comment = "nội dung comment trước khi thay đổi";
+			//ham co sử dụng biến toàn cục
+			function add_comment()
+			{
+				comment = "nội dug comment đã bị thay đổi";
+				alert('hardwork');
+			}
+			//gọi hàm comment
+			add_comment();
+			//in bien toan cục
+			alert('comment');
+		</script>
+</body>
+</html>
