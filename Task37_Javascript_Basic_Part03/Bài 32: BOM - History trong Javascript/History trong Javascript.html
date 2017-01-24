@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Khi bạn lướt web thì trình duyệt sẽ lưu lại lịch sử lướt web của bạn và dựa vào lịch sử đó chúng ta có thể xem lại những ngày trước đã xem gì, và vấn đề này trình duyệt đã hỗ trợ cho chúng ta rồi (back, forward, clear history). Nhưng nếu bạn có nhu cầu cần sử dụng Javascript để xử lý thì vẫn có một số phương thức và thuộc tính nằm trong đối tượng History có thể giúp giải quyết vấn đề này.
+		Cũng như location, history cũng là một thành phần con của window nên chúng ta phải thông qua đối tượng window để thao tác với history.*/
+
+		//Nếu bạn muốn đếm tổng số trang đã lưu trong lịch sử lướt web thì bạn có thể sử dụng cú pháp sau:
+		alert("Tong so trang da luu trong history la:" +window.history.length);
+		/*Chúng ta có ba phương thức thường dùng để đến một trang trong history:
+
+		    history.back() : trở lại trang trước
+		    history.forward() : đi tới trang kế tiếp
+		    history.go(number): đi tới một trang:
+		        nếu number âm thì tính từ trang hiện tại trừ đi number
+		        nếu number dương thì tính từ trang hiện tại cộng với number*/
+		 alert("tro lai trang truoc:" +window.history.back());
+		 alert("di toi trang ke tiep sau khi su dung back():" +window.history.forward());
+		 alert("di toi trang cach day 5 lan luot web:" +window.history.go(-5));       
+	</script>
+</body>
+</html>

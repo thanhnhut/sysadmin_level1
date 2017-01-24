@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Ngoài các phương thức trên thì bạn có thể sử dụng Location để xử lý các thành phần liên quan đến URL như lấy phần hash, lấy phần search. 
+
+		Và đây là danh sách các thuộc tính đầy đủ cho đối tượng location này:
+
+	    hash: thiết lập hoặc lấy phần sau dấu # của URL
+	    host: thiết lập hoặc lấy hostname và port number của URL
+	    hostname: thiết lập hoặc lấy hostname
+	    href: thiết lập hoặc lấy URL
+	    origin: trả về protocal, hostname và port number của URL
+	    pathname: thiết lập hoặc lấy path name của URL
+	    port: thiết lập hoặc lấy port của URL
+	    search: lấy phần query string của URL
+*/
+		document.write("hash:" +window.location.hash + "<br/>");
+        document.write("host:" +window.location.host + "<br/>");
+        document.write("hostname:" +window.location.hostname + "<br/>");
+        document.write("href:" +window.location.href + "<br/>");
+        document.write("origin:" +window.location.origin + "<br/>");
+        document.write("pathname:" +window.location.pathname + "<br/>");
+        document.write("port:" +window.location.port + "<br/>");
+        document.write("search:" +window.location.search + "<br/>");
+	</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<button onclick="replacePage()">replace()</button>
+	<button onclick="hrefPage()">location.href</button>
+	<script type="text/javascript">
+		/*Phương thức này ít khi sử dụng mà thay vào đó họ sử dụng cú pháp window.location.href="url". Tuy nhiên hai cách này vẫn có sự khác biệt:
+
+    Đối với replace() thì trình duyệt sẽ KHÔNG đưa vào lịch sử.
+    Đối với location.href thì trình duyệt sẽ CÓ đưa vào lịch sử */
+    	function replacePage(){
+    		window.location.replace('http://youtube.com');
+    	}
+    	function hrefPage(){
+    		window.location.href = 'http://youtube.com';
+    	}
+	</script>
+</body>
+</html>

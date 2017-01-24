@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Vì Cookie được lưu trữ ở dạng chuỗi các key=value và các chuỗi giá trị cách nhau bởi dấu chấm phẩy ; nên để lấy một giá nào đó bạn phải xử lý chuỗi rất phức tạp, vì vậy thông thường chúng ta viết hàm tạo và lấy Cookie để sử dụng được nhiều lần.
+		//Ham thiet lap Cookie
+		function setCookie(cname, cvalue, exdays) {
+		    var d = new Date();
+		    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		    var expires = "expires="+d.toUTCString();
+		    document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		//Ham lay cookie
+		function getCookie(cname) {
+		    var name = cname + "=";
+		    var ca = document.cookie.split(';');
+		    for(var i=0; i<ca.length; i++) {
+		        var c = ca[i];
+		        while (c.charAt(0)==' ') c = c.substring(1);
+		        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		    }
+		    return "";
+		}
+	</script>
+</body>
+</html>
