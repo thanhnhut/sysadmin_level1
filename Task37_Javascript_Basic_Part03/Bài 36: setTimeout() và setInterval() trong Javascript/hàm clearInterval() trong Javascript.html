@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+/*Tương tự như hàm clearTimeout(), hàm clearInterval() sẽ xóa đi nhiệm vụ mà ta đã thiết lập trong hàm setInterval(), và ta cũng phải đặt setInterval() trong một biến thì mới clear được.
+
+Ví dụ: Sử dụng hàm setInterval() để xuất câu chào lên màn hình và số lần xuất hiện chỉ 1 lần duy nhất*/
+		var interval_obj = setInterval(function(){
+			alert("Welcome!!");
+			clearInterval(interval_obj);
+		},3000);
+//Như vậy sự khác nhau giữa hàm setTimeout() và setInterval() là đối với hàm setTimeout() thì số lần thực hiện là 1 lần và đối với setInterval() thì số lần thực hiện sẽ là mãi mãi cho tới khi bạn sử dụng hàm clearInterval() để can thiệp vào.			
+	</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+//Nếu bạn muốn ép một giá trị nào đó sang kiểu chuỗi thì có thể sử dụng cú pháp string.toString().
+	//truoc khi chuyen doi
+	var number = 12;
+	alert(typeof number);
+	//sau khi chuyen doi
+	number = number.toString();
+	alert(typeof number);
+/*Từ khóa typeof vars sẽ trả về kiểu dữ liệu của biến vars.
+
+Ngoài cách trên bạn có thể sử dụng đối tượng String để tạo một chuỗi và vì là đối tượng nên nó phải có từ khóa new đặt đằng trước.*/
+	var message = new String("Oh no");
+//Lúc này dù bạn truyền vào là kiểu gì đi nữa thì kết quả nó vẫn trả về kiểu string, tuy nhiên người ta khuyến khích bạn không nên sử dụng cách này bởi vì chương trình sẽ chạy chậm hơn.
+
+				
+	</script>
+</body>
+</html>

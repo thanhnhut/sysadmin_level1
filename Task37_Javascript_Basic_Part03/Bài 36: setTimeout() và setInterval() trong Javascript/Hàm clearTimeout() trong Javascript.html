@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Giả sử bạn xây dựng chức năng sau 3 giây thì sẽ xuất hiện thông báo, tuy nhiên sau 2 giây chương trình muốn hủy bỏ thì phải làm thế nào? Lúc này bạn phải sử dụng hàm clearTimeout().
+
+Tham số truyền vào hàm clearTimeout() là đối tượng setTimeout() nên lúc này ban phải đặt hàm setTimeout() vào một biến cụ thể.
+		//hanh dong
+		var action = setTimeout(function(){
+			//something	
+		},3000);
+		//huy hanh dong
+		clearTimeout(action);*/
+		var do_alert = setTimeout(function(){
+			alert("Welcome to Youtube!!!");
+		},3000);
+		function clearAlert(){
+			clearTimeout(do_alert);
+		}
+	</script>
+	<input type="button" onclick="clearAlert()" value="Clear"/>
+</body>
+</html>
