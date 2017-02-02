@@ -37,7 +37,7 @@ Giao thức FTP hoạt động theo mô hình Client-Server. Tùy thuộc vào c
 
 - Passive FTP: máy Client làm cả 2 việc này (thiết lập đường dẫn cho commands và đườn dẫn dữ liệu.
 
-<p align="center"><img src="http://www.danzig.jct.ac.il/tcp-ip-lab/ibm-tutorial/3376f105.gif" /></p>
+<p align="center"><img src="https://camo.githubusercontent.com/94fff970495e9644243775c343137d3385375ae9/687474703a2f2f75736572732e736b796e65742e62652f73706f757365656c652f4654502f4654502d6f766572766965772e676966" /></p>
 
 Thành phần Protocol Interpreter (PI) là thành phần quản lý kênh điều khiển, với chức năng phát và nhận lệnh.
 
