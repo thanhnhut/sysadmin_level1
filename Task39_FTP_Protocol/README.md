@@ -15,6 +15,8 @@
 
 [4.Một số FTP Client](#4)
 
+[5.Tài liệu tham khảo](#5)
+
 ---
 
 <a name="1"></a>
@@ -198,4 +200,13 @@ Bạn chọn tập tin cần upload trên máy và chọn thư mục lưu trữ 
 Bạn chọn tập tin cần upload trên máy và chọn thư mục lưu trữ của tập trên host (thường là thư mục public_html). Sau đó bạn chuột phải vào file cần upload rồi chọn Upload.
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task39_FTP_Protocol/Images/4.png)
+
+<a name="5"></a>
+#5.Tài liệu tham khảo
+
+https://vi.wikipedia.org/wiki/FTP
+
+http://aita.gov.vn/tin-tuc/1353/tieu-chuan-ftp-giao-thuc-truyen-tep-tin
+
+https://github.com/hoangdh/ghichep-FTP
 
