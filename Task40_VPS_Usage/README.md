@@ -163,17 +163,17 @@ Cloud VPS là một hệ thống được xây dựng trên nền tảng điên 
 
 ###Một số thao tác với VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Khởi động VPS
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/3.png) Khởi động VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/3.png) Dừng VPS
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/4.png) Dừng VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/4.png) Tắt VPS
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/5.png) Tắt VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/5.png) Khởi động lại VPS
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/6.png) Khởi động lại VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Cài lại hệ điêu hành cho VPS
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/7.png) Cài lại hệ điêu hành cho VPS
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Mở giao diện điều khiển. Click vào và bắt đầu Login với tài khoản của hostvn đã cung cấp.
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/8.png) Mở giao diện điều khiển. Click vào và bắt đầu Login với tài khoản của hostvn đã cung cấp.
 
 ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/9.png)
 
@@ -229,7 +229,7 @@ UsePAM no
 
 **Kiểm tra IP**
 
-<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/16.png" /></p>
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/17.png" /></p>
 
 **Hostname và Version**
 
