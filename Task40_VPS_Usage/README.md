@@ -3,13 +3,21 @@
 > 
 > Thực hiện: **Nguyễn Thanh Nhựt**
 > 
-> Cập nhật: **06/02/2017**
+> Cập nhật: **08/02/2017**
 
 ###Mục lục
 
 [1.VPS](#1)
 
 [2.Cloud VPS](#2)
+
+[3.Giao diện quản lý VPS](#3)
+
+[4.Cài đặt SSH và SSH bằng public key](#4)
+
+[5.Một số thao tác qua SSH](#5)
+
+[6.Tham Khảo](#6)
 
 
 ---
@@ -143,7 +151,118 @@ Cloud VPS là một hệ thống được xây dựng trên nền tảng điên 
 
 - Còn đối với các VPS cloud thì tài nguyên dự trữ là rât nhiều và lúc nào cũng sẵn sàng để nâng cấp VPS, việc cấp phát cũng rất nhanh chóng.
 
-#Tham Khảo
+<a name="3"></a>
+#3.Giao diện quản trị VPS
+
+Đây là trang quản trị VPS tại hostvn.net. Cho biết các thông số của VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/1.png)
+
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png)
+
+###Một số thao tác với VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Khởi động VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/3.png) Dừng VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/4.png) Tắt VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/5.png) Khởi động lại VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Cài lại hệ điêu hành cho VPS
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/2.png) Mở giao diện điều khiển. Click vào và bắt đầu Login với tài khoản của hostvn đã cung cấp.
+
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/9.png)
+
+###Một số Tools
+
+**Quản lý Firewall**
+
+Click vào ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/10.png) sẽ di chuyển đến trang quản lý Firewall ở đây có thêm các rules.
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/15.png" /></p>
+
+**Quản lý IP**
+
+Click vào ![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/11.png)  để di chuyển đến trang quản lý IP để xem thông tin IP của VPS
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/16.png" /></p>
+
+<a name="4"></a>
+#4.Cài đặt SSH và SSH bằng public key
+
+Nhập lệnh sau để cài đặt ssh ``apt-get ínstall openssh-server``
+
+Tạo thư mục chứa Public Key trên Server từ Client, ví dụ:
+
+```
+ssh nhut@192.168.15.183 mkdir -p .ssh
+
+```
+Bước tiếp theo sẽ tạo authorized_keys cho server bằng chuỗi lệnh:
+
+```
+cat .ssh/id_rsa.pub | ssh nhut@192.168.15.183 'cat >> .ssh/authorized_keys'
+
+```
+Tiếp sau sẽ dùng chmod phân quyền 700 cho folder .ssh & 640 cho file authorized_keys
+
+```
+chmod 700 .ssh
+chmod 640 .ssh/authorized_keys
+```
+
+Đến đây kể như hoàn tất Client đã có Private Key, trên Server đã có Public Key nhưng kết nối vẫn xác thực theo Password Authentication. Tìm đến file /etc/ssh/sshd_config hiệu chỉnh thông số như sau.
+
+```
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no 
+```
+<a name="5"></a>
+#5.Một số thao tác thực hành qua SSH
+
+###Kiểm tra cấu hình
+
+**Kiểm tra IP**
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/16.png" /></p>
+
+**Hostname và Version**
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/18.png" /></p>
+
+**Kiểm tra phần cứng**
+
+Xem CPU gì và tốc độ ra sao, có bao nhiêu nhân hay bao nhiêu CPU vật lý.
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/19.png" /></p>
+
+ Dung lượng các ổ cứng
+
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/20.png" /></p>
+
+###Upgrade to Ubuntu 16.04
+
+Nhập lệnh sau ```do-release-upgrade --devel-release``` để nâng cấp. Hoàn thành nâng cấp
+
+<p align="center"><img src="https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/21.png" /></p>
+
+###Cài đặt Opencart
+
+tham khảo https://github.com/thanhnhut/sysadmin_level1/tree/master/Task25_Ubuntu_LAMP_And_OpenCart
+
+
+
+
+
+
+<a name="6"></a>
+#6.Tham Khảo
 
 https://vi.wikipedia.org/wiki/M%C3%A1y_ch%E1%BB%A7_%E1%BA%A3o
 
