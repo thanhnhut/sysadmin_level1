@@ -259,7 +259,7 @@ Tham khảo https://github.com/thanhnhut/sysadmin_level1/tree/master/Task25_Ubun
 Cài đặt hoàn tất và trỏ tên miên về VPS
 
 
-![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/a.png)
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/a1.png)
 
 
 
