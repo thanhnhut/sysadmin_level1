@@ -254,9 +254,12 @@ Nhập lệnh sau ```do-release-upgrade --devel-release``` để nâng cấp. Ho
 
 ###Cài đặt Opencart
 
-tham khảo https://github.com/thanhnhut/sysadmin_level1/tree/master/Task25_Ubuntu_LAMP_And_OpenCart
+Tham khảo https://github.com/thanhnhut/sysadmin_level1/tree/master/Task25_Ubuntu_LAMP_And_OpenCart
+
+Cài đặt hoàn tất và trỏ tên miên về VPS
 
 
+![](https://github.com/thanhnhut/sysadmin_level1/blob/master/Task40_VPS_Usage/Images/a.png)
 
 
 
@@ -264,11 +267,12 @@ tham khảo https://github.com/thanhnhut/sysadmin_level1/tree/master/Task25_Ubun
 <a name="6"></a>
 #6.Tham Khảo
 
-https://vi.wikipedia.org/wiki/M%C3%A1y_ch%E1%BB%A7_%E1%BA%A3o
+[1] VPS https://vi.wikipedia.org/wiki/M%C3%A1y_ch%E1%BB%A7_%E1%BA%A3o
 
-https://longvan.net/vps-la-gi-vps-duoc-dung-de-lam-gi.html
+[2] VPS là gì? VPS được dùng để làm gì? https://longvan.net/vps-la-gi-vps-duoc-dung-de-lam-gi.html
 
-http://vdo.vn/hoi-dap/sanh-giua-cloud-server-va-may-chu-ao-vps.html
+[3] So sánh VPS và Cloud VPS http://vdo.vn/hoi-dap/sanh-giua-cloud-server-va-may-chu-ao-vps.html
 
-https://thachpham.com/hosting-domain/cam-nang-thue-vps.html
+[3] Thạch Phạm. (2016). VPS là gì và lưu ý gì khi thuê VPS https://thachpham.com/hosting-domain/cam-nang-thue-vps.html
+
 
