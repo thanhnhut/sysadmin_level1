@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Hàm này có tác dụng giống như hàm Number(), tuy nhiên có một số điểm khác biệt như sau:
+
+    Nếu chuỗi có các ký tự đầu tiên là các con số và ở đằng sau là chữ cái thì nó sẽ lấy các số đầu tiên đó và chuyển thành kiểu number. Trường hợp này nếu dùng hàm Number() thì nó sẽ chuyển thành NaN.
+    Nếu dữ liệu ở các định dạng khác string thì nó sẽ chuyển thành NaN
+*/
+		var boolean_true = true;
+		parseInt(boolean_true); //returns NaN
+
+		var boolean_false = false;
+		parseInt(boolean_false); //returns NaN
+
+		var string_str = '10 welcome';
+		parseInt(string_str); //returns 10
+
+		var string_num = '100';
+		parseInt(string_num); //returns 100
+
+		var date = new Date();
+		parseInt(boolean_true); //returns NaN
+	</script>
+</body>
+</html>
+

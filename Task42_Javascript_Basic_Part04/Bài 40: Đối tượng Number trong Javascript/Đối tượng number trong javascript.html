@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Trong Javascript có hai giá trị lưu trữ trong Number đó là số có dấu chấm động và không có dấu chấm động.*/
+
+	
+var x = 12; // không có dấu chấm động
+var y = 12.5; // có dấu chấm động
+
+/*Và nếu một số quá lớn thì bạn có thể dùng số mũ để biểu diễn.
+
+Ví dụ:*/
+	
+var x = 123e5;    // 12300000
+var y = 123e-5;   // 0.00123
+
+/*Không giống với các ngôn ngữ lập trình khác, trong Javascript các số luôn luôn là 64 bít và kiểu float, vì vậy bạn không thể định nghĩa các kiểu dữ liệu như integer, short, long, ... hay nói cach khác trong Javascript khi làm việc với các chữ số thì chỉ có khái niệm Number. 
+
+Ngoài ra bạn có thể biểu diễn giá trị của Number ở dạng nhị phân, thập phân, thập lục phân, ...
+
+Ví dụ:*/
+
+	
+var x = 0xFF;             // x có giá trị bằng 255
+
+/*Trong Javascript tất cả các dữ liệu liên quan đến những con số đều có kiểu dữ liệu là Number, nghĩa là bạn dùng hàm typeof thì sẽ có kết quả trả về là 'number'.
+
+Ví dụ:*/
+
+var x = 123;
+var y = 1.23;
+ 
+typeof 12;  // number
+typeof x;   // number
+typeof y;   // number
+	</script>
+</body>
+</html>
+

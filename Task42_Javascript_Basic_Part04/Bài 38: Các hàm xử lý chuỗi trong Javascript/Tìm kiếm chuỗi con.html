@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Chúng ta có ba hàm thường dùng để tìm kiếm chuỗi con trong Javascript như sau:
+
+			    indexOf()
+			    lastIndexOf()
+			    search()
+
+			Hàm indexOf()
+
+				Để tìm kiếm chuỗi con thì ta sử dụng hàm String.indexOf(str), trong đó str là chuỗi con và String là chuỗi cha. Hàm này sẽ trả kết quả về kết quả là vị trí xuât hiện đầu tiên của chuỗi (bắt đầu là vị trí 0), nếu không tìm thấy chuỗi con thì nó sẽ trả về -1.
+
+		var string = "Hi welcome back";
+		document.write("vi tri xuat hien chuoi:" + string.indexOf("back"));	
+
+		Hàm lastIndexOf()
+
+				Trường hợp nếu chuỗi con xuất hiện nhiều lần trong chuỗi cha thì kết quả cũng trả về vị trí xuất hiện của chuỗi con đầu tiên. Vậy làm thế nào để lấy vị trí của chuỗi con cuối cùng trong chuỗi cha? Ta sẽ sử dụng hàm String.lastIndexOf(str), hàm này sẽ trả về vị trí xuất hiện của chuỗi con cuối cùng và trả về -1 nếu không tìm thấy.
+		var string = "Hi welcome back and back to your room";
+		document.write("vi tri xuat hien chuoi:" + string.lastindexOf("back"));	
+		
+		Hàm search()
+
+			Ngoài hai hàm trên bạn có thể sử dụng hàm string.search(str) để tìm kiếm, tác dụng của nó cũng giống như hàm string.indexOf(str).*/
+
+		var string = "I want to go bird watching tomorrow";
+		document.write("vi tri chuoi:" + string.search("tomorrow"));	
+
+	</script>
+</body>
+</html>
+

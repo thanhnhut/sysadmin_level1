@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/*Tương ứng với mỗi hàm Date Get thì sẽ có một hàm Date Set (trừ hàm getDay()).
+
+    setDate() thiết lập ngày (1 - 31)
+    setFullYear() thiết lập năm đầy đủ (YYYY)
+    setYear() thiết lậpnăm 2 số cuối (YY)
+    setHours() thiết lập số giờ (0 - 23)
+    setMiliSeconds() thiết lập số mili giây (0 - 999)
+    setMinutes() thiết lập số phút (0 - 59)
+    setMonth() thiết lập tháng (0 - 11)
+    setSeconds() thiết lập số giây (0 - 59)
+    setTime() thiết lập thời gian đã được convert sang dạng miliseconds.
+Lưu ý:
+
+    Vì đây là hàm set nên bạn phải truyền tham số vào.
+    Các hàm có ảnh hưởng lẫn nhau nhé các bạn, ví dụ bạn thiết lập ngày giờ không đúng thì nó sẽ lấy ngày giờ mặc định.
+    Nếu bạn dùng hàm setTime() để thiết lập thì nó ảnh hưởng tới tất cả các giá trị còn lại bởi vì setTime() là hàm thiết lập thời gian đầy đủ đã chuyển sang dạng miniseconds.
+
+*/
+		 var d = new Date();
+
+    d.setDate(20);
+    d.setFullYear(2011);
+    d.setHours(2);
+    d.setMilliseconds(2);
+    d.setMinutes(3);
+    d.setMonth(4);
+    d.setSeconds(5);
+    
+    document.write(d.getDate()      + "<br/>");
+    document.write(d.getDay()       + "<br/>");
+    document.write(d.getFullYear()  + "<br/>");
+    document.write(d.getYear()      + "<br/>");
+    document.write(d.getHours()     + "<br/>");
+    document.write(d.getMilliseconds() + "<br/>");
+    document.write(d.getMinutes()   + "<br/>");
+    document.write(d.getMonth()     + "<br/>");
+    document.write(d.getSeconds()   + "<br/>");
+    document.write(d.getTime()      + "<br/>");
+    
+	</script>
+</body>
+</html>
+

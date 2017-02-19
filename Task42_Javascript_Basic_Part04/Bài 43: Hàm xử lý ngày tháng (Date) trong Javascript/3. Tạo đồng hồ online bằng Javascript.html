@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+	<script type="text/javascript">
+	 // ham khoi tao dong ho
+            function startTime() 
+            {
+                // lay objec ngay hien tai
+                var today = new Date();
+
+                // gio phut giat hien tai
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+
+                // chuyen doi sang dang 01 02 03
+                m = checkTime(m);
+                s = checkTime(s);
+
+                // ghi ra trinh duyet
+                document.getElementById('timer').innerHTML = h + ":" + m + ":" + s;
+
+                // Dung ham setTimeout de thiet lap goi lai 0.5giay/lan
+                var t = setTimeout(function() {
+                    startTime();
+                }, 500);
+            }
+
+            // ham nay co tac dung chuyen nhung so be hon 10 thanh 01, 02, 03, ...
+            function checkTime(i) 
+            {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+	</script>
+</head>
+<body onload="startTime()">
+	<div id="timer"></div>
+</body>
+</html>
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Hàm slide có hai tham số truyền vào:
+
+    		start: vị trí bắt đầu
+    		end: vị trí kết thúc*/
+
+    		var string ="welcom to my house 1";
+    		document.write("chuoi can lay: " + string.slice(3, 9));<br>
+
+
+    	/*Nếu tham số truyền vào là số âm thì nó sẽ tính ngược lại, nghĩa là nó sẽ đếm từ cuối lên.	*/
+
+    		var string = "Welcome to my house 2";
+    		document.write("chuoi can lay: " + string.slice(-12, 10));<br>
+
+    	/*Nếu bạn chỉ truyền một tham số đầu tiên thì nó sẽ tự hiểu vị trí end là vị trí cuối cùng.*/
+
+    		var string = "Welcome to my house 3";
+    		document.write("chuoi can lay: " + string.slice(6));	
+
+	</script>
+</body>
+</html>
+

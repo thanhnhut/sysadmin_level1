@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Nếu bạn thực hiện một phép toán nào đó liên quan đến Number nhưng vi phạm quy tắc tính toán thì kết quả sẽ trả về một giá trị gọi là NaN (Not a Number). Ví dụ khi bạn thực hiện phép chia hai số nếu bạn cho mẫu số là một chuỗi String thì kết quả sẽ là NaN.*/
+
+		var x = 2/"welcome"; //NaN
+		//Tuy nhiên nếu mẫu số là một chuỗi Number thì kết quả nó vẫn hoạt động bình thường.
+
+		var x = 100 / "10"; //kq = 10
+
+		//Để kiểm tra một biến nào đó có phải là NaN hay không thì chúng ta sử dụng hàm isNaN().
+
+		var x = 2/"s";
+		if (isNaN(x)) {
+			document.write("NaN");
+		}
+	</script>
+</body>
+</html>
+

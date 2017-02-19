@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/*Đây là cách thông thường và khi bạn dùng cách này nó sẽ lấy thời gian hiện tại trên máy của bạn (client), điều này có nghĩa mỗi Client sẽ có thời gian khác nhau phụ thuộc vào máy tính của họ.*/
+
+	var dateObj = new Date();
+	document.write(dateObj);
+
+	//va sau day la 4 cach khoi tao thong thuong nhat
+
+	//thoi gian hien tai
+	new Date();
+
+	//tham so truyen vao la mili giay
+	new Date(milliseconds);
+
+	//tham so truyen vao la chuoi ngay thang
+	new Date(dateString);
+
+	//tham so truyen vao gom
+	// -year:
+	// -month:
+	// -day:
+	// -hours:
+	// -minutes:
+	// -seconds:
+	// -milliseconds:
+	new Date(year, month, day, hours, minutes, seconds, milliseconds);
+	/*Khi bạn truyền tham số vào thì đối tượng đó sẽ tự nhận diện và chuyển đổi về đúng định dạng ngày tháng nên bạn hoàn toàn yên tâm mà sử dụng. Ví dụ: Khởi tạo một đối tượng với giá trị là ngày 20/11/2013*/
+
+	var dateObj = new Date(2013, 11, 20);
+	//Cái khó ở phần này là định dạng format của ngày tháng khi in ra ngoài trình duyệt rất khó đọc, điều này cũng bình thường bởi vì nó có quy tắc format riêng.
+
+	</script>
+</body>
+</html>
+
