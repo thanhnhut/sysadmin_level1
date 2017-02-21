@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Nếu bạn để ý kỹ hơn thì thì thấy rằng nếu người dùng nhập vào màu đỏ (red), vàng (yellow) và xanh (blue) thì đều có thông báo nhập đúng. Vậy tai sao mình không gom ba trường hợp đó thành một thôi.*/
+		var color = prompt("nhap mau can kiem tra");
+		switch(color){
+			case 'red':
+			case 'yellow':
+			case 'blue':
+				document.write("may nhap mau " + color + ", dung roi");
+				break;
+				default:
+					document.write("may nhap tao lao");
+		}
+	</script>
+</body>
+</html>
+

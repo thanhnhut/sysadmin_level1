@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Sử dụng ví dụ trên nhưng ta sẽ khai báo ở trong phạm vi của hàm.*/
+		function show_domain(){
+			"use strict";
+		}
+		//doan code nay loi vi bien domain chua dc khoi tao
+		domain = "http://thanhnhut.com";
+		//in ra man hinh
+		document.write(domain);
+
+		//chay len chuong trinh van chua hoat dong binh thuong, tuy nhien neu ta su dung sai trong ham do thi chuong trinh se khong hoat dong.
+		function show_domain() {
+			"use strict";
+			//doan code nay loi vi bien domain chua dc khoi tao
+			domain = "http://thanhnhut.com"
+			//in ra man hinh
+			document.write(domain);
+		}
+		show_domain
+	</script>
+</body>
+</html>
+

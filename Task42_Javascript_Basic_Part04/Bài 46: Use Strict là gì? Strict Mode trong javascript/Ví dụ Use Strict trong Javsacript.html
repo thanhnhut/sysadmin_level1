@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Sử dụng biến chưa được định nghĩa: Bạn không thể sử dụng một biến mà chưa được định nghĩa trước đó.
+		"use strict";
+		//sai vi bien domain chua dc khoi tao tu truoc
+		domain = 'thannhut.net';
+
+		//k chap nhan delete bien, k the delete cac ham, bien neu chay o che do strict mode
+		"use strict";
+		var domain = 'thanhnhut.com';
+		//sai vi k dc delete
+		delete domain;
+
+		//dinh thuoc tinh nghia 2 lan, neu trong 1 object ban dinh nghia ten key bi trung thi se loi
+		"use strict";
+		//sai vi key email bi trung
+		var info = {
+			email : "abc@gmail.com",
+			email : "zxc@gmail.com"
+		};
+
+		//khai vbao tham so bi trung, neu khai bao cac tham so bi trung ten thi se bi loi
+		"use strict";
+		//sai vi tham so domain bi trung
+		function show_domain(domain, domain){
+			//lam cai gi do
+		}
+
+		//loi literals va escape voi number ban k dc su dung literals va escape voi kieu number
+		"use strict";
+		//sai
+		var x = 0100;
+		var y = \0100;
+
+		//khai bao ten bien trung voi key, ban khong thr khi bao ten cua bien trung voi key cua javascript
+		//loi trung ham eval
+		var eval = 12;
+		//loi tu khoa arguments k dc su dung lam ten bien
+		var arguments = 12;
+		//loi tu khoa delete la khoa nen k dc su dung lam ten bien
+		var delete = 123;
+
+		/*Ngoài ra bạn không thể sư dụng tên biến với các từ khóa sau:
+
+    		implements
+    		interface
+    		package
+    		private
+    		protected
+   			public
+    		static
+    		yield */
+
+	</script>
+</body>
+</html>
+

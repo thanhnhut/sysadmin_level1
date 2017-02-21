@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Phương thức là những hành động (có thể hiểu là hàm) của đối tượng. Ví dụ trong đối tượng Comment thì mình cần hai phương thức là:
+
+    		addComment()
+    		validateComment()
+
+		Lúc này ta sẽ có ba cách khai báo tương tự như cách khai báo thuộc 	tính.*/
+
+		//cach 1 su dung khoa new Object();
+		var Comment = new Object();
+		//them phuong thuc
+		Comment.addComment = function(){
+			//do some thing
+		};
+		Comment.validateComment = function(){
+			//do some thing
+		};
+
+		//cach 2 su dung tu kho {} va them phuong thuc ngay luc khai bao
+		//khoi tao 
+		var Comment = {
+			addComment : function(){
+				//do some thing
+			};
+			validateComment : function(){
+				//do some thing
+			};
+		}
+
+		//cach 3 su dung tu khoa {} va them phuong thuc sau do
+		//khoi tao
+		var Comment = {};
+		//them phuong thuc
+		Comment.addComment = function (){
+			//do some thing
+		};
+		Comment.validateComment = function(){
+			//do some thing
+		};
+		//khuyen khich dung cach 2
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/*Ví dụ: Viết chương trình cho người dùng nhập vào một số, kiểm tra số đó là số chẵn hay số lẻ.
+
+Với bài toán này thì kết hợp lệnh prompt() để lấy thông tin từ người dùng, đồng thời kết hợp lệnh switch case để hiển thị kết quả. Có một lưu ý bạn nên sử dụng hàm parseInt() để chuyển dữ liệu người dùng nhập sang number.
+
+*/
+		var number = parseInt(prompt("nhap so can kiem tra"));
+		var mod = (number % 2);
+		switch (mod){
+			case 0 : {
+				document.write(number + "la so chan");
+				break;
+			}
+			case 1: {
+				document.write(number + "la so le");
+				break;
+			}
+			default : {
+				document.write("ky tu may nhap khong phai so");
+			}
+		}
+	</script>
+</body>
+</html>
+

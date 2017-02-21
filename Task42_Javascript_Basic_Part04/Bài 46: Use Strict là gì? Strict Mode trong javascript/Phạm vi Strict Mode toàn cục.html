@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/* chương trình chạy bị sẽ bị sai vì biến domain chưa được khởi tạo. Tuy nhiên nếu ta bỏ từ khóa use strict đi thì chương trình sẽ chạy bình thường.*/
+
+		//phia tren cung cua file
+		"use strict";
+		//doan code nay loi vi bien domain chua dc khoi tao
+		domain = "http://thanhnhut.com";
+		//in ra man hinh
+		document.write(domain);
+
+		//bay gio gom doan code tren vao 1 ham thu
+
+		//phia tren cung cua file
+		"use strict";
+
+		function show_domain(){
+			//doan code nay loi vi bien domain chua dc khoi tao
+			domain = "http://thanhnhut.com";
+			//in ra man hinh
+			document.write(domain);
+		}
+		show_domain();
+		//chay len chuong trinh van loi vi ta da khi bao tinh toan cuc cho che do strict mode
+	</script>
+</body>
+</html>
+

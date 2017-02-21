@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/*Trường hợp này nếu bạn nhập vào màu đỏ (red) thì chương trình sẽ in ra cả lệnh ở case màu vàng (yellow) phía dưới, lý do là trong case màu đỏ ta không sử dụng lệnh break để thoát khỏi lệnh switch nên nó sẽ chạy thẳng xuống case phía dưới luôn mà không cần kiểm tra điều kiện.*/
+
+	var color = prompt("nhap mau can kiem tra");
+	switch (color){
+		case 'red':
+			document.write("may nhp mau do dung roi");
+		case 'yellow':
+			document.write("may nhap mau vang dung roi");
+			break;
+		default :
+			document.write("may nhap mau tao lao roi")	
+	}
+	</script>
+</body>
+</html>
+
