@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		if (typeof(Storage) !== "undefined"){
+			var domain = 'freetuts.net';
+			localStorage.setItem('domain', domain);
+		} else {
+			document.write('Trinh duyet cua ban khong ho tro local strorage');
+		}
+	</script>
+</body>
+</html>
+

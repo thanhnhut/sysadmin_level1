@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Prototypes dịch ra là các nguyên mẫu nhưng về phía lập trình Javascript thì bạn có thể hiểu nó giống như các thành phần phương thức và  thuộc tính của một đối tượng, vì vậy tất cả các đối tượng trong Javascript đều có một Prototype riêng để lưu trữ các thành phần đó. Lúc này khi bạn tạo mới một đối tượng thì đối tượng đó sẽ kế thừa tất cả các phương thức và thuộc tính chứa trong Prototype của đối tượng đó.*/
+		//Ví dụ: Thêm một hàm plus() cồng dồn vào giá trị hiện tại của đối tượng Number. Lưu ý bạn cần sử dụng hàm valueOf() để lấy giá trị hiện tại của đối tượng.
+
+		//tao doi tuong
+		Number.prototype.plus = function(value){
+			return this.valueOf() + parseInt(value);
+		};
+		//tao moi doi tuong
+		var age = Number(12);
+		document.write(age.plus(12) + "<br/>");
+
+		//tao doi tuong khac
+		var year = 2014;
+		document.write(year.plus(12));
+	</script>
+</body>
+</html>
+

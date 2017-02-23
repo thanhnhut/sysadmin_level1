@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Sau đây là một số quy tắc căn bản thường hay sử dụng trong Regular Expression.
+		
+			Expression 				Description
+		[abc] 					Tìm các chữ cái a,b hoặc c
+		[0-9] hoăc [a-z]  		Tìm các ký tự từ 0-9 hoặc từ a-z
+		(x|y) 					ìm ký tự x hoặc y
+		\d 						Tìm các chữ số
+		\s 						Tìm khoảng trắng
+		n+ 						Tìm 1 hoặc nhiều chữ n liên tiếp nhau
+		n* 						Tìm 0 hoặc nhiều chữ n liên tiếp nhau
+		n? 						Tìm 0 hoặc 1 chữ n	
+		*/
+
+		//Ví dụ: Kiểm tra trong chuỗi có xuất hiện chữ nhut hay không?
+		var patt = /nhut/
+		if (patt.test("Welcome to thanhnhut.com")){
+			document.write('trong chuoi co chu nhut')
+		}
+		else {
+			document.write('trong chuoi co chu nhut')
+		}
+
+		//Ví dụ: Kiểm tra chuỗi có ít nhất một chữ n
+		if (/n+/.test("hello")) {
+			document.write('Trong chuoi co chu n');
+		}
+		else {
+			document.write('trong chuoi k co chu n')
+		}
+
+		//Ví dụ: Kiểm tra trong chuỗi có xuất hiện số hay không?
+		if(/[0-9]/.test("Hi123")) {
+			document.write('trong chuoi co xuat hien so')
+;		}
+		else {
+			document.write('trong chuoi k xuat hien so');
+		}
+
+		//Kiểm tra trong chuỗi không hoặc có xuất hiện số
+		if (/[0-9]/.test("thanhnhut")){
+			document.write('luon luon chay');
+		}
+		else {
+			document.write('Khong bao gio chay')
+		}
+
+		//Ví dụ: Kiểm tra trong chuỗi có chữ H hay không?
+		if (/H/.test("hello")){
+			document.write('Co chu H');
+		}
+		else {
+			document.write('K co chu H');
+		}
+
+		
+	</script>
+</body>
+</html>
+

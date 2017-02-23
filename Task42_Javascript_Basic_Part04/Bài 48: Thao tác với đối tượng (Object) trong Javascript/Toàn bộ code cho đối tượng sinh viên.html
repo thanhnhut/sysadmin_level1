@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var Student = {
+    		data : [],
+    	viewStudent : function(){
+        // lay danh sach sinh vien
+        var listStudent = this.data;
+ 
+        // lap va hien thi sinh vien
+        for(var i = 0; i < listStudent.length; i++){
+            document.write("<div>" + listStudent[i].id + "|" + listStudent[i].name + "|" + listStudent[i].email + "</div>");
+        }
+    },
+    	addStudent : function(id, name, email){
+        // tao thong tin sinh vien
+        var item = {
+            id : id,
+            name : name,
+            email : email
+        };
+ 
+        //them sinh vien
+        this.data.push(item);
+    },
+    	removeStudent : function(id){
+        // lap qua sinh vien de tim kiem va xoa
+        for(var i = 0; i < this.data.length; i++){
+            if (this.data[i].id === id) { // neu la sinh vien can xoa
+                this.data.splice(i, 1); // thi xoa
+            }
+        }
+    },
+    	editStudent : function(id, name, email){
+        // tim sinh vien can edit
+        for(var i = 0; i < this.data.length; i++){
+            // neu la sinh vien can edit thi lam
+            if (this.data[i].id === id) { 
+                this.data[i].name = name;
+                this.data[i].email = email;
+            }
+        }
+    }
+};
+		document.write('<h4>Danh sach sinh vien ban dau</h4>');
+    Student.viewStudent();
+
+    document.write('<h4>Danh sach sinh vien khi them 2 sinh vien</h4>');
+    Student.addStudent("sv001", 'Ross Geller', "Ross@gmail.com");
+    Student.addStudent("sv002", 'Monica Geller', "Monica@gmail.com");
+    Student.viewStudent();
+
+    document.write('<h4>Danh sach sinh vien sau khi xoa 1 sinh vien</h4>');
+    Student.removeStudent('sv001');
+    Student.viewStudent();
+
+    document.write('<h4>Danh sach sinh vien sau khi sua thong tin</h4>');
+    Student.editStudent('sv002', "Ten sinh vien moi", "joeytribiani@gmail.com");
+    Student.viewStudent();
+	</script>
+</body>
+</html>
+

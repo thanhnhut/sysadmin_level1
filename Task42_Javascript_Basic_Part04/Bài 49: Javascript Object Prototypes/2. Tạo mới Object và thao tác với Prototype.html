@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Ví dụ: Tạo đối tượng Person gồm các thuộc tính (name, email, address) và phương thức */
+		function Person(){
+			//thuoc tinh
+			this.name = "";
+			this.email = "";
+			this.address = "";
+			//phuong thuc
+			this.showInfo = function(){
+				document.write("ten la: " + this.name + "<br/>");
+				document.write("email la: " + this.email + "<br/>");
+				document.write("dia chi la: " + this.address + "<br/>");
+			};
+		}
+
+		//luc nay muon tao doi tuong va su dung cac thuoc tinh phuong thuc thi ta lam 
+		//tao moi
+		var ross = new Person();
+		//gan thuoc tinh
+		ross.name = "Ross Geller";
+		ross.email = "rossgeller@gmail.com";
+		ross.address = "Unisted State";
+
+		ross.showInfo();
+	</script>
+</body>
+</html>
+

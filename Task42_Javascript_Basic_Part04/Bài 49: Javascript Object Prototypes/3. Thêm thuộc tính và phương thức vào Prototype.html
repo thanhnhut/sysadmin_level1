@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Để bổ sung thuộc tính hoặc phương thức vào một đối tượng thông qua Prototype thì bạn sử dụng cú pháp ở phần 1 mà mình đã giới thiệu. Ví dụ: Bổ sung thuộc tính gender và phương thức showGender vào đối tượng Person.*/
+
+		//tao doi tuong
+		function Person(){
+			//thuoc tinh
+			//...
+			//phuong thuc
+			//...
+		}
+		//bo sung thong tin
+		Person.prototype.gender = "";
+		Person.prototype.showGender = function(){
+			document.write(this.gender);
+		};
+
+		//su dung
+		var joey = new Person();
+		joey.gender = "Male";
+		joey.showGender();
+	</script>
+</body>
+</html>
+

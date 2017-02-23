@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Bài 1: Kiểm tra chuỗi xuất hiện ít nhất 10 chữ N liên tiếp và không phân biệt chữ hoa chữ thường
+			var pattern = /n{10,}/i;
+			if (pattern.test("10 chu n la nnnnnnnnnn")){
+				document.write('Chuoi co nhieu hon 10 chu n');
+			}
+			else{
+				document.write('Chuoi co it hon 10 chu n');
+			}
+			document.write("<br/>");
+
+		//Bài 2: Kiểm tra chuỗi có phải là 'thanhnhut.com' hay không. Để kiểm tra chính xác chuỗi là 'thanhnhut.com' thì bắt buộc ta phải thêm ký tự bắt đầu ^ và kết thúc $ để fix chuỗi lại. Và có một lưu ý rằng ký tự . trong chuỗi 'freetuts.net' là ký tự đặc biệt vì nó có trong danh sách các biểu thức của RegExp nên bắt buộc ta phải thêm dấu \ đằng trước nó.
+			var pattern = /^thanhnhut\.com&/i;
+			if (pattern.test("thanhnhut.com")){
+				document.write('Chuoi thanhnhut.com');
+			}
+			else{
+				document.write('Khong phai chuoi thanhnhut.com');
+			}
+			document.write("<br/>");
+
+		//Bài 3: Kiểm tra chuỗi là các chữ số và dài 8 ký tự. Để kiểm tra các chữ số ta dùng [0-9] và chiều dài 8 ký tự nên ta dùng {8}	
+			var pattern = /^[0-9]{8}$/;
+			if(pattern.test("12345678")){
+				document.write('Cac so dai 8 ky tu');
+			}else{
+				document.write('Khong phai la so hoac ngan hon 8 ky tu');
+			}
+			document.write("<br/>");
+
+		//Bài 4: Kiểm tra chuỗi định dạng mã thẻ cào xxxx-xxxx-xxxx-xxxx và x chính là các chữ số. Ta sử dụng [0-9] để kiểm tra là chữ số. Và các cặp xxxx có chiều dì là 4 nên ta sử dụng {4}.	
+			var pattern = /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
+			if (pattern.test("1234-1224-1534-1284")){
+				document.write('Ma the hop le');
+			} else{
+				document.write('Ma thu khong hop le');
+			}
+
+
+	</script>
+</body>
+</html>
+

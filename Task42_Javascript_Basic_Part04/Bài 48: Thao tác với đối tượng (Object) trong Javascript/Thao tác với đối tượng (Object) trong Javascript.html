@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Đề bài: Viết chương trình quản lý sinh viên gồm các thao tác chính như sau:
+
+    Xem danh sách sinh viên
+    Thêm sinh viên
+    Xóa sinh viên khỏi danh sách
+    Sửa thông tin sinh viên
+
+Với mỗi sinh viên cần lưu trữ các thông tin sau:
+
+    Mã sinh viên
+    Tên sinh viên
+    Email
+
+     Trước tiên ta cần xác định danh sách các thuộc tính của đối tượng và đó chính là các thông tin lưu trữ của sinh viên. Ta cần lưu trữ danh sách sinh viên, vì vậy ta cũng cần có thêm một mảng lưu trữ danh sách sinh viên. Từ đó có thể xác định cấu trúc của đối tượng như sau.
+
+
+*/
+		var Student = {
+			data : [],
+			viewStudent : function(){
+				//xem danh sach sinh vien
+			},
+			addStudent : function(id, name, email){
+				//them sinh vien moi
+			},
+			removesStudent : function(id){
+				//xoa sinh vien
+			},
+			editStudent : function(id, name, email){
+				//sua sinh vien
+			}
+		};
+
+		//Hàm xem đối tượng sinh viên
+
+			viewStudent : function(){
+				//lay danh sach sinh vien
+				var listStudent = this.data;
+
+				//lap va hien thi sinh vien
+				for (var i = 0; i < listStudent; i++){
+					document.write("<div>" + listStudent[i].id + "|" + listStudent[i].name + "|" + listStudent[i].email + "</div>");
+				}
+			}
+
+		//Hàm thêm đối tượng sinh viên, de them 1 doi tuong chug ta can truyen vao 3 tham so nhu yeu cau de bai 
+			
+			addStudent : function(id, name, email){
+				//tao thong tin sinh vien
+				var item = {
+					id : id,
+					name : name,
+					email : email
+				};
+				//them sinh vien
+				this.data.push(item);
+			}	
+
+		/*Hàm xóa đối tượng sinh viên. Để xóa sinh viên chúng ta cần biết id của sinh viên đó, đồng thời sử dụng hàm splice để xóa phần tử của mảng,*/	
+
+			removesStudent : function(id){
+				//lap qua sinh vien de tim kiem va xoa
+				for(var i = 0; i < this.data.length; i++){
+					if (this.data[i].id === id){
+						//neu la sinh vien can xoa
+						this.data.splice(i, 1);//thi xoa
+					}
+				}
+			},
+
+		/*Hàm sửa đối tượng sinh viên. Việc sửa sinh viên cũng  tương tự như việc thêm sinh viên, nghĩa là chúng ta cần truyền vào ba tham số như yêu cầu đề bài, sau đó dựa vào id truyền vào để tìm sinh viên cần sửa.*/
+		
+			editStudent : function(id, name, email){
+				//tim sinh vien edit
+				for(var i = 0; i < this.data.length; i++){
+					//neu la sinh vien can edit thi thuc hien
+					if (this.data[i].id === id){
+						this.data[i].name = name;
+						this.data[i].email = email;
+					}
+				}
+			}	
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<title>Javascript Basic Part4</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Công dụng của sessionStorage cũng tương tự như localStorage, chỉ có một điểm khác đó là dữ liệu của sessionStorage sẽ mất khi bạn đóng trình duyệt. sessionStorage không tồn tại hai phương thức getItem và setItem mà bạn sẽ bổ sung key và value cho nó.*/
+
+		if (typeof(Storage) !== "undefined"){
+			//gan du lieu
+			sessionStorage.domain = 'freeetuts';
+			//lay du lieu
+			var domain = sessionStorage.domain; //freetuts.net
+		} else {
+			document.write('Trinh duyen cua ban khong ho tro local storage');
+		}
+	</script>
+</body>
+</html>
+
